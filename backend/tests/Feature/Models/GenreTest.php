@@ -1,7 +1,9 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-    $response->assertStatus(200);
+uses(RefreshDatabase::class);
+
+test('when fetch genres, should returns correct data. (HTTP 200)', function() {
+  
 });
