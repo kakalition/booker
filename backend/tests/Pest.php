@@ -11,6 +11,8 @@
 |
 */
 
+use function Pest\Laravel\postJson;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -25,7 +27,7 @@ uses(Tests\TestCase::class)->in('Feature');
 */
 
 expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+  return $this->toBe(1);
 });
 
 /*
@@ -39,7 +41,25 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function register($name, $email, $password)
 {
-    // ..
+  $response = postJson('/register', [
+    'name' => $name,
+    'email' => $email,
+    'password' => $password
+  ]);
+  return $response;
+}
+
+
+function login($email, $password)
+{
+  $response = postJson('/login', ['email' => $email, 'password' => $password]);
+  return $response;
+}
+
+function logout()
+{
+  $response = postJson('/logout');
+  return $response;
 }

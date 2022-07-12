@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
 use App\Models\Genre;
+use App\Services\Genre\GetGenres;
+use Exception;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
@@ -14,9 +16,15 @@ class GenreController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(GetGenres $getGenres)
   {
-    //
+    try {
+      $genres = $getGenres->handle();
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($genres, 200);
   }
 
   /**
