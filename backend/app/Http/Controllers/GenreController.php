@@ -25,7 +25,7 @@ class GenreController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($genres, 200);
+    return response($genres->toJson(), 200);
   }
 
   /**
