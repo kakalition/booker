@@ -22,7 +22,6 @@ return new class extends Migration
         ->on('genres')
         ->cascadeOnDelete();
       $table->integer('total_copies_owned');
-      $table->integer('total_copies_available');
       $table->timestamp('published_at');
       $table->timestamps();
     });
