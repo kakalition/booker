@@ -37,3 +37,12 @@ test('when create genre while unauthenticated, should returns error. (HTTP 401)'
   $response = Genre::store('Adventure');
   $response->assertUnauthorized();
 });
+
+test('when successfully create genre, should returns created genre data. (HTTP 201)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  $response = Genre::store('Adventure');
+  $response->assertCreated();
+  $response->assertJson(['name' => 'Adventure']);
+});

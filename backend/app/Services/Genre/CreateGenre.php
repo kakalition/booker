@@ -5,9 +5,10 @@ namespace App\Services\Genre;
 use App\Models\Genre;
 use App\Models\User;
 use App\Services\BaseService;
+use App\Services\BaseServiceValidation;
 use Illuminate\Database\Eloquent\Model;
 
-class CreateGenre extends BaseService
+class CreateGenre extends BaseServiceValidation
 {
   protected function validationRules(array $data): array
   {
@@ -16,15 +17,8 @@ class CreateGenre extends BaseService
     ];
   }
 
-  protected function authorizationRules(User $user, ?Model $model): bool
-  {
-    return true;
-  }
-
   public function handle(User $user, array $data)
   {
-    $this->authorize($user);
-
     $validatedData = $this->getValidatedData($data);
 
     $genre = Genre::create([
