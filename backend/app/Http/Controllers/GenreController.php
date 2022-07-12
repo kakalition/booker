@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ForbiddenException;
-use App\Http\Requests\StoreGenreRequest;
-use App\Http\Requests\UpdateGenreRequest;
 use App\Models\Genre;
 use App\Services\Genre\CreateGenre;
 use App\Services\Genre\GetGenres;
+use App\Services\Genre\UpdateGenre;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -39,13 +37,11 @@ class GenreController extends Controller
   public function store(Request $request, CreateGenre $createGenre)
   {
     try {
-      $genre = $createGenre->handle(auth()->user(), [
+      $genre = $createGenre->handle([
         'name' => $request->input('name'),
       ]);
     } catch (UnprocessableEntityHttpException $exception) {
       return response($exception->getMessage(), 422);
-    } catch (ForbiddenException $exception) {
-      return response('You are forbidden to create genre!', 403);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -71,9 +67,19 @@ class GenreController extends Controller
    * @param  \App\Models\Genre  $genre
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Genre $genre)
+  public function update(Request $request, Genre $genre, UpdateGenre $updateGenre)
   {
-    //
+    try {
+      $genre = $updateGenre->handle($genre, [
+        'name' => $request->input('name'),
+      ]);
+    } catch (UnprocessableEntityHttpException $exception) {
+      return response($exception->getMessage(), 422);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($genre, 200);
   }
 
   /**
@@ -84,6 +90,8 @@ class GenreController extends Controller
    */
   public function destroy(Genre $genre)
   {
-    //
+    $genre->delete();
+
+    return response('', 204);
   }
 }

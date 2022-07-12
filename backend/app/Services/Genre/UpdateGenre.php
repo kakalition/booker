@@ -5,7 +5,7 @@ namespace App\Services\Genre;
 use App\Models\Genre;
 use App\Services\BaseServiceValidation;
 
-class CreateGenre extends BaseServiceValidation
+class UpdateGenre extends BaseServiceValidation
 {
   protected function validationRules(array $data): array
   {
@@ -14,13 +14,12 @@ class CreateGenre extends BaseServiceValidation
     ];
   }
 
-  public function handle(array $data)
+  public function handle(Genre $genre, array $data)
   {
     $validatedData = $this->getValidatedData($data);
 
-    $genre = Genre::create([
-      'name' => $validatedData['name']
-    ]);
+    $genre->name = $validatedData['name'];
+    $genre->save();
 
     return $genre;
   }

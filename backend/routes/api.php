@@ -25,4 +25,7 @@ Route::controller(GenreController::class)
   ->group(function () {
     Route::get('/genres', 'index');
     Route::post('/genres', 'store');
+    Route::put('/genres/{genre}', 'update');
+    Route::patch('/genres/{genre}', 'update');
+    Route::delete('/genres/{genre}', 'destroy');
   });

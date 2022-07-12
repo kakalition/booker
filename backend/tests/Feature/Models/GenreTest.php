@@ -46,3 +46,53 @@ test('when successfully create genre, should returns created genre data. (HTTP 2
   $response->assertCreated();
   $response->assertJson(['name' => 'Adventure']);
 });
+
+test('when update genre with duplicated name, should returns error. (HTTP 422)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  Genre::store('Mystery');
+  $genre = Genre::store('Adventure');
+
+  $response = Genre::update($genre->json('id'), 'Mystery');
+  $response->assertUnprocessable();
+});
+
+test('when update genre while unauthenticated, should returns error. (HTTP 401)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $genre = Genre::store('Adventure');
+  Auth::logout();
+
+  $response = Genre::update($genre->json('id'), 'Romance');
+  $response->assertUnauthorized();
+});
+
+test('when successfully update genre, should returns updated genre data. (HTTP 200)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $genre = Genre::store('Adventure');
+
+  $response = Genre::update($genre->json('id'), 'Romance');
+  $response->assertOk();
+  $response->assertJson(['name' => 'Romance']);
+});
+
+test('when delete genre while unauthenticated, should returns error. (HTTP 401)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $genre = Genre::store('Adventure');
+  Auth::logout();
+
+  $response = Genre::delete($genre->json('id'));
+  $response->assertUnauthorized();
+});
+
+
+test('when successfully delete genre, should returns no content. (HTTP 204)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $genre = Genre::store('Adventure');
+
+  $response = Genre::delete($genre->json('id'));
+  $response->assertNoContent();
+});
