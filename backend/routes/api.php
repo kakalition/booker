@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
 use App\Http\Middleware\EnsureLoggedIn;
 use Illuminate\Http\Request;
@@ -28,4 +29,14 @@ Route::controller(GenreController::class)
     Route::put('/genres/{genre}', 'update');
     Route::patch('/genres/{genre}', 'update');
     Route::delete('/genres/{genre}', 'destroy');
+  });
+
+Route::controller(BookController::class)
+  ->middleware(EnsureLoggedIn::class)
+  ->group(function () {
+    Route::get('/books', 'index');
+    Route::post('/books', 'store');
+    Route::put('/books/{book}', 'update');
+    Route::patch('/books/{book}', 'update');
+    Route::delete('/books/{book}', 'destroy');
   });
