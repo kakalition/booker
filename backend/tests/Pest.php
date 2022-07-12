@@ -40,26 +40,3 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
-
-function register($name, $email, $password)
-{
-  $response = postJson('/register', [
-    'name' => $name,
-    'email' => $email,
-    'password' => $password
-  ]);
-  return $response;
-}
-
-
-function login($email, $password)
-{
-  $response = postJson('/login', ['email' => $email, 'password' => $password]);
-  return $response;
-}
-
-function logout()
-{
-  $response = postJson('/logout');
-  return $response;
-}

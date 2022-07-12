@@ -24,4 +24,5 @@ Route::controller(GenreController::class)
   ->middleware(EnsureLoggedIn::class)
   ->group(function () {
     Route::get('/genres', 'index');
+    Route::post('/genres', 'store');
   });
