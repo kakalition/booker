@@ -17,7 +17,7 @@ $bookOne = [
   'isbn' => '978-3-16-148410-0',
   'genre_id' => 1,
   'total_copies_owned' => 20,
-  'published_at' => CarbonImmutable::now(),
+  'published_at' => CarbonImmutable::now()->timestamp,
 ];
 
 test('when create book while unauthenticated, should returns error. (HTTP 401)', function () use ($bookOne) {
