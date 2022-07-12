@@ -60,7 +60,7 @@ test('when successfully create book, should returns book data. (HTTP 201)', func
   $bookData = appendGenre($bookOne);
 
   $response = Book::store($bookData);
-  $response->assertOk();
+  $response->assertCreated();
 });
 
 test('when fetch books while unauthenticated, should returns error. (HTTP 401)', function () {
@@ -74,4 +74,30 @@ test('when successfully fetch books, should returns books data. (HTTP 200)', fun
 
   $response = Book::get();
   $response->assertOk();
+});
+
+test('when update book while unauthenticated, should returns error. (HTTP 401)', function () use ($bookOne) {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $bookData = appendGenre($bookOne);
+  $book = Book::store($bookData);
+  Auth::logout();
+
+  $response = Book::update($book->json('id'), [
+    'title' => 'The Rain'
+  ]);
+  $response->assertUnauthorized();
+});
+
+test('when successfully update book, should returns updated book data. (HTTP 200)', function () use ($bookOne) {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $bookData = appendGenre($bookOne);
+  $book = Book::store($bookData);
+
+  $response = Book::update($book->json('id'), [
+    'title' => 'The Rain'
+  ]);
+  $response->assertOk();
+  $response->assertJson(['title' => 'The Rain']);
 });

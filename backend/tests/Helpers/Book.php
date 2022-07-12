@@ -28,11 +28,16 @@ class Book
     return $response;
   }
 
-  static function update(int $id, string $name)
+  static function update(int $id, array $data)
   {
     $response = patchJson("/api/books/$id", [
-      'name' => $name
+      'title' => $data['title'] ?? null,
+      'isbn' => $data['isbn'] ?? null,
+      'genre_id' => $data['genre_id'] ?? null,
+      'total_copies_owned' => $data['total_copies_owned'] ?? null,
+      'published_at' => $data['published_at'] ?? null,
     ]);
+
     return $response;
   }
 
