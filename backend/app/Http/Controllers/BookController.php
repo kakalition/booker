@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Services\Book\CreateBook;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class BookController extends Controller
 {
@@ -19,9 +21,23 @@ class BookController extends Controller
     return response($books->toJson(), 200);
   }
 
-  public function store(Request $request)
+  public function store(Request $request, CreateBook $createBook)
   {
-    //
+    try {
+      $books = $createBook->handle([
+        'title' => $request->input('title'),
+        'isbn' => $request->input('isbn'),
+        'genre_id' => $request->input('genre_id'),
+        'total_copies_owned' => $request->input('total_copies_owned'),
+        'published_at' => $request->input('published_at')
+      ]);
+    } catch (UnprocessableEntityHttpException $exception) {
+      return response($exception->getMessage(), 422);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($books->toJson(), 200);
   }
 
   public function show(Book $book)

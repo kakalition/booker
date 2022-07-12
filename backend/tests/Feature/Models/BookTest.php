@@ -1,7 +1,9 @@
 <?php
 
 use Carbon\CarbonImmutable;
+use Database\Seeders\GenreSeeder;
 use Database\Seeders\UserSeeder;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\Auth;
 use Tests\Helpers\Book;
@@ -15,13 +17,39 @@ uses(RefreshDatabase::class);
 $bookOne = [
   'title' => 'The Blossom',
   'isbn' => '978-3-16-148410-0',
-  'genre_id' => 1,
   'total_copies_owned' => 20,
-  'published_at' => CarbonImmutable::now()->timestamp,
+  'published_at' => CarbonImmutable::now(),
 ];
 
+function appendGenre($bookData)
+{
+  seed(GenreSeeder::class);
+
+  $genres = Genre::get();
+  $firstGenreId = $genres[0]['id'];
+  $bookData['genre_id'] = $firstGenreId;
+
+  return $bookData;
+}
+
+test('when create book with duplicated data, should returns error. (HTTP 422)', function () use ($bookOne) {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  $bookData = appendGenre($bookOne);
+
+  Book::store($bookData);
+  $response = Book::store($bookData);
+  $response->assertUnprocessable();
+});
+
 test('when create book while unauthenticated, should returns error. (HTTP 401)', function () use ($bookOne) {
-  $response = Book::store($bookOne);
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $bookData = appendGenre($bookOne);
+  Auth::logout();
+
+  $response = Book::store($bookData);
   $response->assertUnauthorized();
 });
 
@@ -29,11 +57,11 @@ test('when successfully create book, should returns book data. (HTTP 201)', func
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
 
-  $response = Book::store($bookOne);
-  $response->dump();
+  $bookData = appendGenre($bookOne);
+
+  $response = Book::store($bookData);
   $response->assertOk();
 });
-
 
 test('when fetch books while unauthenticated, should returns error. (HTTP 401)', function () {
   $response = Book::get();
