@@ -76,6 +76,18 @@ test('when successfully fetch books, should returns books data. (HTTP 200)', fun
   $response->assertOk();
 });
 
+test('when update book with duplicated data, should returns error. (HTTP 422)', function () use ($bookOne) {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+  $bookData = appendGenre($bookOne);
+  $book = Book::store($bookData);
+
+  $response = Book::update($book->json('id'), [
+    'title' => 'The Blossom'
+  ]);
+  $response->assertUnprocessable();
+});
+
 test('when update book while unauthenticated, should returns error. (HTTP 401)', function () use ($bookOne) {
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
