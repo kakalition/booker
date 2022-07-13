@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreVisitorRequest;
 use App\Models\Visitor;
 use App\Services\Visitor\GetVisitors;
+use App\Services\Visitor\StoreVisitor;
+use App\Services\VisitorService;
 use Exception;
 use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
-  public function index(GetVisitors $getVisitors)
+  public function index(VisitorService $service)
   {
     try {
-      $visitors = $getVisitors->handle();
+      $visitors = $service->fetchAll();
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -21,9 +23,17 @@ class VisitorController extends Controller
     return response($visitors->toJson(), 200);
   }
 
-  public function store(StoreVisitorRequest $request)
+  public function store(StoreVisitorRequest $request, VisitorService $service)
   {
-    //
+    $validatedData = $request->validated();
+
+    try {
+      $visitor = $service->store($validatedData);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($visitor, 201);
   }
 
   public function show(Visitor $visitor)

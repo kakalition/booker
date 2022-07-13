@@ -17,7 +17,7 @@ class Visitor
 
   static function store(array $data)
   {
-    $response = postJson('/api/books', [
+    $response = postJson('/api/visitors', [
       'name' => $data['name'],
       'age' => $data['age'],
       'gender' => $data['gender'],

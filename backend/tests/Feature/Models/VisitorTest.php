@@ -12,7 +12,7 @@ uses(RefreshDatabase::class);
 $visitorOne = [
   'name' => 'Kaka',
   'age' => 20,
-  'gender' => true,
+  'gender' => 1,
   'email' => 'kaka@mail.com'
 ];
 
