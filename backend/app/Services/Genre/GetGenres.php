@@ -9,7 +9,7 @@ class GetGenres
 {
   public function handle()
   {
-    $genres = Genre::all(['name', 'created_at']);
+    $genres = Genre::all(['id', 'name', 'created_at']);
 
     return $genres;
   }
