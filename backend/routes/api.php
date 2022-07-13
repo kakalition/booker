@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowerController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Middleware\EnsureLoggedIn;
@@ -50,4 +51,14 @@ Route::controller(VisitorController::class)
     Route::put('/visitors/{visitor}', 'update');
     Route::patch('/visitors/{visitor}', 'update');
     Route::delete('/visitors/{visitor}', 'destroy');
+  });
+
+Route::controller(BorrowerController::class)
+  ->middleware(EnsureLoggedIn::class)
+  ->group(function () {
+    Route::get('/borrowers', 'index');
+    Route::post('/borrowers', 'store');
+    Route::put('/borrowers/{borrower}', 'update');
+    Route::patch('/borrowers/{borrower}', 'update');
+    Route::delete('/borrowers/{borrower}', 'destroy');
   });
