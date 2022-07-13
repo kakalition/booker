@@ -22,6 +22,12 @@ class BorrowerService
 
   public function update(Borrower $borrower, array $data)
   {
+    $borrower->visitor_id = $data['visitor_id'] ?? $borrower->visitor_id;
+    $borrower->book_id = $data['book_id'] ?? $borrower->book_id;
+    $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
+    $borrower->save();
+
+    return $borrower;
   }
 
   public function delete(Borrower $borrower)

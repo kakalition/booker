@@ -8,15 +8,15 @@ class UpdateBorrowerRequest extends FormRequest
 {
   public function authorize()
   {
-    return false;
+    return true;
   }
 
   public function rules()
   {
     return [
-      'visitor_id' => 'exists:visitors,id',
-      'book_id' => 'exists:books,id',
-      'end_date' => 'date',
+      'visitor_id' => 'nullable|exists:visitors,id',
+      'book_id' => 'nullable|exists:books,id',
+      'end_date' => 'nullable|date',
     ];
   }
 }

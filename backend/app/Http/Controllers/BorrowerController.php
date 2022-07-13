@@ -40,9 +40,17 @@ class BorrowerController extends Controller
     //
   }
 
-  public function update(UpdateBorrowerRequest $request, Borrower $borrower)
+  public function update(UpdateBorrowerRequest $request, Borrower $borrower, BorrowerService $service)
   {
-    //
+    $validatedData = $request->validated();
+
+    try {
+      $borrower = $service->update($borrower, $validatedData);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($borrower, 200);
   }
 
   public function destroy(Borrower $borrower, BorrowerService $service)

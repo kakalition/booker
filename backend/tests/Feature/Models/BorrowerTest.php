@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\BorrowerResource;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Database\Seeders\UserSeeder;
@@ -96,6 +97,36 @@ test('when successfully fetch all borrowers, should returns correct borrowers da
     ->assertJsonPath('0.visitor.name', 'Kaka')
     ->assertJsonPath('0.book.title', 'The Blossom');
 });
+
+test('when successfully update borrower, should returns updated borrower data. (HTTP 201)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  $visitor = createKakaVisitor();
+  $book = createBook();
+
+  $date = Carbon::now()->addDays(3);
+
+  $borrower = Borrower::store([
+    'visitor_id' => $visitor->json('id'),
+    'book_id' => $book->json('id'),
+    'end_date' => $date,
+  ]);
+
+  $date->addDay();
+
+  $response = Borrower::update($borrower->json('id'), [
+    'end_date' => $date,
+  ]);
+  $response->assertOk();
+
+  assertDatabaseHas('borrowers', [
+    'visitor_id' => $visitor->json('id'),
+    'book_id' => $book->json('id'),
+    'end_date' => $date->toDateTimeString(),
+  ]);
+});
+
 
 test('when successfully delete borrower, should returns no content. (HTTP 204)', function () {
   seed(UserSeeder::class);
