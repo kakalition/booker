@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVisitorRequest;
 use App\Models\Visitor;
 use App\Services\Visitor\GetVisitors;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
 {
@@ -21,7 +21,7 @@ class VisitorController extends Controller
     return response($visitors->toJson(), 200);
   }
 
-  public function store(Request $request)
+  public function store(StoreVisitorRequest $request)
   {
     //
   }

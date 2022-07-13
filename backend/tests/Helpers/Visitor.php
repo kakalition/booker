@@ -18,11 +18,10 @@ class Visitor
   static function store(array $data)
   {
     $response = postJson('/api/books', [
-      'title' => $data['title'],
-      'isbn' => $data['isbn'],
-      'genre_id' => $data['genre_id'],
-      'total_copies_owned' => $data['total_copies_owned'],
-      'published_at' => $data['published_at'],
+      'name' => $data['name'],
+      'age' => $data['age'],
+      'gender' => $data['gender'],
+      'email' => $data['email'],
     ]);
 
     return $response;
