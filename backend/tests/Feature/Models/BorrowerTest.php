@@ -50,6 +50,20 @@ function createBook()
   return $book;
 }
 
+function createBorrower()
+{
+  $visitor = createKakaVisitor();
+  $book = createBook();
+
+  $borrower = Borrower::store([
+    'visitor_id' => $visitor->json('id'),
+    'book_id' => $book->json('id'),
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+
+  return $borrower;
+}
+
 test('when successfully create borrower, should returns created borrower data. (HTTP 201)', function () {
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
@@ -67,4 +81,13 @@ test('when successfully create borrower, should returns created borrower data. (
     'visitor_id' => $visitor->json('id'),
     'book_id' => $book->json('id'),
   ]);
+});
+
+test('when successfully fetch all borrowers, should returns correct borrowers data. (HTTP 200)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  createBorrower();
+  $response = Borrower::get();
+  $response->dump();
 });

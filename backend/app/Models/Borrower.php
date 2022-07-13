@@ -14,4 +14,12 @@ class Borrower extends Model
     'book_id',
     'end_date',
   ];
+
+  public function visitor() {
+    return $this->belongsTo(Visitor::class, 'visitor_id');
+  }
+
+  public function book() {
+    return $this->belongsTo(Book::class, 'book_id');
+  }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBorrowerRequest;
 use App\Http\Requests\UpdateBorrowerRequest;
+use App\Http\Resources\BorrowerResource;
 use App\Models\Borrower;
 use App\Services\BorrowerService;
 use Exception;
@@ -18,7 +19,7 @@ class BorrowerController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($borrowers, 200);
+    return response(BorrowerResource::collection($borrowers), 200);
   }
 
   public function store(StoreBorrowerRequest $request, BorrowerService $service)
