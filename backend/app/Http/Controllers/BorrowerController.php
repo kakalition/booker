@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateBorrowerRequest;
 use App\Models\Borrower;
 use App\Services\BorrowerService;
 use Exception;
-use Illuminate\Http\Request;
 
 class BorrowerController extends Controller
 {
@@ -22,9 +21,17 @@ class BorrowerController extends Controller
     return response($borrowers, 200);
   }
 
-  public function store(StoreBorrowerRequest $request)
+  public function store(StoreBorrowerRequest $request, BorrowerService $service)
   {
-    //
+    $validatedData = $request->validated();
+
+    try {
+      $borrower = $service->store($validatedData);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($borrower, 201);
   }
 
   public function show(Borrower $borrower)

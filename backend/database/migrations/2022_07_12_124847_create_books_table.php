@@ -18,8 +18,7 @@ return new class extends Migration
       $table->string('isbn');
       $table->string('title');
       $table->foreignId('genre_id')
-        ->references('id')
-        ->on('genres')
+        ->constrained('genres')
         ->cascadeOnDelete();
       $table->integer('total_copies_owned');
       $table->timestamp('published_at');

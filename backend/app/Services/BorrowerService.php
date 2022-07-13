@@ -15,6 +15,9 @@ class BorrowerService
 
   public function store(array $data)
   {
+    $borrower = Borrower::create($data);
+
+    return $borrower;
   }
 
   public function update(Borrower $borrower, array $data)
