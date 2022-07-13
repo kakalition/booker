@@ -3,62 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
+use App\Services\Visitor\GetVisitors;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+  public function index(GetVisitors $getVisitors)
+  {
+    try {
+      $visitors = $getVisitors->handle();
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    return response($visitors->toJson(), 200);
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Visitor  $visitor
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Visitor $visitor)
-    {
-        //
-    }
+  public function store(Request $request)
+  {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Visitor  $visitor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Visitor $visitor)
-    {
-        //
-    }
+  public function show(Visitor $visitor)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Visitor  $visitor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Visitor $visitor)
-    {
-        //
-    }
+  public function update(Request $request, Visitor $visitor)
+  {
+    //
+  }
+
+  public function destroy(Visitor $visitor)
+  {
+    //
+  }
 }
