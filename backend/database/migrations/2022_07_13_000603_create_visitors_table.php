@@ -16,7 +16,7 @@ return new class extends Migration
     Schema::create('visitors', function (Blueprint $table) {
       $table->id();
       $table->string('name');
-      $table->integer('age');
+      $table->timestamp('birth_date');
       $table->boolean('gender'); // true for male; false for female
       $table->string('email');
       $table->timestamps();

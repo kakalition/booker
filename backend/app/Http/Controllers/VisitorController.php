@@ -9,6 +9,7 @@ use App\Services\Visitor\StoreVisitor;
 use App\Services\VisitorService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
 {
@@ -26,6 +27,7 @@ class VisitorController extends Controller
   public function store(StoreVisitorRequest $request, VisitorService $service)
   {
     $validatedData = $request->validated();
+    Log::info($validatedData);
 
     try {
       $visitor = $service->store($validatedData);

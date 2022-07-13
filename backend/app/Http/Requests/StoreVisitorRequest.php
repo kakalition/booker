@@ -25,7 +25,7 @@ class StoreVisitorRequest extends FormRequest
   {
     return [
       'name' => 'required|string',
-      'age' => 'required|integer|between:7,100',
+      'birth_date' => 'required|date',
       'gender' => 'required|boolean',
       'email' => 'required|email'
     ];

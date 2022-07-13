@@ -17,7 +17,7 @@ class VisitorService
   {
     $visitor = Visitor::create([
       'name' => $data['name'],
-      'age' => $data['age'],
+      'birth_date' => $data['birth_date'],
       'gender' => $data['gender'],
       'email' => $data['email'],
     ]);

@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\CarbonImmutable;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\Auth;
@@ -11,7 +12,7 @@ uses(RefreshDatabase::class);
 
 $visitorOne = [
   'name' => 'Kaka',
-  'age' => 20,
+  'birth_date' => CarbonImmutable::create(2001, 10, 3),
   'gender' => 1,
   'email' => 'kaka@mail.com'
 ];
@@ -29,5 +30,14 @@ test('when successfully create visitor, should returns created data. (HTTP 201)'
   Auth::login('admin@booker.com', '00000000');
 
   $response = Visitor::store($visitorOne);
+  $response->assertCreated();
+});
+
+test('when successfully update visitor, should returns updated data. (HTTP 200)', function () use ($visitorOne) {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  $response = Visitor::store($visitorOne);
+  $response->dump();
   $response->assertCreated();
 });
