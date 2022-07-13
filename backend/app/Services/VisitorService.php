@@ -24,4 +24,19 @@ class VisitorService
 
     return $visitor;
   }
+
+  public function update(Visitor $visitor, array $data)
+  {
+    $visitor->email = $data['email'];
+    $visitor->save();
+
+    return $visitor;
+  }
+
+  public function delete(Visitor $visitor)
+  {
+    $visitor->delete();
+
+    return $visitor;
+  }
 }

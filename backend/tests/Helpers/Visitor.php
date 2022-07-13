@@ -29,12 +29,8 @@ class Visitor
 
   static function update(int $id, array $data)
   {
-    $response = patchJson("/api/books/$id", [
-      'title' => $data['title'] ?? null,
-      'isbn' => $data['isbn'] ?? null,
-      'genre_id' => $data['genre_id'] ?? null,
-      'total_copies_owned' => $data['total_copies_owned'] ?? null,
-      'published_at' => $data['published_at'] ?? null,
+    $response = patchJson("/api/visitors/$id", [
+      'email' => $data['email'],
     ]);
 
     return $response;
@@ -42,7 +38,7 @@ class Visitor
 
   static function delete(int $id)
   {
-    $response = deleteJson("/api/books/$id");
+    $response = deleteJson("/api/visitors/$id");
     return $response;
   }
 }

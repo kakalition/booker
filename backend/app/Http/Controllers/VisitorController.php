@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVisitorRequest;
+use App\Http\Requests\UpdateVisitorRequest;
 use App\Models\Visitor;
 use App\Services\Visitor\GetVisitors;
 use App\Services\Visitor\StoreVisitor;
@@ -27,7 +28,6 @@ class VisitorController extends Controller
   public function store(StoreVisitorRequest $request, VisitorService $service)
   {
     $validatedData = $request->validated();
-    Log::info($validatedData);
 
     try {
       $visitor = $service->store($validatedData);
@@ -43,13 +43,27 @@ class VisitorController extends Controller
     //
   }
 
-  public function update(Request $request, Visitor $visitor)
+  public function update(UpdateVisitorRequest $request, Visitor $visitor, VisitorService $service)
   {
-    //
+    $validatedData = $request->validated();
+
+    try {
+      $visitor = $service->update($visitor, $validatedData);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response($visitor, 200);
   }
 
-  public function destroy(Visitor $visitor)
+  public function destroy(Visitor $visitor, VisitorService $service)
   {
-    //
+    try {
+      $service->delete($visitor);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response('', 204);
   }
 }
