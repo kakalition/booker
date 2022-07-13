@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
 use App\Models\Visitor;
-use App\Services\Visitor\GetVisitors;
-use App\Services\Visitor\StoreVisitor;
 use App\Services\VisitorService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
 {
