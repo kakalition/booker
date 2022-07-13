@@ -12,11 +12,6 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class GenreController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index(GetGenres $getGenres)
   {
     try {
@@ -28,12 +23,6 @@ class GenreController extends Controller
     return response($genres->toJson(), 200);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \App\Http\Requests\StoreGenreRequest  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request, CreateGenre $createGenre)
   {
     try {
@@ -49,24 +38,11 @@ class GenreController extends Controller
     return response($genre, 201);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Genre  $genre
-   * @return \Illuminate\Http\Response
-   */
   public function show(Genre $genre)
   {
     //
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \App\Http\Requests\UpdateGenreRequest  $request
-   * @param  \App\Models\Genre  $genre
-   * @return \Illuminate\Http\Response
-   */
   public function update(Request $request, Genre $genre, UpdateGenre $updateGenre)
   {
     try {
@@ -82,12 +58,6 @@ class GenreController extends Controller
     return response($genre, 200);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Models\Genre  $genre
-   * @return \Illuminate\Http\Response
-   */
   public function destroy(Genre $genre)
   {
     $genre->delete();

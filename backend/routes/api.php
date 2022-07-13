@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\VisitorController;
 use App\Http\Middleware\EnsureLoggedIn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,14 @@ Route::controller(BookController::class)
     Route::put('/books/{book}', 'update');
     Route::patch('/books/{book}', 'update');
     Route::delete('/books/{book}', 'destroy');
+  });
+
+Route::controller(VisitorController::class)
+  ->middleware(EnsureLoggedIn::class)
+  ->group(function () {
+    Route::get('/visitors', 'index');
+    Route::post('/visitors', 'store');
+    Route::put('/visitors/{visitor}', 'update');
+    Route::patch('/visitors/{visitor}', 'update');
+    Route::delete('/visitors/{visitor}', 'destroy');
   });
