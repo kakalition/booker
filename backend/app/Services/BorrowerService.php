@@ -24,7 +24,8 @@ class BorrowerService
   {
   }
 
-  public function delete(array $data)
+  public function delete(Borrower $borrower)
   {
+    $borrower->delete();
   }
 }

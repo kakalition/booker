@@ -12,6 +12,7 @@ use Tests\Helpers\Book;
 use Tests\Helpers\Visitor;
 
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\seed;
 
 uses(RefreshDatabase::class);
@@ -86,11 +87,35 @@ test('when successfully create borrower, should returns created borrower data. (
 test('when successfully fetch all borrowers, should returns correct borrowers data. (HTTP 200)', function () {
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
-
   createBorrower();
+
   $response = Borrower::get();
   $response
+    ->assertOk()
     ->assertJsonCount(1)
     ->assertJsonPath('0.visitor.name', 'Kaka')
     ->assertJsonPath('0.book.title', 'The Blossom');
+});
+
+test('when successfully delete borrower, should returns no content. (HTTP 204)', function () {
+  seed(UserSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+
+  $visitor = createKakaVisitor();
+  $book = createBook();
+
+  $borrower = Borrower::store([
+    'visitor_id' => $visitor->json('id'),
+    'book_id' => $book->json('id'),
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+
+  $response = Borrower::delete($borrower->json('id'));
+  $response->assertNoContent();
+
+  assertDatabaseMissing('borrowers', [
+    'visitor_id' => $visitor->json('id'),
+    'book_id' => $book->json('id'),
+  ]);
 });

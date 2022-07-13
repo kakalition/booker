@@ -2,6 +2,7 @@
 
 namespace Tests\Helpers;
 
+use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
@@ -25,11 +26,14 @@ class Borrower extends TestHelper
     return $response;
   }
 
-  static function update(int $id, array $data)
+  static function update(string $id, array $data)
   {
   }
 
-  static function delete(int $id)
+  static function delete(string $id)
   {
+    $response = deleteJson("/api/borrowers/$id");
+
+    return $response;
   }
 }

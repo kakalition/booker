@@ -45,8 +45,14 @@ class BorrowerController extends Controller
     //
   }
 
-  public function destroy(Borrower $borrower)
+  public function destroy(Borrower $borrower, BorrowerService $service)
   {
-    //
+    try {
+      $borrower = $service->delete($borrower);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
+
+    return response('', 204);
   }
 }
