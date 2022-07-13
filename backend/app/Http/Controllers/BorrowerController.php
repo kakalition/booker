@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBorrowerRequest;
 use App\Models\Borrower;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class BorrowerController extends Controller
     //
   }
 
-  public function store(Request $request)
+  public function store(StoreBorrowerRequest $request)
   {
     //
   }
