@@ -89,5 +89,8 @@ test('when successfully fetch all borrowers, should returns correct borrowers da
 
   createBorrower();
   $response = Borrower::get();
-  $response->dump();
+  $response
+    ->assertJsonCount(1)
+    ->assertJsonPath('0.visitor.name', 'Kaka')
+    ->assertJsonPath('0.book.title', 'The Blossom');
 });
