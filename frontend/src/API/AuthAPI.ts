@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import R from 'ramda';
+import { curry } from 'ramda';
 import LoginPayload from './Types/LoginPayload';
 import RegisterPayload from './Types/RegisterPayload';
 
@@ -20,8 +20,8 @@ const baseLogin = (
   .then(onSuccess, onFailed);
 
 namespace AuthAPI {
-  export const register = R.curry(baseRegister);
-  export const login = R.curry(baseLogin);
+  export const register = curry(baseRegister);
+  export const login = curry(baseLogin);
 }
 
 export default AuthAPI;
