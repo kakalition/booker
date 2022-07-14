@@ -29,6 +29,7 @@ class BookController extends Controller
         'title' => $request->input('title'),
         'isbn' => $request->input('isbn'),
         'author_id' => $request->input('author_id'),
+        'publisher_id' => $request->input('publisher_id'),
         'genre_id' => $request->input('genre_id'),
         'total_copies_owned' => $request->input('total_copies_owned'),
         'published_at' => $request->input('published_at')
@@ -54,6 +55,7 @@ class BookController extends Controller
         'title' => $request->input('title'),
         'isbn' => $request->input('isbn'),
         'author_id' => $request->input('author_id'),
+        'publisher_id' => $request->input('publisher_id'),
         'genre_id' => $request->input('genre_id'),
         'total_copies_owned' => $request->input('total_copies_owned'),
         'published_at' => $request->input('published_at')

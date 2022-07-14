@@ -13,6 +13,7 @@ class Book extends Model
     'title',
     'isbn',
     'author_id',
+    'publisher_id',
     'genre_id',
     'total_copies_owned',
     'published_at'
