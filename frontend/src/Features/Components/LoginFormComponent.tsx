@@ -40,7 +40,7 @@ export default function LoginFormComponent(props: any) {
         </Button>
       </form>
       <p>
-        Don't have an account, yet?
+        Don&apos;t have an account, yet?
         {' '}
         <Link className="text-[#508BFF] underline" to="/register">Sign up here</Link>
       </p>
