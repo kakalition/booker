@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowerController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Middleware\EnsureLoggedIn;
 use Illuminate\Http\Request;
@@ -62,3 +65,9 @@ Route::controller(BorrowerController::class)
     Route::patch('/borrowers/{borrower}', 'update');
     Route::delete('/borrowers/{borrower}', 'destroy');
   });
+
+Route::apiResources([
+  'author' => AuthorController::class,
+  'publisher' => PublisherController::class,
+  'shelf' => ShelfController::class,
+]);
