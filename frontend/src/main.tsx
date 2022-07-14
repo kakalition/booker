@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import './index.css';
+import RegisterPage from './Features/Register/RegisterPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
