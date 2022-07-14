@@ -12,6 +12,7 @@ class UpdateBook extends BaseServiceValidation
     return [
       'title' => 'nullable|string|unique:books,title',
       'isbn' => 'nullable|string|unique:books,isbn',
+      'author_id' => 'nullable|integer',
       'genre_id' => 'nullable|integer',
       'total_copies_owned' => 'nullable|integer',
       'published_at' => 'nullable|date',
@@ -24,6 +25,7 @@ class UpdateBook extends BaseServiceValidation
 
     $book->title = $validatedData['title'] ?? $book->title;
     $book->isbn = $validatedData['isbn'] ?? $book->isbn;
+    $book->author_id = $validatedData['author_id'] ?? $book->author_id;
     $book->genre_id = $validatedData['genre_id'] ?? $book->genre_id;
     $book->total_copies_owned = $validatedData['total_copies_owned'] ?? $book->total_copies_owned;
     $book->published_at = $validatedData['published_at'] ?? $book->published_at;

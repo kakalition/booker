@@ -11,6 +11,7 @@ Genre
 Book
 - id (PK)
 - genre_id (FK: Genre)
+- author_id (FK: Author) // To be implemented
 - publisher_id (FK: Publisher) // To be implemented
 - title
 - isbn
@@ -29,13 +30,14 @@ Borrower
 - visitor_id (FK)
 - book_id (FK)
 - end_date
-
---------------------------------------
+- status
 
 Author 
 - id (PK)
 - name 
 - birth_date
+
+--------------------------------------
 
 Publisher
 - id (PK)

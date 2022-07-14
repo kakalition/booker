@@ -17,6 +17,9 @@ return new class extends Migration
       $table->id();
       $table->string('isbn');
       $table->string('title');
+      $table->foreignId('author_id')
+        ->constrained('authors')
+        ->cascadeOnDelete();
       $table->foreignId('genre_id')
         ->constrained('genres')
         ->cascadeOnDelete();
