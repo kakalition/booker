@@ -6,16 +6,17 @@ use App\Models\Genre;
 use App\Services\Genre\CreateGenre;
 use App\Services\Genre\GetGenres;
 use App\Services\Genre\UpdateGenre;
+use App\Services\GenreService;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class GenreController extends Controller
 {
-  public function index(GetGenres $getGenres)
+  public function index(GenreService $service)
   {
     try {
-      $genres = $getGenres->handle();
+      $genres = $service->fetchAll();
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
