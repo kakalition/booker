@@ -20,6 +20,9 @@ return new class extends Migration
       $table->foreignId('author_id')
         ->constrained('authors')
         ->cascadeOnDelete();
+      $table->foreignId('publisher_id')
+        ->constrained('publishers')
+        ->cascadeOnDelete();
       $table->foreignId('genre_id')
         ->constrained('genres')
         ->cascadeOnDelete();
