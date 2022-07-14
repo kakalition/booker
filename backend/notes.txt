@@ -37,17 +37,17 @@ Author
 - name 
 - birth_date
 
---------------------------------------
-
 Publisher
 - id (PK)
 - name
 
-Shelf
-- id (PK)
-- floor_id (FK)
-- number
+--------------------------------------
 
 Floor
 - id (PK)
+- number
+
+Shelf
+- id (PK)
+- floor_id (FK)
 - number
