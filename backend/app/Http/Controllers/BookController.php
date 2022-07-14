@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Services\Book\CreateBook;
 use App\Services\Book\UpdateBook;
+use App\Services\BookService;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class BookController extends Controller
 {
-  public function index()
+  public function index(BookService $service)
   {
     try {
-      $books = Book::all();
+      $books = $service->fetchAll();
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -22,20 +25,12 @@ class BookController extends Controller
     return response($books->toJson(), 200);
   }
 
-  public function store(Request $request, CreateBook $createBook)
+  public function store(StoreBookRequest $request, BookService $service)
   {
+    $validatedData = $request->validated();
+
     try {
-      $books = $createBook->handle([
-        'title' => $request->input('title'),
-        'isbn' => $request->input('isbn'),
-        'author_id' => $request->input('author_id'),
-        'publisher_id' => $request->input('publisher_id'),
-        'genre_id' => $request->input('genre_id'),
-        'total_copies_owned' => $request->input('total_copies_owned'),
-        'published_at' => $request->input('published_at')
-      ]);
-    } catch (UnprocessableEntityHttpException $exception) {
-      return response($exception->getMessage(), 422);
+      $books = $service->store($validatedData);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -48,20 +43,12 @@ class BookController extends Controller
     //
   }
 
-  public function update(Request $request, Book $book, UpdateBook $updateBook)
+  public function update(UpdateBookRequest $request, Book $book, BookService $service)
   {
+    $validatedData = $request->validated();
+
     try {
-      $books = $updateBook->handle($book, [
-        'title' => $request->input('title'),
-        'isbn' => $request->input('isbn'),
-        'author_id' => $request->input('author_id'),
-        'publisher_id' => $request->input('publisher_id'),
-        'genre_id' => $request->input('genre_id'),
-        'total_copies_owned' => $request->input('total_copies_owned'),
-        'published_at' => $request->input('published_at')
-      ]);
-    } catch (UnprocessableEntityHttpException $exception) {
-      return response($exception->getMessage(), 422);
+      $books = $service->update($book, $validatedData);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -69,9 +56,13 @@ class BookController extends Controller
     return response($books->toJson(), 200);
   }
 
-  public function destroy(Book $book)
+  public function destroy(Book $book, BookService $service)
   {
-    $book->delete();
+    try {
+      $service->delete($book);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
 
     return response('', 204);
   }
