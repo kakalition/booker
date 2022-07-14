@@ -28,6 +28,7 @@ class BookController extends Controller
       $books = $createBook->handle([
         'title' => $request->input('title'),
         'isbn' => $request->input('isbn'),
+        'author_id' => $request->input('author_id'),
         'genre_id' => $request->input('genre_id'),
         'total_copies_owned' => $request->input('total_copies_owned'),
         'published_at' => $request->input('published_at')
@@ -52,6 +53,7 @@ class BookController extends Controller
       $books = $updateBook->handle($book, [
         'title' => $request->input('title'),
         'isbn' => $request->input('isbn'),
+        'author_id' => $request->input('author_id'),
         'genre_id' => $request->input('genre_id'),
         'total_copies_owned' => $request->input('total_copies_owned'),
         'published_at' => $request->input('published_at')
