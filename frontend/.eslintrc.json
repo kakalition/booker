@@ -6,7 +6,9 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "plugin:react/jsx-runtime",
+    "plugin:tailwindcss/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,7 +21,26 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "tailwindcss"
   ],
-  "rules": {}
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "tailwindcss/no-custom-classname": [
+      1,
+      {
+        "config": "tailwind.config.cjs"
+      }
+    ]
+  }
 }
