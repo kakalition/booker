@@ -85,7 +85,7 @@ class PublisherController extends Controller
   public function destroy(Publisher $publisher, PublisherService $service)
   {
     try {
-      $publisher = $service->delete($publisher);
+      $service->delete($publisher);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
