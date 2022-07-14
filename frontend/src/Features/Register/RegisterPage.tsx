@@ -3,6 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
+import BookerLogo from '../../Components/Logo/BookerLogo';
 
 export default function RegisterPage() {
   const formik = useFormik({
@@ -47,6 +48,7 @@ export default function RegisterPage() {
           {' '}
           <Link className="text-[#508BFF] underline" to="/login">Sign in here</Link>
         </p>
+        <BookerLogo />
       </div>
     </div>
   );
