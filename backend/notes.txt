@@ -32,12 +32,12 @@ Borrower
 - end_date
 - status
 
---------------------------------------
-
 Author 
 - id (PK)
 - name 
 - birth_date
+
+--------------------------------------
 
 Publisher
 - id (PK)
