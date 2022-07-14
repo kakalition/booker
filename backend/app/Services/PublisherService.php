@@ -8,9 +8,9 @@ class PublisherService
 {
   public function fetchAll()
   {
-    $borrowers = Publisher::all();
+    $publishers = Publisher::all();
 
-    return $borrowers;
+    return $publishers;
   }
 
   public function store(array $data)

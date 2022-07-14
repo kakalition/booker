@@ -8,28 +8,28 @@ class GenreService
 {
   public function fetchAll()
   {
-    $borrowers = Genre::all();
+    $genres = Genre::all();
 
-    return $borrowers;
+    return $genres;
   }
 
   public function store(array $data)
   {
-    $publisher = Genre::create($data);
+    $genre = Genre::create($data);
 
-    return $publisher;
+    return $genre;
   }
 
-  public function update(Genre $publisher, array $data)
+  public function update(Genre $genre, array $data)
   {
-    $publisher->name = $data['name'] ?? $publisher->name;
-    $publisher->save();
+    $genre->name = $data['name'] ?? $genre->name;
+    $genre->save();
 
-    return $publisher;
+    return $genre;
   }
 
-  public function delete(Genre $publisher)
+  public function delete(Genre $genre)
   {
-    $publisher->delete();
+    $genre->delete();
   }
 }

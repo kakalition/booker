@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 use App\Models\Genre;
-use App\Services\Genre\CreateGenre;
-use App\Services\Genre\GetGenres;
-use App\Services\Genre\UpdateGenre;
 use App\Services\GenreService;
 use Exception;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class GenreController extends Controller
 {
@@ -24,14 +21,12 @@ class GenreController extends Controller
     return response($genres->toJson(), 200);
   }
 
-  public function store(Request $request, CreateGenre $createGenre)
+  public function store(StoreGenreRequest $request, GenreService $service)
   {
+    $validatedData = $request->validated();
+
     try {
-      $genre = $createGenre->handle([
-        'name' => $request->input('name'),
-      ]);
-    } catch (UnprocessableEntityHttpException $exception) {
-      return response($exception->getMessage(), 422);
+      $genre = $service->store($validatedData);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -44,14 +39,12 @@ class GenreController extends Controller
     //
   }
 
-  public function update(Request $request, Genre $genre, UpdateGenre $updateGenre)
+  public function update(UpdateGenreRequest $request, Genre $genre, GenreService $service)
   {
+    $validatedData = $request->validated();
+
     try {
-      $genre = $updateGenre->handle($genre, [
-        'name' => $request->input('name'),
-      ]);
-    } catch (UnprocessableEntityHttpException $exception) {
-      return response($exception->getMessage(), 422);
+      $genre = $service->update($genre, $validatedData);
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -59,9 +52,13 @@ class GenreController extends Controller
     return response($genre, 200);
   }
 
-  public function destroy(Genre $genre)
+  public function destroy(Genre $genre, GenreService $service)
   {
-    $genre->delete();
+    try {
+      $genre = $service->delete($genre);
+    } catch (Exception $exception) {
+      return response($exception->getMessage(), 500);
+    }
 
     return response('', 204);
   }
