@@ -1,8 +1,9 @@
 import BookerLogo from '../../Components/Logo/BookerLogo';
 import RegisterFormComponent from '../Components/RegisterFormComponent';
+import useRegisterViewModel from './RegisterViewModel';
 
 export default function RegisterPage() {
-  const onSubmitForm = (value: any) => console.log(value);
+  const { onSubmitForm } = useRegisterViewModel();
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center">

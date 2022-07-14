@@ -1,8 +1,9 @@
 import BookerLogo from '../../Components/Logo/BookerLogo';
 import LoginFormComponent from '../Components/LoginFormComponent';
+import useLoginViewModel from './LoginViewModel';
 
 export default function LoginPage() {
-  const onSubmitForm = (value: any) => console.log(value);
+  const { onSubmitForm } = useLoginViewModel();
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center">
