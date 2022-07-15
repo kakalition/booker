@@ -5,7 +5,7 @@ export default function BasePage(props: any) {
 
   return (
     <div className="flex h-screen w-screen flex-row">
-      <div className="h-full w-[20%]">
+      <div className="h-full w-[18%]">
         <SidebarComponent />
       </div>
       <div className="h-full w-[80%]">

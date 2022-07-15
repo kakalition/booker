@@ -1,20 +1,18 @@
 import { Button } from '@chakra-ui/react';
-import { LibraryIcon } from '@heroicons/react/outline';
-import React from 'react';
+import { LibraryIcon, ChartBarIcon, ClockIcon } from '@heroicons/react/outline';
 import BookerLogoWithText from '../Logo/BookerLogoWithText';
 
 function SidebarHeaderItemComponent(props: any) {
-  const { icon, content } = props;
+  const { icon, text } = props;
 
   return (
     <div className="flex w-full flex-row">
-      <div className="flex w-[30%] justify-end">
+      <div className="flex w-[15%] justify-end">
         {icon}
-        <div className="w-4" />
       </div>
-      <div className="flex w-[70%] flex-row">
+      <div className="flex w-[85%] flex-row">
         <div className="w-4" />
-        {content}
+        <p className="font-roboto text-lg text-gray-600">{text}</p>
       </div>
     </div>
   );
@@ -25,15 +23,15 @@ function SidebarItemComponent(props: any) {
 
   return (
     <div className="flex w-full flex-row">
-      <div className="w-[30%]" />
-      <div className="w-[70%]">
+      <div className="w-[15%]" />
+      <div className="w-[85%]">
         <Button
           justifyContent="start"
           width="100%"
           bg="transparent"
-          className="font-roboto text-xl font-normal"
+          fontFamily="Roboto"
           fontWeight="normal"
-          fontSize="lg"
+          fontSize="md"
         >
           {text}
         </Button>
@@ -43,19 +41,36 @@ function SidebarItemComponent(props: any) {
 }
 
 export default function SidebarComponent() {
-  const libraryIcon = (<LibraryIcon className="h-8 w-8 stroke-gray-600" />);
-  const dataHeader = (<p className="font-roboto pt-1 text-xl text-gray-600">Data</p>);
+  const libraryIcon = (<LibraryIcon className="h-6 w-6 stroke-gray-600" />);
+  const chartIcon = (<ChartBarIcon className="h-6 w-6 stroke-gray-600" />);
+  const clockIcon = (<ClockIcon className="h-6 w-6 stroke-gray-600" />);
 
   return (
-    <div className="flex h-full w-full flex-col border-r-2 border-r-gray-200 px-4 py-8">
+    <div className="flex h-full w-full flex-col border-r-2 border-r-gray-200 px-2 py-8">
       <BookerLogoWithText />
-      <div className="h-16" />
-      <div className="mb-6 flex w-full flex-col items-center gap-3">
-        <SidebarHeaderItemComponent icon={libraryIcon} content={dataHeader} />
+      <div className="h-20" />
+      <div className="mb-6 flex w-full flex-col items-center gap-2">
+        <SidebarHeaderItemComponent icon={chartIcon} text="Data" />
         <SidebarItemComponent text="Dashboard" />
         <SidebarItemComponent text="Book Stock Chart" />
         <SidebarItemComponent text="Visitor Chart" />
         <SidebarItemComponent text="Borrower Chart" />
+      </div>
+      <div className="mb-6 flex w-full flex-col items-center gap-2">
+        <SidebarHeaderItemComponent icon={libraryIcon} text="Manage Entity" />
+        <SidebarItemComponent text="Author" />
+        <SidebarItemComponent text="Publisher" />
+        <SidebarItemComponent text="Book" />
+        <SidebarItemComponent text="Shelf" />
+        <SidebarItemComponent text="Borrower Data" />
+        <SidebarItemComponent text="Visitor" />
+        <SidebarItemComponent text="Check-in" />
+      </div>
+      <div className="mb-6 flex w-full flex-col items-center gap-2">
+        <SidebarHeaderItemComponent icon={clockIcon} text="History" />
+        <SidebarItemComponent text="Recent Activities" />
+        <SidebarItemComponent text="Check-in" />
+        <SidebarItemComponent text="Borrower" />
       </div>
     </div>
   );
