@@ -1,7 +1,10 @@
 import {
-  Divider, Table, TableContainer, Th, Tr,
+  Checkbox,
+  Divider, Table, TableContainer, Tbody, Td, Th, Thead, Tr,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { useEffect, useMemo, useState } from 'react';
+import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import BasePage from '../../Components/BasePage';
 
 function ManageAuthorHeader() {
@@ -32,11 +35,36 @@ const dummyData = () => ([
 ]);
 
 export default function ManageAuthorPage() {
-  const [authorData, setAuthorData] = useState([]);
+  const [authorData, setAuthorData] = useState<any[]>([]);
 
   useEffect(() => {
-    
+    const dummyAuthors = dummyData().map((element) => ({
+      name: element.name,
+      birth_date: element.birth_date,
+      total_books: element.total_books,
+      total_copies_owned: element.total_copies_owned,
+      currently_borrowed: element.currently_borrowed,
+    }));
+
+    setAuthorData(dummyAuthors);
   });
+
+  const authorsElement = useMemo(() => authorData.map((element) => (
+    <Tr>
+      <Td>{element.name}</Td>
+      <Td>{element.birth_date}</Td>
+      <Td>{element.total_books}</Td>
+      <Td>{element.total_copies_owned}</Td>
+      <Td>{element.currently_borrowed}</Td>
+      <Td>
+        <div className="flex flex-row items-center gap-4">
+          <PencilIcon className="h-6 w-6 stroke-gray-500" />
+          <TrashIcon className="h-6 w-6 stroke-gray-500" />
+          <Checkbox size="lg" />
+        </div>
+      </Td>
+    </Tr>
+  )), [authorData]);
 
   return (
     <BasePage path="manage-author">
@@ -44,14 +72,19 @@ export default function ManageAuthorPage() {
         <ManageAuthorHeader />
         <TableContainer>
           <Table variant="striped">
-            <Tr>
-              <Th>Name</Th>
-              <Th>Birth date</Th>
-              <Th>Total books</Th>
-              <Th>Total copies owned</Th>
-              <Th>Currently borrowed</Th>
-              <Th />
-            </Tr>
+            <Thead>
+              <Tr>
+                <Th w="30%">Name</Th>
+                <Th w="20%%">Birth date</Th>
+                <Th w="13%">Total books</Th>
+                <Th w="13%">Total copies owned</Th>
+                <Th w="13%">Currently borrowed</Th>
+                <Th w="10%" />
+              </Tr>
+            </Thead>
+            <Tbody>
+              {authorsElement}
+            </Tbody>
           </Table>
         </TableContainer>
       </div>
