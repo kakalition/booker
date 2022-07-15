@@ -1,6 +1,5 @@
 import { Checkbox, Td, Tr } from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
-import { useFormik } from 'formik';
 import { useEffect, useMemo, useState } from 'react';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
 
@@ -169,9 +168,12 @@ export default function useManageAuthorViewModel() {
     </>
   ), []);
 
+  const onSubmitQuery = (values: any) => alert(values.query);
+
   return {
     authorsElement,
     sortByElement,
     pageElement,
+    onSubmitQuery,
   };
 }
