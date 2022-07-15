@@ -7,6 +7,8 @@ import App from './App';
 import './index.css';
 import RegisterPage from './Features/Register/RegisterPage';
 import LoginPage from './Features/Login/LoginPage';
+import DashboardPage from './Features/Dashboard/DashboardPage';
+import ManageAuthorPage from './Features/ManageEntity/Author/ManageAuthorPage';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
@@ -18,6 +20,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="/" element={<App />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/manage-author" element={<ManageAuthorPage />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
