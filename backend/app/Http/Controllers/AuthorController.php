@@ -17,8 +17,11 @@ class AuthorController extends Controller
     Log::info($request->fullUrl());
     try {
       $authors = $service->fetchAll(
+        $request->query('query'),
         $request->query('page'),
-        $request->query('shows-per-page')
+        $request->query('shows-per-page'),
+        $request->query('sort-by'),
+        $request->query('sort-order'),
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);

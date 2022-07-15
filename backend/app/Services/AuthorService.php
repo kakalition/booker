@@ -8,10 +8,17 @@ use Illuminate\Support\Facades\Log;
 
 class AuthorService
 {
-  public function fetchAll(int $page, int $showsPerPage): Collection
-  {
+  public function fetchAll(
+    ?string $queryStr,
+    int $page,
+    int $showsPerPage,
+    string $sortBy,
+    string $sortOrder,
+  ) {
     $offset = ($page * $showsPerPage) - $showsPerPage;
-    $authors = Author::offset($offset)
+    $authors = Author::when($queryStr, fn ($query, $queryStr) => $query->where('name', 'ILIKE', "%$queryStr%"))
+      ->orderBy($sortBy, $sortOrder)
+      ->offset($offset)
       ->limit($showsPerPage)
       ->get();
 
