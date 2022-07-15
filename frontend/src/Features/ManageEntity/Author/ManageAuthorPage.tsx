@@ -39,18 +39,32 @@ export default function ManageAuthorPage() {
           <ModalHeader>Create new author</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Name</FormLabel>
-              <Input type="text" placeholder="J.K. Rowling" />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Birth Date</FormLabel>
-              <Input type="date" placeholder="Last name" />
-            </FormControl>
+            <form onSubmit={viewModel.formik.handleSubmit}>
+              <FormControl>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="J.K. Rowling"
+                  onChange={viewModel.formik.handleChange}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Birth Date</FormLabel>
+                <Input
+                  id="birth-date"
+                  name="birth-date"
+                  type="date"
+                  placeholder="July 29, 2001"
+                  onChange={viewModel.formik.handleChange}
+                />
+              </FormControl>
+            </form>
           </ModalBody>
           <ModalFooter>
             <Button variant="ghost" onClick={onClose}>Cancel</Button>
-            <Button colorScheme="blue" ml={3}>
+            <Button colorScheme="blue" ml={3} onClick={onClose}>
               Save
             </Button>
           </ModalFooter>
