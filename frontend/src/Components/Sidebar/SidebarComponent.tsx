@@ -1,7 +1,9 @@
 import {
-  Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button,
+  Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, IconButton,
 } from '@chakra-ui/react';
-import { LibraryIcon, ChartBarIcon, ClockIcon } from '@heroicons/react/outline';
+import {
+  LibraryIcon, ChartBarIcon, ClockIcon, LogoutIcon,
+} from '@heroicons/react/outline';
 import BookerLogoWithText from '../Logo/BookerLogoWithText';
 
 function SidebarHeaderItemComponent(props: any) {
@@ -69,13 +71,27 @@ function SingleSidebarItemComponent(props: any) {
   );
 }
 
+function AccountSidebarItemComponent() {
+  return (
+    <div className="flex w-full flex-row items-center justify-between border-t py-6 px-4">
+      <div>
+        <p className="font-roboto text-md text-gray-900">Kaka</p>
+        <p className="font-roboto text-md text-gray-500">kakalition@mail.com</p>
+      </div>
+      <IconButton aria-label="logout icon" bgColor="transparent">
+        <LogoutIcon className="h-8 w-8 stroke-gray-500" />
+      </IconButton>
+    </div>
+  );
+}
+
 export default function SidebarComponent() {
   const libraryIcon = (<LibraryIcon className="h-6 w-6 stroke-gray-600" />);
   const chartIcon = (<ChartBarIcon className="h-6 w-6 stroke-gray-600" />);
   const clockIcon = (<ClockIcon className="h-6 w-6 stroke-gray-600" />);
 
   return (
-    <div className="flex h-full w-full flex-col border-r-2 border-r-gray-200 px-2 py-8">
+    <div className="relative flex h-full w-full flex-col border-r-2 border-r-gray-200 px-2 py-8">
       <div className="mb-8">
         <BookerLogoWithText />
       </div>
@@ -119,6 +135,10 @@ export default function SidebarComponent() {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+
+      <div className="absolute inset-x-0 bottom-0">
+        <AccountSidebarItemComponent />
+      </div>
     </div>
   );
 }

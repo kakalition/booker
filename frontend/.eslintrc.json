@@ -37,10 +37,7 @@
       }
     ],
     "tailwindcss/no-custom-classname": [
-      0,
-      {
-        "config": "tailwind.config.cjs"
-      }
+      0
     ]
   }
 }
