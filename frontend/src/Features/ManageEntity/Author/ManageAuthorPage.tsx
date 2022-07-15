@@ -1,8 +1,8 @@
 import {
   Checkbox,
-  Divider, Table, TableContainer, Tbody, Td, Th, Thead, Tr,
+  Divider, Input, InputGroup, InputLeftElement, Table, TableContainer, Tbody, Td, Th, Thead, Tr,
 } from '@chakra-ui/react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { PencilIcon, SearchIcon, TrashIcon } from '@heroicons/react/outline';
 import { useEffect, useMemo, useState } from 'react';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import BasePage from '../../Components/BasePage';
@@ -18,6 +18,48 @@ function ManageAuthorHeader() {
 }
 
 const dummyData = () => ([
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
   {
     name: 'J.K. Rowling',
     birth_date: 'July 31, 1965',
@@ -57,7 +99,7 @@ export default function ManageAuthorPage() {
       <Td>{element.total_copies_owned}</Td>
       <Td>{element.currently_borrowed}</Td>
       <Td>
-        <div className="flex flex-row items-center gap-4">
+        <div className="flex flex-row items-center gap-6">
           <PencilIcon className="h-6 w-6 stroke-gray-500" />
           <TrashIcon className="h-6 w-6 stroke-gray-500" />
           <Checkbox size="lg" />
@@ -70,6 +112,14 @@ export default function ManageAuthorPage() {
     <BasePage path="manage-author">
       <div className="w-full p-12">
         <ManageAuthorHeader />
+        <div className='my-8 w-full flex flex-row'>
+        <InputGroup>
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon className="h-6 w-6 stroke-gray-500" />
+          </InputLeftElement>
+          <Input type="text" placeholder="J.K. Rowling" />
+        </InputGroup>
+        </div>
         <TableContainer>
           <Table variant="striped">
             <Thead>
