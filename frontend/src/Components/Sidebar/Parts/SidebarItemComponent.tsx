@@ -18,7 +18,7 @@ export default function SidebarItemComponent(props: any) {
           size="sm"
           fontFamily="Roboto"
           fontWeight="normal"
-          fontSize="sm"
+          fontSize="md"
           onClick={onClick}
         >
           {text}
