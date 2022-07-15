@@ -1,6 +1,9 @@
 import { Checkbox, Td, Tr } from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { AxiosResponse } from 'axios';
 import { useEffect, useMemo, useState } from 'react';
+import AuthorAPI from '../../../API/AuthorAPI';
+import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
 
 const dummyData = () => ([
@@ -121,17 +124,15 @@ const dummyData = () => ([
 export default function useManageAuthorViewModel() {
   const [authorsData, setAuthorsData] = useState<AuthorEntity[]>([]);
 
-  useEffect(() => {
-    const data = dummyData();
-    const dummyAuthors = data.map((element): AuthorEntity => ({
-      name: element.name,
-      birth_date: element.birth_date,
-      total_books: element.total_books,
-      total_copies_owned: element.total_copies_owned,
-      currently_borrowed: element.currently_borrowed,
-    }));
+  const onFetchSuccess = (response: AxiosResponse) => {
+    const data = response.data.map((element: any) => EntityMapper.author(element));
+    setAuthorsData(data);
+  };
 
-    setAuthorsData(dummyAuthors);
+  useEffect(() => {
+    AuthorAPI
+      .get()
+      .then(onFetchSuccess, console.log);
   }, []);
 
   const authorsElement = useMemo(() => authorsData.map((element) => (
