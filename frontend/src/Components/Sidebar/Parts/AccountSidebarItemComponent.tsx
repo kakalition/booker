@@ -3,7 +3,7 @@ import { LogoutIcon } from '@heroicons/react/outline';
 
 export default function AccountSidebarItemComponent() {
   return (
-    <div className="flex w-full flex-row items-center justify-between border-t py-6 px-4">
+    <div className="flex w-full flex-row items-center justify-between border-t p-6">
       <div>
         <p className="font-roboto text-md text-gray-900">Kaka</p>
         <p className="font-roboto text-md text-gray-500">kakalition@mail.com</p>
