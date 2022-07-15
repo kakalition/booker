@@ -14,14 +14,18 @@ export default function useManageAuthorViewModel() {
     setAuthorsData(data);
   };
 
-  useEffect(() => {
-    AuthorAPI
-      .get()
-      .then(onFetchSuccess, console.log);
-  }, []);
+  const fetchAuthors = () => AuthorAPI
+    .get({
+      'shows-per-page': (document.querySelector('#pagination-total') as HTMLSelectElement)?.value,
+      page: (document.querySelector('#pagination-page') as HTMLSelectElement)?.value,
+    })
+    .then(onFetchSuccess, console.log);
 
-  const authorsElement = useMemo(() => authorsData.map((element) => (
+  useEffect(() => { fetchAuthors(); }, []);
+
+  const authorsElement = useMemo(() => authorsData.map((element, index) => (
     <Tr>
+      <Td>{index + 1}</Td>
       <Td>{element.name}</Td>
       <Td>{element.birth_date}</Td>
       <Td>{element.total_books}</Td>
@@ -54,12 +58,10 @@ export default function useManageAuthorViewModel() {
     </>
   ), []);
 
-  const onSubmitQuery = (values: any) => alert(values.query);
-
   return {
     authorsElement,
     sortByElement,
     pageElement,
-    onSubmitQuery,
+    onSubmit: fetchAuthors,
   };
 }

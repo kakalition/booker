@@ -20,11 +20,14 @@ export default function ManageAuthorPage() {
         <ManageAuthorHeader />
         <ManageAuthorActions
           sortByElement={viewModel.sortByElement}
-          onSubmitQuery={viewModel.onSubmitQuery}
+          onSubmit={viewModel.onSubmit}
           onCreateClick={onOpen}
         />
         <ManageAuthorTable tbodyElements={viewModel.authorsElement} />
-        <PaginationComponent pageElement={viewModel.pageElement} />
+        <PaginationComponent
+          pageElement={viewModel.pageElement}
+          onSubmit={viewModel.onSubmit}
+        />
       </div>
       <Modal
         isOpen={isOpen}

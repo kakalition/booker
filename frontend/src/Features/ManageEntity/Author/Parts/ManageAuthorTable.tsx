@@ -11,8 +11,9 @@ export default function ManageAuthorTable(params: Params) {
 
   const theadElement = (
     <Tr>
+      <Th w="5%">No</Th>
       <Th w="30%">Name</Th>
-      <Th w="20%%">Birth date</Th>
+      <Th w="15%%">Birth date</Th>
       <Th w="13%">Total books</Th>
       <Th w="13%">Total copies owned</Th>
       <Th w="13%">Currently borrowed</Th>

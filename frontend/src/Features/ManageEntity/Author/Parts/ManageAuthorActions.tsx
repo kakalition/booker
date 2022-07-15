@@ -4,16 +4,16 @@ import SearchbarComponent from '../../../../Components/Searchbar/SearchbarCompon
 
 type Params = {
   sortByElement: React.ReactNode
-  onSubmitQuery: (values: any) => void,
+  onSubmit: (values: any) => void,
   onCreateClick: React.MouseEventHandler,
 };
 
 export default function ManageAuthorActions(params: Params) {
-  const { sortByElement, onSubmitQuery, onCreateClick } = params;
+  const { sortByElement, onSubmit, onCreateClick } = params;
 
   return (
     <div className="my-8 flex w-full flex-row gap-4">
-      <SearchbarComponent onSubmit={onSubmitQuery} />
+      <SearchbarComponent onSubmit={onSubmit} />
       <Select placeholder="Sort By" w="20%">
         {sortByElement}
       </Select>
