@@ -10,7 +10,6 @@ export default function SingleSidebarItemComponent(props: any) {
       bg="transparent"
       fontFamily="Roboto"
       fontWeight="normal"
-      fontSize="md"
       marginBottom="0.5rem"
       onClick={onClick}
     >
@@ -21,7 +20,7 @@ export default function SingleSidebarItemComponent(props: any) {
         </div>
         <div className="flex w-[85%] flex-row">
           <div className="w-3" />
-          <p className="font-roboto text-lg text-gray-600">{text}</p>
+          <p className="font-roboto text-md text-gray-600 pt-[0.2rem]">{text}</p>
         </div>
       </div>
     </Button>

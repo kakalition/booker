@@ -23,40 +23,46 @@ export default function SidebarComponent() {
       <SingleSidebarItemComponent icon={libraryIcon} text="Dasboard" />
       <SingleSidebarItemComponent icon={clockIcon} text="Check-in" />
       <Accordion allowToggle>
-        <AccordionItem borderColor="white">
+        <AccordionItem borderColor="white" mb="1rem">
           <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
             <SidebarHeaderItemComponent icon={chartIcon} text="Data" />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <SidebarItemComponent text="Book Stock Chart" />
-            <SidebarItemComponent text="Visitor Chart" />
-            <SidebarItemComponent text="Borrower Chart" />
+            <div className="flex flex-col gap-2">
+              <SidebarItemComponent text="Book Stock Chart" />
+              <SidebarItemComponent text="Visitor Chart" />
+              <SidebarItemComponent text="Borrower Chart" />
+            </div>
           </AccordionPanel>
         </AccordionItem>
-        <AccordionItem borderColor="white">
+        <AccordionItem borderColor="white" mb="1rem">
           <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
             <SidebarHeaderItemComponent icon={libraryIcon} text="Manage Entity" />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <SidebarItemComponent id="manage-author" text="Author" />
-            <SidebarItemComponent text="Publisher" />
-            <SidebarItemComponent text="Book" />
-            <SidebarItemComponent text="Shelf" />
-            <SidebarItemComponent text="Borrower Data" />
-            <SidebarItemComponent text="Visitor" />
+            <div className="flex flex-col gap-2">
+              <SidebarItemComponent id="manage-author" text="Author" />
+              <SidebarItemComponent text="Publisher" />
+              <SidebarItemComponent text="Book" />
+              <SidebarItemComponent text="Shelf" />
+              <SidebarItemComponent text="Borrower Data" />
+              <SidebarItemComponent text="Visitor" />
+            </div>
           </AccordionPanel>
         </AccordionItem>
-        <AccordionItem borderColor="white">
+        <AccordionItem borderColor="white" mb="1rem">
           <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
             <SidebarHeaderItemComponent icon={clockIcon} text="History" />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <SidebarItemComponent text="Recent Activities" />
-            <SidebarItemComponent text="Check-in" />
-            <SidebarItemComponent text="Borrower" />
+            <div className="flex flex-col gap-2">
+              <SidebarItemComponent text="Recent Activities" />
+              <SidebarItemComponent text="Check-in" />
+              <SidebarItemComponent text="Borrower" />
+            </div>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

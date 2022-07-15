@@ -8,7 +8,7 @@ export default function SidebarHeaderItemComponent(props: any) {
       </div>
       <div className="flex w-[85%] flex-row">
         <div className="w-4" />
-        <p className="font-roboto text-lg text-gray-600">{text}</p>
+        <p className="font-roboto text-md text-gray-600">{text}</p>
       </div>
     </div>
   );

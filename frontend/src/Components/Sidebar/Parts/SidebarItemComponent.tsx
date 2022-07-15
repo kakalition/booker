@@ -15,9 +15,10 @@ export default function SidebarItemComponent(props: any) {
           width="100%"
           bg="transparent"
           bgColor={path === id ? '#c5d4e8' : 'white'}
+          size="sm"
           fontFamily="Roboto"
           fontWeight="normal"
-          fontSize="md"
+          fontSize="sm"
           onClick={onClick}
         >
           {text}
