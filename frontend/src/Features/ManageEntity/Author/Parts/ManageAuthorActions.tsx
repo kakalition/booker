@@ -5,10 +5,11 @@ import SearchbarComponent from '../../../../Components/Searchbar/SearchbarCompon
 type Params = {
   sortByElement: React.ReactNode
   onSubmitQuery: (values: any) => void,
+  onCreateClick: React.MouseEventHandler,
 };
 
 export default function ManageAuthorActions(params: Params) {
-  const { sortByElement, onSubmitQuery } = params;
+  const { sortByElement, onSubmitQuery, onCreateClick } = params;
 
   return (
     <div className="my-8 flex w-full flex-row gap-4">
@@ -20,7 +21,7 @@ export default function ManageAuthorActions(params: Params) {
         <option value="ascending">Ascending</option>
         <option value="descending">Descending</option>
       </Select>
-      <Button colorScheme="blue" width="10%">
+      <Button colorScheme="blue" width="10%" onClick={onCreateClick}>
         Create
       </Button>
     </div>
