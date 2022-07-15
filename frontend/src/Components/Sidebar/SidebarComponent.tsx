@@ -1,4 +1,6 @@
-import { Button } from '@chakra-ui/react';
+import {
+  Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button,
+} from '@chakra-ui/react';
 import { LibraryIcon, ChartBarIcon, ClockIcon } from '@heroicons/react/outline';
 import BookerLogoWithText from '../Logo/BookerLogoWithText';
 
@@ -40,6 +42,33 @@ function SidebarItemComponent(props: any) {
   );
 }
 
+function SingleSidebarItemComponent(props: any) {
+  const { icon, text } = props;
+
+  return (
+    <Button
+      justifyContent="start"
+      width="100%"
+      bg="transparent"
+      fontFamily="Roboto"
+      fontWeight="normal"
+      fontSize="md"
+      marginBottom="0.5rem"
+    >
+      <div className="flex w-full flex-row">
+        <div className="flex w-[15%] justify-end">
+          {icon}
+          <div className="w-1" />
+        </div>
+        <div className="flex w-[85%] flex-row">
+          <div className="w-3" />
+          <p className="font-roboto text-lg text-gray-600">{text}</p>
+        </div>
+      </div>
+    </Button>
+  );
+}
+
 export default function SidebarComponent() {
   const libraryIcon = (<LibraryIcon className="h-6 w-6 stroke-gray-600" />);
   const chartIcon = (<ChartBarIcon className="h-6 w-6 stroke-gray-600" />);
@@ -47,31 +76,49 @@ export default function SidebarComponent() {
 
   return (
     <div className="flex h-full w-full flex-col border-r-2 border-r-gray-200 px-2 py-8">
-      <BookerLogoWithText />
-      <div className="h-20" />
-      <div className="mb-6 flex w-full flex-col items-center gap-2">
-        <SidebarHeaderItemComponent icon={chartIcon} text="Data" />
-        <SidebarItemComponent text="Dashboard" />
-        <SidebarItemComponent text="Book Stock Chart" />
-        <SidebarItemComponent text="Visitor Chart" />
-        <SidebarItemComponent text="Borrower Chart" />
+      <div className="mb-8">
+        <BookerLogoWithText />
       </div>
-      <div className="mb-6 flex w-full flex-col items-center gap-2">
-        <SidebarHeaderItemComponent icon={libraryIcon} text="Manage Entity" />
-        <SidebarItemComponent text="Author" />
-        <SidebarItemComponent text="Publisher" />
-        <SidebarItemComponent text="Book" />
-        <SidebarItemComponent text="Shelf" />
-        <SidebarItemComponent text="Borrower Data" />
-        <SidebarItemComponent text="Visitor" />
-        <SidebarItemComponent text="Check-in" />
-      </div>
-      <div className="mb-6 flex w-full flex-col items-center gap-2">
-        <SidebarHeaderItemComponent icon={clockIcon} text="History" />
-        <SidebarItemComponent text="Recent Activities" />
-        <SidebarItemComponent text="Check-in" />
-        <SidebarItemComponent text="Borrower" />
-      </div>
+      <SingleSidebarItemComponent icon={libraryIcon} text="Dasboard" />
+      <SingleSidebarItemComponent icon={clockIcon} text="Check-in" />
+      <Accordion allowToggle>
+        <AccordionItem borderColor="white">
+          <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
+            <SidebarHeaderItemComponent icon={chartIcon} text="Data" />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <SidebarItemComponent text="Book Stock Chart" />
+            <SidebarItemComponent text="Visitor Chart" />
+            <SidebarItemComponent text="Borrower Chart" />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem borderColor="white">
+          <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
+            <SidebarHeaderItemComponent icon={libraryIcon} text="Manage Entity" />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <SidebarItemComponent text="Author" />
+            <SidebarItemComponent text="Publisher" />
+            <SidebarItemComponent text="Book" />
+            <SidebarItemComponent text="Shelf" />
+            <SidebarItemComponent text="Borrower Data" />
+            <SidebarItemComponent text="Visitor" />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem borderColor="white">
+          <AccordionButton border="none" ring="none" outline="none" outlineColor="white">
+            <SidebarHeaderItemComponent icon={clockIcon} text="History" />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <SidebarItemComponent text="Recent Activities" />
+            <SidebarItemComponent text="Check-in" />
+            <SidebarItemComponent text="Borrower" />
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }
