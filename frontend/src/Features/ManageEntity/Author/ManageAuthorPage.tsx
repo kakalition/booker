@@ -4,6 +4,9 @@ import {
   TableContainer, Tbody, Th, Thead, Tr,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@heroicons/react/outline';
+import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
+import SearchbarComponent from '../../../Components/Searchbar/SearchbarComponent';
+import BaseTableComponent from '../../../Components/Table/BaseTableComponent';
 import BasePage from '../../Components/BasePage';
 import useManageAuthorViewModel from './ManageAuthorViewModel';
 
@@ -17,23 +20,12 @@ function ManageAuthorHeader() {
   );
 }
 
-function SearchBarComponent() {
-  return (
-    <InputGroup w="50%">
-      <InputLeftElement pointerEvents="none">
-        <SearchIcon className="h-6 w-6 stroke-gray-500" />
-      </InputLeftElement>
-      <Input type="text" placeholder="J.K. Rowling" />
-    </InputGroup>
-  );
-}
-
 function ManageAuthorActionsComponent(props: any) {
   const { sortByElement } = props;
 
   return (
     <div className="my-8 flex w-full flex-row gap-4">
-      <SearchBarComponent />
+      <SearchbarComponent onSubmit={(values) => alert(values.query)} />
       <Select placeholder="Sort By" w="20%">
         {sortByElement}
       </Select>
@@ -45,51 +37,6 @@ function ManageAuthorActionsComponent(props: any) {
         Create
       </Button>
     </div>
-  );
-}
-
-function PaginationComponent(props: any) {
-  const { pageElement } = props;
-
-  return (
-    <div className="flex w-full flex-row items-center justify-end gap-8">
-      <div className="flex flex-row items-center">
-        <p className="mr-4 whitespace-nowrap">Shows per page</p>
-        <Select>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-        </Select>
-      </div>
-      <div className="flex flex-row items-center">
-        <p className="mr-4 whitespace-nowrap">Page</p>
-        <Select>
-          {pageElement}
-        </Select>
-      </div>
-    </div>
-  );
-}
-
-function BaseTableComponent(props: any) {
-  const { entity, theadElement, tbodyElements } = props;
-
-  return (
-    <>
-      <p className="font-roboto mb-4 text-gray-500">{`0 ${entity} selected from 24 ${entity}s found.`}</p>
-      <TableContainer border="1px" borderColor="gray.200" rounded="xl" marginBottom="2rem">
-        <Table variant="striped">
-          <Thead>
-            {theadElement}
-          </Thead>
-          <Tbody>
-            {tbodyElements}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
   );
 }
 
@@ -122,7 +69,10 @@ export default function ManageAuthorPage() {
     <BasePage path="manage-author">
       <div className="w-full p-12">
         <ManageAuthorHeader />
-        <ManageAuthorActionsComponent sortByElement={viewModel.sortByElement} />
+        <ManageAuthorActionsComponent
+          sortByElement={viewModel.sortByElement}
+          searchFormik={viewModel.searchFormik}
+        />
         <ManageAuthorTableComponent tbodyElements={viewModel.authorsElement} />
         <PaginationComponent pageElement={viewModel.pageElement} />
       </div>

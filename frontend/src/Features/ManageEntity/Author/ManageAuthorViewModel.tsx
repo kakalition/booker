@@ -1,5 +1,6 @@
 import { Checkbox, Td, Tr } from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { useFormik } from 'formik';
 import { useEffect, useMemo, useState } from 'react';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
 
@@ -161,12 +162,12 @@ export default function useManageAuthorViewModel() {
     </>
   ), []);
 
-  const pageElement = useMemo(() => {
+  const pageElement = useMemo(() => (
     <>
       <option value="1">1</option>
       <option value="2">2</option>
-    </>;
-  }, []);
+    </>
+  ), []);
 
   return {
     authorsElement,
