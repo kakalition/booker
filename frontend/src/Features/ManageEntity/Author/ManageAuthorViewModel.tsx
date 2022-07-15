@@ -151,7 +151,26 @@ export default function useManageAuthorViewModel() {
     </Tr>
   )), [authorsData]);
 
+  const sortByElement = useMemo(() => (
+    <>
+      <option value="name">Name</option>
+      <option value="birth-date">Birth date</option>
+      <option value="total-books">Total books</option>
+      <option value="total-copies-owned">Total copies owned</option>
+      <option value="currently-borrowed">Currently borrowed</option>
+    </>
+  ), []);
+
+  const pageElement = useMemo(() => {
+    <>
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </>;
+  }, []);
+
   return {
     authorsElement,
+    sortByElement,
+    pageElement,
   };
 }
