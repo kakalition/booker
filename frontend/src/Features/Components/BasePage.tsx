@@ -10,7 +10,7 @@ export default function BasePage(props: any) {
         <div className="h-full w-[18%]">
           <SidebarComponent />
         </div>
-        <div className="h-full w-[80%]">
+        <div className="h-full w-[80%] overflow-y-scroll">
           {children}
         </div>
       </div>

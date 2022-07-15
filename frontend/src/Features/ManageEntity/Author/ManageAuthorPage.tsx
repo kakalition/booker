@@ -1,6 +1,7 @@
 import {
+  Button,
   Checkbox,
-  Divider, Input, InputGroup, InputLeftElement, Table, TableContainer, Tbody, Td, Th, Thead, Tr,
+  Divider, Input, InputGroup, InputLeftElement, Select, Table, TableContainer, Tbody, Td, Th, Thead, Tr,
 } from '@chakra-ui/react';
 import { PencilIcon, SearchIcon, TrashIcon } from '@heroicons/react/outline';
 import { useEffect, useMemo, useState } from 'react';
@@ -74,6 +75,62 @@ const dummyData = () => ([
     total_copies_owned: 52,
     currently_borrowed: 50,
   },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
+  {
+    name: 'J.K. Rowling',
+    birth_date: 'July 31, 1965',
+    total_books: 20,
+    total_copies_owned: 82,
+    currently_borrowed: 42,
+  },
+  {
+    name: 'Carl Sagan',
+    birth_date: 'November 9, 1934',
+    total_books: 10,
+    total_copies_owned: 52,
+    currently_borrowed: 50,
+  },
 ]);
 
 export default function ManageAuthorPage() {
@@ -89,7 +146,7 @@ export default function ManageAuthorPage() {
     }));
 
     setAuthorData(dummyAuthors);
-  });
+  }, []);
 
   const authorsElement = useMemo(() => authorData.map((element) => (
     <Tr>
@@ -112,15 +169,29 @@ export default function ManageAuthorPage() {
     <BasePage path="manage-author">
       <div className="w-full p-12">
         <ManageAuthorHeader />
-        <div className='my-8 w-full flex flex-row'>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none">
-            <SearchIcon className="h-6 w-6 stroke-gray-500" />
-          </InputLeftElement>
-          <Input type="text" placeholder="J.K. Rowling" />
-        </InputGroup>
+        <div className="my-8 flex w-full flex-row gap-4">
+          <InputGroup w="50%">
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon className="h-6 w-6 stroke-gray-500" />
+            </InputLeftElement>
+            <Input type="text" placeholder="J.K. Rowling" />
+          </InputGroup>
+          <Select placeholder="Sort By" w="20%">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </Select>
+          <Select placeholder="Sort Order" w="20%">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </Select>
+          <Button colorScheme="blue" width="10%">
+            Create
+          </Button>
         </div>
-        <TableContainer>
+        <p className="font-roboto mb-4 text-gray-500">0 author selected from 24 authors found.</p>
+        <TableContainer border="1px" borderColor="gray.200" rounded="xl">
           <Table variant="striped">
             <Thead>
               <Tr>

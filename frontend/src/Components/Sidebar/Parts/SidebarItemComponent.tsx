@@ -14,12 +14,15 @@ export default function SidebarItemComponent(props: any) {
           justifyContent="start"
           width="100%"
           bg="transparent"
-          bgColor={path === id ? '#c5d4e8' : 'white'}
+          bgColor={path === id ? '#DAEAFF' : 'white'}
           size="sm"
           fontFamily="Roboto"
           fontWeight="normal"
           fontSize="md"
           onClick={onClick}
+          _hover={{
+            bgColor: path === id ? '#DAEAFF' : '#EEF5FF',
+          }}
         >
           {text}
         </Button>
