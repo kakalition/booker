@@ -49,7 +49,7 @@ export default function ManageAuthorPage() {
           </Button>
         </div>
         <p className="font-roboto mb-4 text-gray-500">0 author selected from 24 authors found.</p>
-        <TableContainer border="1px" borderColor="gray.200" rounded="xl">
+        <TableContainer border="1px" borderColor="gray.200" rounded="xl" marginBottom="2rem">
           <Table variant="striped">
             <Thead>
               <Tr>
@@ -66,6 +66,22 @@ export default function ManageAuthorPage() {
             </Tbody>
           </Table>
         </TableContainer>
+        <div className="flex w-full flex-row items-center justify-end gap-8">
+          <div className="flex flex-row items-center">
+            <p className="mr-4 whitespace-nowrap">Shows per page</p>
+            <Select>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </Select>
+          </div>
+          <div className="flex flex-row items-center">
+            <p className="mr-4 whitespace-nowrap">Page</p>
+            <Select>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </Select>
+          </div>
+        </div>
       </div>
     </BasePage>
   );
