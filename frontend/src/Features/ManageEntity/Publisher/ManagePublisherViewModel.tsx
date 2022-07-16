@@ -19,7 +19,7 @@ export default function useManagePublisherViewModel() {
 
   const fetchPublishers = () => PublisherAPI
     .get()
-    .then(onFetchDataSuccess, console.log);
+    .then(console.log, console.log);
 
   useEffect(() => { fetchPublishers(); }, []);
 
