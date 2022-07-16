@@ -1,41 +1,35 @@
 import { Button, Select } from '@chakra-ui/react';
-import { useFormik } from 'formik';
 import React from 'react';
 import SearchbarComponent from '../../../../Components/Searchbar/SearchbarComponent';
+import SortOrder from '../../../../Types/SortOrder';
 
 type Params = {
   sortByElement: React.ReactNode
   onSubmit: (values: any) => void,
   onCreateClick: React.MouseEventHandler,
+  setQuery: (value: string) => void,
+  setSortBy: (value: string) => void,
+  setSortOrder: (value: SortOrder) => void,
 };
 
 export default function ManageAuthorActions(params: Params) {
-  const { sortByElement, onSubmit, onCreateClick } = params;
-
-  const formik = useFormik({
-    initialValues: {
-      'sort-by': 'name',
-      'sort-order': 'asc',
-    },
-    onSubmit,
-  });
-
-  const onChange: React.ChangeEventHandler = (event) => {
-    formik.handleChange(event);
-    formik.handleSubmit();
-  };
+  const {
+    sortByElement, onSubmit, onCreateClick,
+    setSortBy, setSortOrder, setQuery,
+  } = params;
 
   return (
     <div className="my-8 flex w-full flex-row gap-4">
       <SearchbarComponent
+        onChange={setQuery}
         onSubmit={onSubmit}
       />
       <Select
         id="sort-by"
         name="sort-by"
         placeholder="Sort By"
-        value={formik.values['sort-by']}
-        onChange={onChange}
+        defaultValue="name"
+        onChange={(event) => setSortBy(event.target.value)}
         w="20%"
       >
         {sortByElement}
@@ -44,8 +38,8 @@ export default function ManageAuthorActions(params: Params) {
         id="sort-order"
         name="sort-order"
         placeholder="Sort Order"
-        value={formik.values['sort-order']}
-        onChange={onChange}
+        defaultValue="asc"
+        onChange={(event) => setSortOrder(event.target.value as SortOrder)}
         w="20%"
       >
         <option value="asc">Ascending</option>

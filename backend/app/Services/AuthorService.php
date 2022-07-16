@@ -8,19 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class AuthorService
 {
-  public function fetchAll(
-    ?string $queryStr,
-    int $page,
-    int $showsPerPage,
-    string $sortBy,
-    string $sortOrder,
-  ) {
-    $offset = ($page * $showsPerPage) - $showsPerPage;
-    $authors = Author::when($queryStr, fn ($query, $queryStr) => $query->where('name', 'ILIKE', "%$queryStr%"))
-      ->orderBy($sortBy, $sortOrder)
-      ->offset($offset)
-      ->limit($showsPerPage)
-      ->get();
+  public function fetchAll() {
+    $authors = Author::all();
 
     return $authors;
   }
