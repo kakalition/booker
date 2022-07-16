@@ -35,7 +35,7 @@ export default function useManageAuthorViewModel() {
         onDeleteClick: (id: number) => void,
       ) {
         return (
-          <Tr>
+          <Tr key={element.id}>
             <Td>{index + 1}</Td>
             <Td>{element.name}</Td>
             <Td>{element.birth_date}</Td>
@@ -44,10 +44,10 @@ export default function useManageAuthorViewModel() {
             <Td>{element.currently_borrowed}</Td>
             <Td>
               <div className="flex flex-row items-center gap-6">
-                <IconButton aria-label="edit author" onClick={() => onEditClick(element.id)}>
+                <IconButton bgColor="transparent" aria-label="edit author" onClick={() => onEditClick(element.id)}>
                   <PencilIcon className="h-6 w-6 stroke-gray-500" />
                 </IconButton>
-                <IconButton aria-label="delete author" onClick={() => onDeleteClick(element.id)}>
+                <IconButton bgColor="transparent" aria-label="delete author" onClick={() => onDeleteClick(element.id)}>
                   <TrashIcon className="h-6 w-6 stroke-gray-500" />
                 </IconButton>
                 <Checkbox size="lg" />
