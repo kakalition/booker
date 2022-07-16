@@ -10,6 +10,7 @@ import HtmlHelper from '../../../Functions/Helpers/HtmlHelper';
 export default function useManageAuthorDialog(onSubmit: () => void) {
   const [isEdit, setIsEdit] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [tempId, setTempId] = useState(-1);
   const toast = useToast();
 
   const nameRef = useRef<any>();
@@ -45,6 +46,36 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
       .then(onPostAuthorSuccess, onPostAuthorFailed);
   };
 
+  const onEditAuthorSuccess = (response: AxiosResponse) => {
+    if (response.status === 200) {
+      onClose();
+      onSubmit();
+      toast({ title: 'Author Edited!', status: 'success', position: 'top' });
+    } else {
+      onClose();
+      console.log(response);
+    }
+  };
+
+  const onEditAuthorFailed = (error: any) => {
+    onClose();
+    onSubmit();
+    toast({
+      title: 'Failed to Edit Author!', description: error.response.data.message, status: 'error', position: 'top',
+    });
+  };
+
+  const editAuthor = () => {
+    const payload = {
+      name: nameRef.current.value,
+      birth_date: dateRef.current.value,
+    };
+
+    AuthorAPI
+      .edit(tempId, payload)
+      .then(onEditAuthorSuccess, onEditAuthorFailed);
+  };
+
   const modalBodyComponent = (
     <form>
       <FormControl>
@@ -73,7 +104,7 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
   const modalFooterComponent = (
     <>
       <Button variant="ghost" onClick={onClose}>Cancel</Button>
-      <Button colorScheme="blue" ml={3} onClick={postAuthor}>
+      <Button colorScheme="blue" ml={3} onClick={isEdit ? editAuthor : postAuthor}>
         {isEdit ? 'Edit' : 'Create'}
       </Button>
     </>
@@ -112,6 +143,7 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
 
   const openEditDialog = (id: number) => {
     setIsEdit(true);
+    setTempId(id);
     onOpen();
     fetchAuthorData(id);
   };
