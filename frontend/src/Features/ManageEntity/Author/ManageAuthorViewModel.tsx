@@ -1,7 +1,6 @@
 import { Checkbox, Td, Tr } from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { AxiosResponse } from 'axios';
-import { useFormik } from 'formik';
 import { useEffect, useMemo, useState } from 'react';
 import AuthorAPI from '../../../API/AuthorAPI';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
@@ -26,16 +25,6 @@ export default function useManageAuthorViewModel() {
     .then(onFetchSuccess, console.log);
 
   useEffect(() => { fetchAuthors(); }, []);
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      birth_date: '',
-    },
-    onSubmit: (values: any) => AuthorAPI
-      .post(values)
-      .then(fetchAuthors),
-  });
 
   const authorsElement = useMemo(() => authorsData.map((element, index) => (
     <Tr>
@@ -77,6 +66,5 @@ export default function useManageAuthorViewModel() {
     sortByElement,
     pageElement,
     onSubmit: fetchAuthors,
-    formik,
   };
 }
