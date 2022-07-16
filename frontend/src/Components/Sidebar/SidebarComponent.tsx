@@ -44,7 +44,7 @@ export default function SidebarComponent() {
           <AccordionPanel>
             <div className="flex flex-col gap-2">
               <SidebarItemComponent id="manage-author" text="Author" />
-              <SidebarItemComponent text="Publisher" />
+              <SidebarItemComponent id="manage-publisher" text="Publisher" />
               <SidebarItemComponent text="Book" />
               <SidebarItemComponent text="Shelf" />
               <SidebarItemComponent text="Borrower Data" />

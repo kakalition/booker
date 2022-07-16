@@ -1,8 +1,14 @@
+import React from 'react';
 import SidebarComponent from '../../Components/Sidebar/SidebarComponent';
 import PathContext from '../../Context/PathContext';
 
-export default function BasePage(props: any) {
-  const { path, children } = props;
+type Params = {
+  path: string,
+  children: React.ReactNode
+};
+
+export default function BasePage(params: Params) {
+  const { path, children } = params;
 
   return (
     <PathContext.Provider value={path}>

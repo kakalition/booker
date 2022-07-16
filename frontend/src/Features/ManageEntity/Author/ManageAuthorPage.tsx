@@ -1,3 +1,4 @@
+import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
 import useManageAuthorDeletion from './ManageAuthorDeletion';
@@ -15,6 +16,9 @@ export default function ManageAuthorPage() {
 
   const { openDeleteDialog, alertDialogElement } = useManageAuthorDeletion(viewModel.onSubmit);
 
+  const headerTitle = 'Manage Author';
+  const headerBody = 'You can see available authors and create new author here.';
+
   const tbodyElements = viewModel.curriedAuthorsElement.map(
     (element) => element(openEditDialog, openDeleteDialog),
   );
@@ -22,7 +26,7 @@ export default function ManageAuthorPage() {
   return (
     <BasePage path="manage-author">
       <div className="w-full p-12">
-        <ManageAuthorHeader />
+        <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageAuthorActions
           sortByElement={viewModel.sortByElement}
           onSubmit={viewModel.onSubmit}
