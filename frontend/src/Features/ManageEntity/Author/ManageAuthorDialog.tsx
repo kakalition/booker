@@ -3,6 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import BaseDialogComponent from '../../../Components/Dialog/BaseDialogComponent';
+import AuthorAPI from '../../../API/AuthorAPI';
 
 export default function useManageAuthorDialog(onSubmit: () => void) {
   const [isEdit, setIsEdit] = useState(false);
@@ -11,8 +12,15 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
   const nameRef = useRef<any>();
   const dateRef = useRef<any>();
 
+  const postAuthor = () => AuthorAPI
+    .post({
+      name: nameRef.current.value,
+      birth_date: dateRef.current.value,
+    })
+    .then((response) => console.log(response));
+
   const modalBodyComponent = (
-    <form onSubmit={onSubmit}>
+    <form>
       <FormControl>
         <FormLabel>Name</FormLabel>
         <Input
@@ -39,7 +47,7 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
   const modalFooterComponent = (
     <>
       <Button variant="ghost" onClick={onClose}>Cancel</Button>
-      <Button colorScheme="blue" ml={3} onClick={onClose}>
+      <Button colorScheme="blue" ml={3} onClick={postAuthor}>
         Save
       </Button>
     </>
