@@ -1,14 +1,24 @@
 import PublisherAPI from '../../../API/PublisherAPI';
 import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
+import useManageEntityDialog from '../../../Components/ManageEntity/ManageEntityDialog';
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
 import useManagePublisherViewModel from './ManagePublisherViewModel';
+import ManagePublisherDialog from './Parts/ManagePublisherDialog';
 import ManagePublisherTable from './Parts/ManagePublisherTable';
 
 export default function ManagePublisherPage() {
   const viewModel = useManagePublisherViewModel();
+
+  const { openCreateDialog, openEditDialog, ModalComponent } = useManageEntityDialog(
+    'Publisher',
+    new ManagePublisherDialog(),
+    viewModel.onSubmit,
+    PublisherAPI.post,
+    PublisherAPI.edit,
+  );
 
   const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
     'Publisher',
@@ -20,7 +30,7 @@ export default function ManagePublisherPage() {
   const headerBody = 'You can see available publishers and create new publisher here.';
 
   const tbodyElements = viewModel.curriedAuthorsElement.map(
-    (element) => element((id) => null, openDeleteDialog),
+    (element) => element(openEditDialog, openDeleteDialog),
   );
 
   return (
@@ -30,7 +40,7 @@ export default function ManagePublisherPage() {
         <ManageEntityActions
           sortByElement={viewModel.sortByElement}
           onSubmit={viewModel.onSubmit}
-          onCreateClick={() => null}
+          onCreateClick={openCreateDialog}
           setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}
           setSortOrder={viewModel.setSortOrder}
@@ -43,6 +53,7 @@ export default function ManagePublisherPage() {
         />
       </div>
       <AlertDialogElement />
+      {ModalComponent}
     </BasePage>
   );
 }

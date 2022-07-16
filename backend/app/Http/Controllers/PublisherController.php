@@ -53,7 +53,7 @@ class PublisherController extends Controller
    */
   public function show(Publisher $publisher, PublisherService $service)
   {
-    //
+    return response($publisher, 200);
   }
 
   /**
