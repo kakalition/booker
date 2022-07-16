@@ -1,3 +1,4 @@
+import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import BasePage from '../../Components/BasePage';
 import useManagePublisherViewModel from './ManagePublisherViewModel';
@@ -12,6 +13,14 @@ export default function ManagePublisherPage() {
     <BasePage path="manage-publisher">
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
+        <ManageEntityActions
+          sortByElement={viewModel.sortByElement}
+          onSubmit={viewModel.onSubmit}
+          onCreateClick={() => null}
+          setQuery={viewModel.setQuery}
+          setSortBy={viewModel.setSortBy}
+          setSortOrder={viewModel.setSortOrder}
+        />
       </div>
     </BasePage>
   );

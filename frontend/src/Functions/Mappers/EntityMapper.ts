@@ -1,4 +1,5 @@
 import AuthorEntity from '../../Types/Entities/AuthorEntity';
+import PublisherEntity from '../../Types/Entities/PublisherEntity';
 
 namespace EntityMapper {
   export const author = (json: any) => {
@@ -12,6 +13,15 @@ namespace EntityMapper {
     };
 
     return authorEntity;
+  };
+
+  export const publisher = (json: any) => {
+    const entity: PublisherEntity = {
+      id: json.id,
+      name: json.name,
+    };
+
+    return entity;
   };
 }
 
