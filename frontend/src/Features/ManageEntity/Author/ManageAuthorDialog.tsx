@@ -1,23 +1,48 @@
 import {
-  Button, FormControl, FormLabel, Input, useDisclosure,
+  Button, FormControl, FormLabel, Input, useDisclosure, useToast,
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
+import { AxiosResponse } from 'axios';
 import BaseDialogComponent from '../../../Components/Dialog/BaseDialogComponent';
 import AuthorAPI from '../../../API/AuthorAPI';
 
 export default function useManageAuthorDialog(onSubmit: () => void) {
   const [isEdit, setIsEdit] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const nameRef = useRef<any>();
   const dateRef = useRef<any>();
 
-  const postAuthor = () => AuthorAPI
-    .post({
+  const onPostAuthorSuccess = (response: AxiosResponse) => {
+    if (response.status === 201) {
+      onClose();
+      onSubmit();
+      toast({ title: 'Author Created!', status: 'success', position: 'top' });
+    } else {
+      onClose();
+      console.log(response);
+    }
+  };
+
+  const onPostAuthorFailed = (error: any) => {
+    onClose();
+    onSubmit();
+    toast({
+      title: 'Failed to Create Author!', description: error.response.data.message, status: 'error', position: 'top',
+    });
+  };
+
+  const postAuthor = () => {
+    const payload = {
       name: nameRef.current.value,
       birth_date: dateRef.current.value,
-    })
-    .then((response) => console.log(response));
+    };
+
+    AuthorAPI
+      .post(payload)
+      .then(onPostAuthorSuccess, onPostAuthorFailed);
+  };
 
   const modalBodyComponent = (
     <form>
