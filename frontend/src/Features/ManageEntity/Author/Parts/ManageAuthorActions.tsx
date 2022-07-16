@@ -7,6 +7,7 @@ type Params = {
   sortByElement: React.ReactNode
   onSubmit: (values: any) => void,
   onCreateClick: React.MouseEventHandler,
+  setQuery: (value: string) => void,
   setSortBy: (value: string) => void,
   setSortOrder: (value: SortOrder) => void,
 };
@@ -14,12 +15,13 @@ type Params = {
 export default function ManageAuthorActions(params: Params) {
   const {
     sortByElement, onSubmit, onCreateClick,
-    setSortBy, setSortOrder,
+    setSortBy, setSortOrder, setQuery,
   } = params;
 
   return (
     <div className="my-8 flex w-full flex-row gap-4">
       <SearchbarComponent
+        onChange={setQuery}
         onSubmit={onSubmit}
       />
       <Select

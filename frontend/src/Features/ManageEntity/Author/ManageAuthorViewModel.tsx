@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import {
-  map, sort, slice, range, reverse,
+  map, sort, slice, range, reverse, filter, compose, curry,
 } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
 import AuthorAPI from '../../../API/AuthorAPI';
@@ -15,6 +15,7 @@ function useAuthorsDataHolder() {
   const [authorsData, setAuthorsData] = useState<AuthorEntity[]>([]);
   const [preparedData, setPreparedData] = useState<AuthorEntity[]>([]);
 
+  const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [sortBy, setSortBy] = useState<IntBiFunction<AuthorEntity>>(() => AuthorSorter.byName);
   const [showsPerPage, setShowsPerPage] = useState(10);
@@ -27,18 +28,32 @@ function useAuthorsDataHolder() {
     setPreparedData(entities);
   };
 
+  const filterByQuery = (value: AuthorEntity) => value.name.toLowerCase().includes(
+    query.toLowerCase(),
+  );
+
+  const sortOrderFunc = (data: AuthorEntity[]) => (sortOrder === 'asc' ? data : reverse(data));
+
   useEffect(() => {
     if (authorsData.length === 0) return;
     const offset = (showsPerPage * page) - showsPerPage;
-    let data = sort(sortBy, authorsData);
-    data = sortOrder === 'asc' ? data : reverse(data);
-    data = slice(offset, offset + showsPerPage, data);
+    const sliceByOffset = slice(offset, offset + showsPerPage);
+
+    const filterPipeline = compose(
+      sortOrderFunc,
+      sort(sortBy),
+      filter(filterByQuery),
+    );
+
+    let data = filterPipeline(authorsData);
+    data = sliceByOffset(data);
     setPreparedData(data);
-  }, [authorsData, page, showsPerPage, sortBy, sortOrder]);
+  }, [authorsData, query, page, showsPerPage, sortBy, sortOrder]);
 
   return {
     authorsData: preparedData,
     setData,
+    setQuery,
     setSortBy,
     setSortOrder,
     showsPerPage,
@@ -112,6 +127,7 @@ export default function useManageAuthorViewModel() {
     sortByElement,
     pageElement,
     onSubmit: fetchAuthors,
+    setQuery: dataHolder.setQuery,
     setPage: dataHolder.setPage,
     setShowsPerPage: dataHolder.setShowsPerPage,
     setSortBy,

@@ -27,6 +27,7 @@ export default function ManageAuthorPage() {
           sortByElement={viewModel.sortByElement}
           onSubmit={viewModel.onSubmit}
           onCreateClick={openCreateDialog}
+          setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}
           setSortOrder={viewModel.setSortOrder}
         />
