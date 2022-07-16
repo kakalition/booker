@@ -1,13 +1,14 @@
 import {
   Button, FormControl, FormLabel, Input,
   Modal, ModalBody, ModalCloseButton,
-  ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast,
+  ModalContent, ModalFooter, ModalHeader, ModalOverlay,
 } from '@chakra-ui/react';
 import { AxiosResponse } from 'axios';
 import { useRef } from 'react';
 import PublisherAPI from '../../../../API/PublisherAPI';
+import ManageEntityDialog from '../../../../Functions/Interfaces/ManageEntityDialog';
 
-export default class ManagePublisherDialog {
+export default class ManagePublisherDialog implements ManageEntityDialog {
   private nameRef = useRef<any>();
 
   public createPayload = () => ({
@@ -16,7 +17,6 @@ export default class ManagePublisherDialog {
 
   public fetchData = (id: number, onFailed: (error: any) => void) => {
     const onFetchAuthorDataSuccess = (response: AxiosResponse) => {
-      console.log(response);
       this.nameRef.current.value = response.data.name;
     };
 

@@ -1,25 +1,11 @@
-import {
-  Button, FormControl, FormLabel, Input, useDisclosure, useToast,
-} from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
+import { useState } from 'react';
 import { AxiosResponse } from 'axios';
-import HtmlHelper from '../../Functions/Helpers/HtmlHelper';
-
-interface EntityDialog {
-  createPayload: any,
-  createModal: (
-    isEdit: boolean,
-    isOpen: boolean,
-    onClose: () => void,
-    editEntity: () => void,
-    postEntity: () => void,
-  ) => React.ReactNode,
-  fetchData: (id: number, onFailed: (error: any) => void) => void,
-}
+import ManageEntityDialog from '../../Functions/Interfaces/ManageEntityDialog';
 
 export default function useManageEntityDialog(
   entityName: string,
-  entityDialog: EntityDialog,
+  entityDialog: ManageEntityDialog,
   refetchCallback: () => void,
   createAPI: (payload: any) => Promise<AxiosResponse>,
   editAPI: (id: number, payload: any) => Promise<AxiosResponse>,
@@ -29,7 +15,7 @@ export default function useManageEntityDialog(
   const [tempId, setTempId] = useState(-1);
   const toast = useToast();
 
-  const onPostAuthorSuccess = (response: AxiosResponse) => {
+  const onPostEntitySuccess = (response: AxiosResponse) => {
     if (response.status === 201) {
       onClose();
       refetchCallback();
@@ -40,7 +26,7 @@ export default function useManageEntityDialog(
     }
   };
 
-  const onPostAuthorFailed = (error: any) => {
+  const onPostEntityFailed = (error: any) => {
     onClose();
     refetchCallback();
     toast({
@@ -50,10 +36,10 @@ export default function useManageEntityDialog(
 
   const postEntity = () => {
     createAPI(entityDialog.createPayload())
-      .then(onPostAuthorSuccess, onPostAuthorFailed);
+      .then(onPostEntitySuccess, onPostEntityFailed);
   };
 
-  const onEditAuthorSuccess = (response: AxiosResponse) => {
+  const onEditEntitySuccess = (response: AxiosResponse) => {
     if (response.status === 200) {
       onClose();
       refetchCallback();
@@ -64,7 +50,7 @@ export default function useManageEntityDialog(
     }
   };
 
-  const onEditAuthorFailed = (error: any) => {
+  const onEditEntityFailed = (error: any) => {
     onClose();
     refetchCallback();
     toast({
@@ -74,7 +60,7 @@ export default function useManageEntityDialog(
 
   const editEntity = () => {
     editAPI(tempId, entityDialog.createPayload())
-      .then(onEditAuthorSuccess, onEditAuthorFailed);
+      .then(onEditEntitySuccess, onEditEntityFailed);
   };
 
   const openCreateDialog = () => {
