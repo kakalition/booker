@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import BaseDialogComponent from '../../../Components/Dialog/BaseDialogComponent';
 import AuthorAPI from '../../../API/AuthorAPI';
+import HtmlHelper from '../../../Functions/Helpers/HtmlHelper';
 
 export default function useManageAuthorDialog(onSubmit: () => void) {
   const [isEdit, setIsEdit] = useState(false);
@@ -73,7 +74,7 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
     <>
       <Button variant="ghost" onClick={onClose}>Cancel</Button>
       <Button colorScheme="blue" ml={3} onClick={postAuthor}>
-        Save
+        {isEdit ? 'Edit' : 'Create'}
       </Button>
     </>
   );
@@ -93,9 +94,26 @@ export default function useManageAuthorDialog(onSubmit: () => void) {
     onOpen();
   };
 
-  const openEditDialog = () => {
+  const onFetchAuthorDataSuccess = (response: AxiosResponse) => {
+    nameRef.current.value = response.data.name;
+    dateRef.current.value = HtmlHelper.jsonToHtmlDate(response.data.birth_date);
+  };
+
+  const onFetchAuthorDataFailed = (error: any) => {
+    toast({
+      title: 'Failed to Get Author Data!', description: error.response.data.message, status: 'error', position: 'top',
+    });
+    onClose();
+  };
+
+  const fetchAuthorData = (id: number) => AuthorAPI
+    .singleGet(id)
+    .then(onFetchAuthorDataSuccess, onFetchAuthorDataFailed);
+
+  const openEditDialog = (id: number) => {
     setIsEdit(true);
     onOpen();
+    fetchAuthorData(id);
   };
 
   return {

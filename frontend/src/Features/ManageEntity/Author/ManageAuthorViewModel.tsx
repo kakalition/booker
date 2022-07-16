@@ -1,4 +1,6 @@
-import { Checkbox, Td, Tr } from '@chakra-ui/react';
+import {
+  Checkbox, IconButton, Td, Tr,
+} from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { AxiosResponse } from 'axios';
 import { useEffect, useMemo, useState } from 'react';
@@ -26,23 +28,32 @@ export default function useManageAuthorViewModel() {
 
   useEffect(() => { fetchAuthors(); }, []);
 
-  const authorsElement = useMemo(() => authorsData.map((element, index) => (
-    <Tr>
-      <Td>{index + 1}</Td>
-      <Td>{element.name}</Td>
-      <Td>{element.birth_date}</Td>
-      <Td>{element.total_books}</Td>
-      <Td>{element.total_copies_owned}</Td>
-      <Td>{element.currently_borrowed}</Td>
-      <Td>
-        <div className="flex flex-row items-center gap-6">
-          <PencilIcon className="h-6 w-6 stroke-gray-500" />
-          <TrashIcon className="h-6 w-6 stroke-gray-500" />
-          <Checkbox size="lg" />
-        </div>
-      </Td>
-    </Tr>
-  )), [authorsData]);
+  const authorsElement = useMemo(
+    () => authorsData.map(
+      (element, index) => function (onEditClick: (id: number) => void) {
+        return (
+          <Tr>
+            <Td>{index + 1}</Td>
+            <Td>{element.name}</Td>
+            <Td>{element.birth_date}</Td>
+            <Td>{element.total_books}</Td>
+            <Td>{element.total_copies_owned}</Td>
+            <Td>{element.currently_borrowed}</Td>
+            <Td>
+              <div className="flex flex-row items-center gap-6">
+                <IconButton aria-label="edit author" onClick={() => onEditClick(element.id)}>
+                  <PencilIcon className="h-6 w-6 stroke-gray-500" />
+                </IconButton>
+                <TrashIcon className="h-6 w-6 stroke-gray-500" />
+                <Checkbox size="lg" />
+              </div>
+            </Td>
+          </Tr>
+        );
+      },
+    ),
+    [authorsData],
+  );
 
   const sortByElement = useMemo(() => (
     <>

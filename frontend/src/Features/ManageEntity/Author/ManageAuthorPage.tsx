@@ -12,6 +12,8 @@ export default function ManageAuthorPage() {
     openCreateDialog, openEditDialog, ModalComponent,
   } = useManageAuthorDialog(viewModel.onSubmit);
 
+  const tbodyElements = viewModel.authorsElement.map((element) => element(openEditDialog));
+
   return (
     <BasePage path="manage-author">
       <div className="w-full p-12">
@@ -21,7 +23,7 @@ export default function ManageAuthorPage() {
           onSubmit={viewModel.onSubmit}
           onCreateClick={openCreateDialog}
         />
-        <ManageAuthorTable tbodyElements={viewModel.authorsElement} />
+        <ManageAuthorTable tbodyElements={tbodyElements} />
         <PaginationComponent
           pageElement={viewModel.pageElement}
           onSubmit={viewModel.onSubmit}

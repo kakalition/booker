@@ -45,7 +45,7 @@ class AuthorController extends Controller
 
   public function show(Author $author)
   {
-    //
+    return response($author, 200);
   }
 
   public function update(UpdateAuthorRequest $request, Author $author, AuthorService $service)
