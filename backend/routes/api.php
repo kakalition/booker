@@ -67,7 +67,7 @@ Route::controller(BorrowerController::class)
   });
 
 Route::apiResources([
-  'author' => AuthorController::class,
-  'publisher' => PublisherController::class,
-  'shelf' => ShelfController::class,
+  'authors' => AuthorController::class,
+  'publishers' => PublisherController::class,
+  'shelves' => ShelfController::class,
 ]);

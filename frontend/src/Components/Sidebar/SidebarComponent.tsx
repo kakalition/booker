@@ -16,7 +16,7 @@ export default function SidebarComponent() {
   const clockIcon = (<ClockIcon className="h-6 w-6 stroke-gray-600" />);
 
   return (
-    <div className="relative flex h-full w-full flex-col border-r-2 border-r-gray-200 px-2 py-8">
+    <div className="relative flex h-full w-full flex-col border-r border-r-gray-200 px-2 py-8">
       <div className="mb-8">
         <BookerLogoWithText />
       </div>

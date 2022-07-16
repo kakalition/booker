@@ -7,13 +7,22 @@ use App\Http\Requests\UpdateAuthorRequest;
 use App\Models\Author;
 use App\Services\AuthorService;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
-  public function index(AuthorService $service)
+  public function index(Request $request, AuthorService $service)
   {
+    Log::info($request->fullUrl());
     try {
-      $authors = $service->fetchAll();
+      $authors = $service->fetchAll(
+        $request->query('query'),
+        $request->query('page'),
+        $request->query('shows-per-page'),
+        $request->query('sort-by'),
+        $request->query('sort-order'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -36,7 +45,7 @@ class AuthorController extends Controller
 
   public function show(Author $author)
   {
-    //
+    return response($author, 200);
   }
 
   public function update(UpdateAuthorRequest $request, Author $author, AuthorService $service)
