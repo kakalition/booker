@@ -4,34 +4,19 @@ import {
 } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
 import AuthorAPI from '../../../API/AuthorAPI';
+import AuthorSorter from '../../../Functions/Helpers/AuthorSorter';
 import IntBiFunction from '../../../Functions/Interfaces/IntBiFunction';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import ManageAuthorMapper from '../../../Functions/Mappers/ManageAuthorMapper';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
-
-type SortOrder = 'asc' | 'desc';
-
-const sortByName: IntBiFunction<AuthorEntity> = (a, b) => {
-  if (a.name < b.name) return -1;
-  if (a.name > b.name) return 1;
-  return 0;
-};
-
-const sortByBirthDate: IntBiFunction<AuthorEntity> = (a, b) => {
-  const aDate = new Date(a.birth_date);
-  const bDate = new Date(b.birth_date);
-
-  if (aDate < bDate) return -1;
-  if (aDate > bDate) return 1;
-  return 0;
-};
+import SortOrder from '../../../Types/SortOrder';
 
 function useAuthorsDataHolder() {
   const [authorsData, setAuthorsData] = useState<AuthorEntity[]>([]);
   const [preparedData, setPreparedData] = useState<AuthorEntity[]>([]);
 
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-  const [sortBy, setSortBy] = useState<IntBiFunction<AuthorEntity>>(() => sortByName);
+  const [sortBy, setSortBy] = useState<IntBiFunction<AuthorEntity>>(() => AuthorSorter.byName);
   const [showsPerPage, setShowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -98,14 +83,14 @@ export default function useManageAuthorViewModel() {
   const setSortBy = (value: string) => {
     switch (value) {
       case 'name': {
-        dataHolder.setSortBy(() => sortByName);
+        dataHolder.setSortBy(() => AuthorSorter.byName);
         break;
       }
       case 'birth-date': {
-        dataHolder.setSortBy(() => sortByBirthDate);
+        dataHolder.setSortBy(() => AuthorSorter.byBirthDate);
         break;
       }
-      default: dataHolder.setSortBy(sortByName);
+      default: dataHolder.setSortBy(AuthorSorter.byName);
     }
   };
 

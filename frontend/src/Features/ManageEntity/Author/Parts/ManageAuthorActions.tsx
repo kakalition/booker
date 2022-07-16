@@ -1,13 +1,14 @@
 import { Button, Select } from '@chakra-ui/react';
 import React from 'react';
 import SearchbarComponent from '../../../../Components/Searchbar/SearchbarComponent';
+import SortOrder from '../../../../Types/SortOrder';
 
 type Params = {
   sortByElement: React.ReactNode
   onSubmit: (values: any) => void,
   onCreateClick: React.MouseEventHandler,
   setSortBy: (value: string) => void,
-  setSortOrder: (value: string) => void,
+  setSortOrder: (value: SortOrder) => void,
 };
 
 export default function ManageAuthorActions(params: Params) {
@@ -36,7 +37,7 @@ export default function ManageAuthorActions(params: Params) {
         name="sort-order"
         placeholder="Sort Order"
         defaultValue="asc"
-        onChange={(event) => setSortOrder(event.target.value)}
+        onChange={(event) => setSortOrder(event.target.value as SortOrder)}
         w="20%"
       >
         <option value="asc">Ascending</option>
