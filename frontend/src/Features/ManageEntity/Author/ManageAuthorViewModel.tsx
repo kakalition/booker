@@ -16,7 +16,7 @@ export default function useManageAuthorViewModel() {
   const filterByQuery: EntityFilterByQuery<AuthorEntity> = (query: string):
   Predicate<AuthorEntity> => (value) => value.name.toLowerCase().includes(query.toLowerCase());
 
-  const dataHolder = useEntityDataHolder(AuthorSorter.byName, filterByQuery);
+  const dataHolder = useEntityDataHolder<AuthorEntity>(AuthorSorter.byName, filterByQuery);
 
   const onFetchSuccess = (response: AxiosResponse) => {
     const data = map(EntityMapper.author, response.data);

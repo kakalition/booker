@@ -4,8 +4,7 @@ import BasePage from '../../Components/BasePage';
 import useManageAuthorDeletion from './ManageAuthorDeletion';
 import useManageAuthorDialog from './ManageAuthorDialog';
 import useManageAuthorViewModel from './ManageAuthorViewModel';
-import ManageAuthorActions from './Parts/ManageAuthorActions';
-import ManageAuthorHeader from './Parts/ManageAuthorHeader';
+import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import ManageAuthorTable from './Parts/ManageAuthorTable';
 
 export default function ManageAuthorPage() {
@@ -27,7 +26,7 @@ export default function ManageAuthorPage() {
     <BasePage path="manage-author">
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
-        <ManageAuthorActions
+        <ManageEntityActions
           sortByElement={viewModel.sortByElement}
           onSubmit={viewModel.onSubmit}
           onCreateClick={openCreateDialog}

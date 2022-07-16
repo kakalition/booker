@@ -5,6 +5,26 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { curry } from 'ramda';
 import AuthorEntity from '../../Types/Entities/AuthorEntity';
 
+type RowActionsParams = {
+  onEditClick: () => void,
+  onDeleteClick: () => void,
+};
+
+function RowActionsElement(params: RowActionsParams) {
+  const { onEditClick, onDeleteClick } = params;
+  return (
+    <div className="flex flex-row items-center gap-6">
+      <IconButton bgColor="transparent" aria-label="edit author" onClick={onEditClick}>
+        <PencilIcon className="h-6 w-6 stroke-gray-500" />
+      </IconButton>
+      <IconButton bgColor="transparent" aria-label="delete author" onClick={onDeleteClick}>
+        <TrashIcon className="h-6 w-6 stroke-gray-500" />
+      </IconButton>
+      <Checkbox size="lg" />
+    </div>
+  );
+}
+
 namespace ManageAuthorMapper {
   const tableRow = (
     element: AuthorEntity,
@@ -21,15 +41,10 @@ namespace ManageAuthorMapper {
       <Td>{element.total_copies_owned}</Td>
       <Td>{element.currently_borrowed}</Td>
       <Td>
-        <div className="flex flex-row items-center gap-6">
-          <IconButton bgColor="transparent" aria-label="edit author" onClick={() => onEditClick(element.id)}>
-            <PencilIcon className="h-6 w-6 stroke-gray-500" />
-          </IconButton>
-          <IconButton bgColor="transparent" aria-label="delete author" onClick={() => onDeleteClick(element.id)}>
-            <TrashIcon className="h-6 w-6 stroke-gray-500" />
-          </IconButton>
-          <Checkbox size="lg" />
-        </div>
+        <RowActionsElement
+          onEditClick={() => onEditClick(element.id)}
+          onDeleteClick={() => onDeleteClick(element.id)}
+        />
       </Td>
     </Tr>
   );

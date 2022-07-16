@@ -8,9 +8,18 @@ import SortOrder from '../../Types/SortOrder';
 
 export type EntityFilterByQuery<T> = (query: string) => Predicate<T>;
 
+const baseFilterByQuery: EntityFilterByQuery<any> = (query: string):
+Predicate<any> => (value: any) => value.name.toLowerCase().includes(query.toLowerCase());
+
+const baseSortName: IntBiFunction<any> = (a, b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+};
+
 export default function useEntityDataHolder<T>(
-  initialSorter: IntBiFunction<T>,
-  filterByQuery: EntityFilterByQuery<T>,
+  initialSorter: IntBiFunction<T> = baseSortName,
+  filterByQuery: EntityFilterByQuery<T> = baseFilterByQuery,
 ) {
   const [entityData, setEntityData] = useState<T[]>([]);
   const [preparedData, setPreparedData] = useState<T[]>([]);
