@@ -1,11 +1,12 @@
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
-import useManageAuthorDeletion from './ManageAuthorDeletion';
 import useManageAuthorDialog from './ManageAuthorDialog';
 import useManageAuthorViewModel from './ManageAuthorViewModel';
 import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import ManageAuthorTable from './Parts/ManageAuthorTable';
+import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
+import AuthorAPI from '../../../API/AuthorAPI';
 
 export default function ManageAuthorPage() {
   const viewModel = useManageAuthorViewModel();
@@ -13,7 +14,11 @@ export default function ManageAuthorPage() {
     openCreateDialog, openEditDialog, ModalComponent,
   } = useManageAuthorDialog(viewModel.onSubmit);
 
-  const { openDeleteDialog, alertDialogElement } = useManageAuthorDeletion(viewModel.onSubmit);
+  const { openDeleteDialog, AlertDialogElement } = useManageEntityDeletion(
+    'Author',
+    (id: number) => AuthorAPI.destroy(id),
+    viewModel.onSubmit,
+  );
 
   const headerTitle = 'Manage Author';
   const headerBody = 'You can see available authors and create new author here.';
@@ -42,7 +47,7 @@ export default function ManageAuthorPage() {
         />
       </div>
       <ModalComponent />
-      {alertDialogElement}
+      <AlertDialogElement />
     </BasePage>
   );
 }

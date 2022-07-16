@@ -26,7 +26,7 @@ export default function useManageEntityDeletion(
     if (response.status === 204) {
       onClose();
       refetchCallback();
-      toast({ title: `${entityName}Deleted!`, status: 'success', position: 'top' });
+      toast({ title: `${entityName} Deleted!`, status: 'success', position: 'top' });
     } else {
       onClose();
       console.log(response);
