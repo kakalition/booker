@@ -1,3 +1,3 @@
-type IntBiPredicate<T> = (a: T, b: T) => number;
+type IntBiFunction<T> = (a: T, b: T) => number;
 
-export default IntBiPredicate;
+export default IntBiFunction;

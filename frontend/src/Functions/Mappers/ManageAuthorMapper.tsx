@@ -34,10 +34,12 @@ namespace ManageAuthorMapper {
     </Tr>
   );
 
-  export const curriedTableRow = curry((startIndex: number, element: AuthorEntity, index: number) => (
-    onEditClick: (id: number) => void,
-    onDeleteClick: (id: number) => void,
-  ) => tableRow(element, index, startIndex, onEditClick, onDeleteClick));
+  export const curriedTableRow = curry(
+    (startIndex: number, element: AuthorEntity, index: number) => (
+      onEditClick: (id: number) => void,
+      onDeleteClick: (id: number) => void,
+    ) => tableRow(element, index, startIndex, onEditClick, onDeleteClick),
+  );
 }
 
 export default ManageAuthorMapper;

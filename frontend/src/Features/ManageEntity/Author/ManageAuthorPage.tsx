@@ -27,6 +27,8 @@ export default function ManageAuthorPage() {
           sortByElement={viewModel.sortByElement}
           onSubmit={viewModel.onSubmit}
           onCreateClick={openCreateDialog}
+          setSortBy={viewModel.setSortBy}
+          setSortOrder={viewModel.setSortOrder}
         />
         <ManageAuthorTable tbodyElements={tbodyElements} />
         <PaginationComponent
