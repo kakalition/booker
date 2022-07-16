@@ -31,7 +31,8 @@ export default function ManageAuthorPage() {
         <ManageAuthorTable tbodyElements={tbodyElements} />
         <PaginationComponent
           pageElement={viewModel.pageElement}
-          onSubmit={viewModel.onSubmit}
+          setPage={viewModel.setPage}
+          setShowsPerPage={viewModel.setShowsPerPage}
         />
       </div>
       <ModalComponent />

@@ -2,17 +2,19 @@ import {
   Checkbox, IconButton, Td, Tr,
 } from '@chakra-ui/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import { curry } from 'ramda';
 import AuthorEntity from '../../Types/Entities/AuthorEntity';
 
 namespace ManageAuthorMapper {
   const tableRow = (
     element: AuthorEntity,
+    startIndex: number,
     index: number,
     onEditClick: (id: number) => void,
     onDeleteClick: (id: number) => void,
   ) => (
     <Tr key={element.id}>
-      <Td>{index + 1}</Td>
+      <Td>{startIndex + index + 1}</Td>
       <Td>{element.name}</Td>
       <Td>{element.birth_date}</Td>
       <Td>{element.total_books}</Td>
@@ -32,10 +34,10 @@ namespace ManageAuthorMapper {
     </Tr>
   );
 
-  export const curriedTableRow = (element: AuthorEntity, index: number) => (
+  export const curriedTableRow = curry((startIndex: number, element: AuthorEntity, index: number) => (
     onEditClick: (id: number) => void,
     onDeleteClick: (id: number) => void,
-  ) => tableRow(element, index, onEditClick, onDeleteClick);
+  ) => tableRow(element, index, startIndex, onEditClick, onDeleteClick));
 }
 
 export default ManageAuthorMapper;

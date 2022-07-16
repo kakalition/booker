@@ -1,37 +1,30 @@
 import { Select } from '@chakra-ui/react';
-import { useFormik } from 'formik';
-import React, { ChangeEventHandler } from 'react';
+import React, { useRef } from 'react';
 
 type Params = {
   pageElement: React.ReactNode,
-  onSubmit: () => void,
+  setPage: (page: number) => void,
+  setShowsPerPage: (value: number) => void,
 };
 
 export default function PaginationComponent(params: Params) {
-  const { pageElement, onSubmit } = params;
+  const {
+    pageElement, setPage, setShowsPerPage,
+  } = params;
 
-  const formik = useFormik({
-    initialValues: {
-      'pagination-total': 10,
-      'pagination-page': 1,
-    },
-    onSubmit,
-  });
-
-  const paginationChange: ChangeEventHandler = (event) => {
-    formik.handleChange(event);
-    formik.handleSubmit();
-  };
+  const showsPerPageRef = useRef<any>();
+  const pageRef = useRef<any>();
 
   return (
     <div className="flex w-full flex-row items-center justify-end gap-8">
       <div className="flex flex-row items-center">
         <p className="mr-4 whitespace-nowrap">Shows per page</p>
         <Select
+          ref={showsPerPageRef}
           id="pagination-total"
           name="pagination-total"
-          value={formik.values['pagination-total']}
-          onChange={paginationChange}
+          defaultValue="10"
+          onChange={(event) => setShowsPerPage(parseInt(event.target.value, 10))}
         >
           <option value="10">10</option>
           <option value="20">20</option>
@@ -43,10 +36,11 @@ export default function PaginationComponent(params: Params) {
       <div className="flex flex-row items-center">
         <p className="mr-4 whitespace-nowrap">Page</p>
         <Select
+          ref={pageRef}
           id="pagination-page"
           name="pagination-page"
-          value={formik.values['pagination-page']}
-          onChange={paginationChange}
+          defaultValue="1"
+          onChange={(event) => setPage(parseInt(event.target.value, 10))}
         >
           {pageElement}
         </Select>
