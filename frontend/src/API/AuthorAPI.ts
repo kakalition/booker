@@ -12,6 +12,9 @@ namespace AuthorAPI {
 
   export const edit = (id: number, payload: any) => axios
     .put(`/api/authors/${id}`, payload);
+
+  export const destroy = (id: number) => axios
+    .delete(`/api/authors/${id}`);
 }
 
 export default AuthorAPI;

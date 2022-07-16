@@ -30,7 +30,10 @@ export default function useManageAuthorViewModel() {
 
   const authorsElement = useMemo(
     () => authorsData.map(
-      (element, index) => function (onEditClick: (id: number) => void) {
+      (element, index) => function (
+        onEditClick: (id: number) => void,
+        onDeleteClick: (id: number) => void,
+      ) {
         return (
           <Tr>
             <Td>{index + 1}</Td>
@@ -44,7 +47,9 @@ export default function useManageAuthorViewModel() {
                 <IconButton aria-label="edit author" onClick={() => onEditClick(element.id)}>
                   <PencilIcon className="h-6 w-6 stroke-gray-500" />
                 </IconButton>
-                <TrashIcon className="h-6 w-6 stroke-gray-500" />
+                <IconButton aria-label="delete author" onClick={() => onDeleteClick(element.id)}>
+                  <TrashIcon className="h-6 w-6 stroke-gray-500" />
+                </IconButton>
                 <Checkbox size="lg" />
               </div>
             </Td>
@@ -73,7 +78,7 @@ export default function useManageAuthorViewModel() {
   ), []);
 
   return {
-    authorsElement,
+    curriedAuthorsElement: authorsElement,
     sortByElement,
     pageElement,
     onSubmit: fetchAuthors,

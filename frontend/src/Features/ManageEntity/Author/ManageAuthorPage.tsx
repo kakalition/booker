@@ -1,5 +1,6 @@
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
+import useManageAuthorDeletion from './ManageAuthorDeletion';
 import useManageAuthorDialog from './ManageAuthorDialog';
 import useManageAuthorViewModel from './ManageAuthorViewModel';
 import ManageAuthorActions from './Parts/ManageAuthorActions';
@@ -12,7 +13,11 @@ export default function ManageAuthorPage() {
     openCreateDialog, openEditDialog, ModalComponent,
   } = useManageAuthorDialog(viewModel.onSubmit);
 
-  const tbodyElements = viewModel.authorsElement.map((element) => element(openEditDialog));
+  const { openDeleteDialog, alertDialogElement } = useManageAuthorDeletion(viewModel.onSubmit);
+
+  const tbodyElements = viewModel.curriedAuthorsElement.map(
+    (element) => element(openEditDialog, openDeleteDialog),
+  );
 
   return (
     <BasePage path="manage-author">
@@ -30,6 +35,7 @@ export default function ManageAuthorPage() {
         />
       </div>
       <ModalComponent />
+      {alertDialogElement}
     </BasePage>
   );
 }
