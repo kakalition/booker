@@ -1,18 +1,24 @@
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
-import useManageAuthorDialog from './ManageAuthorDialog';
 import useManageAuthorViewModel from './ManageAuthorViewModel';
 import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import ManageAuthorTable from './Parts/ManageAuthorTable';
 import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
 import AuthorAPI from '../../../API/AuthorAPI';
+import useManageEntityDialog from '../../../Components/ManageEntity/ManageEntityDialog';
+import ManageAuthorDialog from './Parts/ManageAuthorDialog';
 
 export default function ManageAuthorPage() {
   const viewModel = useManageAuthorViewModel();
-  const {
-    openCreateDialog, openEditDialog, ModalComponent,
-  } = useManageAuthorDialog(viewModel.onSubmit);
+
+  const { openCreateDialog, openEditDialog, ModalComponent } = useManageEntityDialog(
+    'Author',
+    new ManageAuthorDialog(),
+    viewModel.onSubmit,
+    AuthorAPI.post,
+    AuthorAPI.edit,
+  );
 
   const { openDeleteDialog, AlertDialogElement } = useManageEntityDeletion(
     'Author',
@@ -46,7 +52,7 @@ export default function ManageAuthorPage() {
           setShowsPerPage={viewModel.setShowsPerPage}
         />
       </div>
-      <ModalComponent />
+      {ModalComponent}
       <AlertDialogElement />
     </BasePage>
   );

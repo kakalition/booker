@@ -5,18 +5,14 @@ import {
 import { useEffect, useMemo } from 'react';
 import AuthorAPI from '../../../API/AuthorAPI';
 import AuthorSorter from '../../../Functions/Helpers/AuthorSorter';
-import Predicate from '../../../Functions/Interfaces/Predicate';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import ManageAuthorMapper from '../../../Functions/Mappers/ManageAuthorMapper';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
 import SortOrder from '../../../Types/SortOrder';
-import useEntityDataHolder, { EntityFilterByQuery } from '../EntityDataHolder';
+import useEntityDataHolder from '../EntityDataHolder';
 
 export default function useManageAuthorViewModel() {
-  const filterByQuery: EntityFilterByQuery<AuthorEntity> = (query: string):
-  Predicate<AuthorEntity> => (value) => value.name.toLowerCase().includes(query.toLowerCase());
-
-  const dataHolder = useEntityDataHolder<AuthorEntity>(AuthorSorter.byName, filterByQuery);
+  const dataHolder = useEntityDataHolder<AuthorEntity>();
 
   const onFetchSuccess = (response: AxiosResponse) => {
     const data = map(EntityMapper.author, response.data);

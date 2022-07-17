@@ -1,5 +1,5 @@
 interface ManageEntityDialog {
-  createPayload: any,
+  createPayload: () => any,
   createModal: (
     isEdit: boolean,
     isOpen: boolean,
