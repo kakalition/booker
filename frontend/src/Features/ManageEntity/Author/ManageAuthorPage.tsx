@@ -29,7 +29,7 @@ export default function ManageAuthorPage() {
   const headerTitle = 'Manage Author';
   const headerBody = 'You can see available authors and create new author here.';
 
-  const tbodyElements = viewModel.curriedAuthorsElement.map(
+  const tbodyElements = viewModel.curriedEntitiesElement.map(
     (element) => element(openEditDialog, openDeleteDialog),
   );
 
@@ -38,8 +38,7 @@ export default function ManageAuthorPage() {
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
-          sortByElement={viewModel.sortByElement}
-          onSubmit={viewModel.refetchData}
+          sortByElement={viewModel.sortByElements}
           onCreateClick={openCreateDialog}
           setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}
@@ -47,7 +46,7 @@ export default function ManageAuthorPage() {
         />
         <ManageAuthorTable tbodyElements={tbodyElements} />
         <PaginationComponent
-          pageElement={viewModel.pageElement}
+          pageElement={viewModel.pageElements}
           setPage={viewModel.setPage}
           setShowsPerPage={viewModel.setShowsPerPage}
         />
