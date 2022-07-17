@@ -1,4 +1,5 @@
 import AuthorEntity from '../../Types/Entities/AuthorEntity';
+import BookEntity from '../../Types/Entities/BookEntity';
 import PublisherEntity from '../../Types/Entities/PublisherEntity';
 
 namespace EntityMapper {
@@ -19,6 +20,20 @@ namespace EntityMapper {
     const entity: PublisherEntity = {
       id: json.id,
       name: json.name,
+    };
+
+    return entity;
+  };
+
+  export const book = (json: any) => {
+    const entity: BookEntity = {
+      id: json.id,
+      isbn: json.isbn,
+      title: json.title,
+      author: json.author,
+      publisher: json.publisher,
+      published_at: json.published_at,
+      total_copies_owned: json.total_copies_owned,
     };
 
     return entity;
