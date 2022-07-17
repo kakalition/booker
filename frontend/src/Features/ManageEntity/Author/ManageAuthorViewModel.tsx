@@ -72,7 +72,7 @@ export default function useManageAuthorViewModel() {
     curriedAuthorsElement: authorsElement,
     sortByElement,
     pageElement,
-    onSubmit: fetchAuthors,
+    refetchData: fetchAuthors,
     setQuery: dataHolder.setQuery,
     setPage: dataHolder.setPage,
     setShowsPerPage: dataHolder.setShowsPerPage,

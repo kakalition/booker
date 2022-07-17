@@ -60,7 +60,7 @@ export default function useManagePublisherViewModel() {
     curriedAuthorsElement: authorsElement,
     sortByElement,
     pageElement,
-    onSubmit: fetchPublishers,
+    refetchData: fetchPublishers,
     setQuery: dataHolder.setQuery,
     setPage: dataHolder.setPage,
     setShowsPerPage: dataHolder.setShowsPerPage,

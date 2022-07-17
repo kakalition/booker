@@ -5,7 +5,6 @@ import SortOrder from '../../Types/SortOrder';
 
 type Params = {
   sortByElement: React.ReactNode
-  onSubmit: (values: any) => void,
   onCreateClick: React.MouseEventHandler,
   setQuery: (value: string) => void,
   setSortBy: (value: string) => void,
@@ -14,7 +13,7 @@ type Params = {
 
 export default function ManageEntityActions(params: Params) {
   const {
-    sortByElement, onSubmit, onCreateClick,
+    sortByElement, onCreateClick,
     setSortBy, setSortOrder, setQuery,
   } = params;
 
@@ -22,7 +21,6 @@ export default function ManageEntityActions(params: Params) {
     <div className="my-8 flex w-full flex-row gap-4">
       <SearchbarComponent
         onChange={setQuery}
-        onSubmit={onSubmit}
       />
       <Select
         id="sort-by"

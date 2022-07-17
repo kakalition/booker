@@ -15,7 +15,7 @@ export default function ManageAuthorPage() {
   const { openCreateDialog, openEditDialog, ModalComponent } = useManageEntityDialog(
     'Author',
     new ManageAuthorDialog(),
-    viewModel.onSubmit,
+    viewModel.refetchData,
     AuthorAPI.post,
     AuthorAPI.edit,
   );
@@ -23,7 +23,7 @@ export default function ManageAuthorPage() {
   const { openDeleteDialog, AlertDialogElement } = useManageEntityDeletion(
     'Author',
     (id: number) => AuthorAPI.destroy(id),
-    viewModel.onSubmit,
+    viewModel.refetchData,
   );
 
   const headerTitle = 'Manage Author';
@@ -39,7 +39,7 @@ export default function ManageAuthorPage() {
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
           sortByElement={viewModel.sortByElement}
-          onSubmit={viewModel.onSubmit}
+          onSubmit={viewModel.refetchData}
           onCreateClick={openCreateDialog}
           setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}

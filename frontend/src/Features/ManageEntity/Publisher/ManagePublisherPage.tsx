@@ -15,7 +15,7 @@ export default function ManagePublisherPage() {
   const { openCreateDialog, openEditDialog, ModalComponent } = useManageEntityDialog(
     'Publisher',
     new ManagePublisherDialog(),
-    viewModel.onSubmit,
+    viewModel.refetchData,
     PublisherAPI.post,
     PublisherAPI.edit,
   );
@@ -23,7 +23,7 @@ export default function ManagePublisherPage() {
   const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
     'Publisher',
     (id: number) => PublisherAPI.destroy(id),
-    viewModel.onSubmit,
+    viewModel.refetchData,
   );
 
   const headerTitle = 'Manage Publisher';
@@ -39,7 +39,6 @@ export default function ManagePublisherPage() {
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
           sortByElement={viewModel.sortByElement}
-          onSubmit={viewModel.onSubmit}
           onCreateClick={openCreateDialog}
           setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}

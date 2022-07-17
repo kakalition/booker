@@ -3,7 +3,6 @@ import { SearchIcon } from '@heroicons/react/outline';
 
 type Params = {
   onChange: (value: string) => void,
-  onSubmit: (values: any) => void
 };
 
 export default function SearchbarComponent(params: Params) {
