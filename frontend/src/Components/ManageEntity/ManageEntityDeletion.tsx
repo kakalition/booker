@@ -10,10 +10,13 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { AxiosResponse } from 'axios';
-import React, { useRef, useState } from 'react';
-import AuthorAPI from '../../../API/AuthorAPI';
+import { useRef, useState } from 'react';
 
-export default function useManageAuthorDeletion(onSubmit: () => void) {
+export default function useManageEntityDeletion(
+  entityName: string,
+  deleteAPI: (id: number) => Promise<AxiosResponse>,
+  refetchCallback: () => void,
+) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tempId, setTempId] = useState(-1);
   const cancelRef = useRef<any>();
@@ -22,8 +25,8 @@ export default function useManageAuthorDeletion(onSubmit: () => void) {
   const onDeleteSuccess = (response: AxiosResponse) => {
     if (response.status === 204) {
       onClose();
-      onSubmit();
-      toast({ title: 'Author Deleted!', status: 'success', position: 'top' });
+      refetchCallback();
+      toast({ title: `${entityName} Deleted!`, status: 'success', position: 'top' });
     } else {
       onClose();
       console.log(response);
@@ -32,16 +35,14 @@ export default function useManageAuthorDeletion(onSubmit: () => void) {
 
   const onDeleteFailed = (error: any) => {
     onClose();
-    onSubmit();
+    refetchCallback();
     toast({
-      title: 'Failed to Create Author!', description: error.response.data.message, status: 'error', position: 'top',
+      title: `Failed to Create ${entityName}!`, description: error.response.data.message, status: 'error', position: 'top',
     });
   };
 
-  const deleteAuthor = () => {
-    AuthorAPI
-      .destroy(tempId)
-      .then(onDeleteSuccess, onDeleteFailed);
+  const deleteEntity = () => {
+    deleteAPI(tempId).then(onDeleteSuccess, onDeleteFailed);
   };
 
   const alertDialogElement = (
@@ -54,7 +55,7 @@ export default function useManageAuthorDeletion(onSubmit: () => void) {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Delete Author
+            {`Delete ${entityName}`}
           </AlertDialogHeader>
 
           <AlertDialogBody>
@@ -65,7 +66,7 @@ export default function useManageAuthorDeletion(onSubmit: () => void) {
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={deleteAuthor} ml={3}>
+            <Button colorScheme="red" onClick={deleteEntity} ml={3}>
               Delete
             </Button>
           </AlertDialogFooter>
@@ -81,6 +82,6 @@ export default function useManageAuthorDeletion(onSubmit: () => void) {
 
   return {
     openDeleteDialog,
-    alertDialogElement,
+    AlertDialogElement: () => alertDialogElement,
   };
 }

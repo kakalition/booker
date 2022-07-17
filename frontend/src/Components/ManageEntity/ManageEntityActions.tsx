@@ -1,7 +1,7 @@
 import { Button, Select } from '@chakra-ui/react';
 import React from 'react';
-import SearchbarComponent from '../../../../Components/Searchbar/SearchbarComponent';
-import SortOrder from '../../../../Types/SortOrder';
+import SearchbarComponent from '../Searchbar/SearchbarComponent';
+import SortOrder from '../../Types/SortOrder';
 
 type Params = {
   sortByElement: React.ReactNode
@@ -12,7 +12,7 @@ type Params = {
   setSortOrder: (value: SortOrder) => void,
 };
 
-export default function ManageAuthorActions(params: Params) {
+export default function ManageEntityActions(params: Params) {
   const {
     sortByElement, onSubmit, onCreateClick,
     setSortBy, setSortOrder, setQuery,
