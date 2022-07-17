@@ -37,7 +37,7 @@ Route::controller(GenreController::class)
   });
 
 Route::controller(BookController::class)
-  ->middleware(EnsureLoggedIn::class)
+  //->middleware(EnsureLoggedIn::class)
   ->group(function () {
     Route::get('/books', 'index');
     Route::post('/books', 'store');

@@ -39,7 +39,7 @@ export default class ManageBookDialog implements ManageEntityDialog {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{`${isEdit ? 'Edit' : 'Create'} Publisher`}</ModalHeader>
+        <ModalHeader>{`${isEdit ? 'Edit' : 'Create'} Book`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
           <form>
