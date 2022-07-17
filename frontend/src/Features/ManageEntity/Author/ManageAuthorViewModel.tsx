@@ -5,13 +5,14 @@ import {
 import { useEffect, useMemo } from 'react';
 import AuthorAPI from '../../../API/AuthorAPI';
 import AuthorSorter from '../../../Functions/Helpers/AuthorSorter';
+import ManageEntityViewModel from '../../../Functions/Interfaces/ManageEntityViewModel';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import ManageAuthorMapper from '../../../Functions/Mappers/ManageAuthorMapper';
 import AuthorEntity from '../../../Types/Entities/AuthorEntity';
 import SortOrder from '../../../Types/SortOrder';
 import useEntityDataHolder from '../EntityDataHolder';
 
-export default function useManageAuthorViewModel() {
+export default function useManageAuthorViewModel(): ManageEntityViewModel {
   const dataHolder = useEntityDataHolder<AuthorEntity>();
 
   const onFetchSuccess = (response: AxiosResponse) => {
@@ -31,7 +32,7 @@ export default function useManageAuthorViewModel() {
     [dataHolder.entityData],
   );
 
-  const sortByElement = useMemo(() => (
+  const sortByElements = useMemo(() => (
     <>
       <option value="name">Name</option>
       <option value="birth-date">Birth date</option>
@@ -59,7 +60,7 @@ export default function useManageAuthorViewModel() {
     dataHolder.setSortOrder(value);
   };
 
-  const pageElement = useMemo(() => {
+  const pageElements = useMemo(() => {
     const intRange = range(1, dataHolder.totalPage);
     const element = intRange.map((value) => (
       <option value={value}>{value}</option>
@@ -69,9 +70,9 @@ export default function useManageAuthorViewModel() {
   }, [dataHolder.totalPage]);
 
   return {
-    curriedAuthorsElement: authorsElement,
-    sortByElement,
-    pageElement,
+    curriedEntitiesElement: authorsElement,
+    sortByElements,
+    pageElements,
     refetchData: fetchAuthors,
     setQuery: dataHolder.setQuery,
     setPage: dataHolder.setPage,

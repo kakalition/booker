@@ -29,7 +29,7 @@ export default function ManagePublisherPage() {
   const headerTitle = 'Manage Publisher';
   const headerBody = 'You can see available publishers and create new publisher here.';
 
-  const tbodyElements = viewModel.curriedAuthorsElement.map(
+  const tbodyElements = viewModel.curriedEntitiesElement.map(
     (element) => element(openEditDialog, openDeleteDialog),
   );
 
@@ -38,7 +38,7 @@ export default function ManagePublisherPage() {
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
-          sortByElement={viewModel.sortByElement}
+          sortByElement={viewModel.sortByElements}
           onCreateClick={openCreateDialog}
           setQuery={viewModel.setQuery}
           setSortBy={viewModel.setSortBy}
@@ -46,7 +46,7 @@ export default function ManagePublisherPage() {
         />
         <ManagePublisherTable tbodyElements={tbodyElements} />
         <PaginationComponent
-          pageElement={viewModel.pageElement}
+          pageElement={viewModel.pageElements}
           setPage={viewModel.setPage}
           setShowsPerPage={viewModel.setShowsPerPage}
         />

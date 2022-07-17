@@ -3,13 +3,14 @@ import { map, range } from 'ramda';
 import { useEffect, useMemo } from 'react';
 import PublisherAPI from '../../../API/PublisherAPI';
 import EntitySorter from '../../../Functions/Helpers/EntitySorter';
+import ManageEntityViewModel from '../../../Functions/Interfaces/ManageEntityViewModel';
 import EntityMapper from '../../../Functions/Mappers/EntityMapper';
 import ManagePublisherMapper from '../../../Functions/Mappers/ManagePublisherMapper';
 import PublisherEntity from '../../../Types/Entities/PublisherEntity';
 import SortOrder from '../../../Types/SortOrder';
 import useEntityDataHolder from '../EntityDataHolder';
 
-export default function useManagePublisherViewModel() {
+export default function useManagePublisherViewModel(): ManageEntityViewModel {
   const dataHolder = useEntityDataHolder<PublisherEntity>();
 
   const onFetchDataSuccess = (response: AxiosResponse) => {
@@ -29,7 +30,7 @@ export default function useManagePublisherViewModel() {
     [dataHolder.entityData],
   );
 
-  const sortByElement = useMemo(() => (
+  const sortByElements = useMemo(() => (
     <option value="name">Name</option>
   ), []);
 
@@ -47,7 +48,7 @@ export default function useManagePublisherViewModel() {
     dataHolder.setSortOrder(value);
   };
 
-  const pageElement = useMemo(() => {
+  const pageElements = useMemo(() => {
     const intRange = range(1, dataHolder.totalPage);
     const element = intRange.map((value) => (
       <option value={value}>{value}</option>
@@ -57,9 +58,9 @@ export default function useManagePublisherViewModel() {
   }, [dataHolder.totalPage]);
 
   return {
-    curriedAuthorsElement: authorsElement,
-    sortByElement,
-    pageElement,
+    curriedEntitiesElement: authorsElement,
+    sortByElements,
+    pageElements,
     refetchData: fetchPublishers,
     setQuery: dataHolder.setQuery,
     setPage: dataHolder.setPage,
