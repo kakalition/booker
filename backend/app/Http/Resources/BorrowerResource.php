@@ -18,6 +18,9 @@ class BorrowerResource extends JsonResource
       'id' => $this->id,
       'visitor' => $this->visitor()->first(),
       'book' => $this->book()->first(),
+      'end_date' => $this->end_date,
+      'status' => $this->status,
+      'is_overdue' => null,
     ];
   }
 }

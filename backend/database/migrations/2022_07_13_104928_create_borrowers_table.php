@@ -22,6 +22,7 @@ return new class extends Migration
         ->constrained('books')
         ->cascadeOnDelete();
       $table->timestamp('end_date');
+      $table->boolean('status');
       $table->timestamps();
     });
   }
