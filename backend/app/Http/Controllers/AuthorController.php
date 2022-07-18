@@ -49,7 +49,11 @@ class AuthorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $authors = $service->update($author, $validatedData);
+      $authors = $service->update(
+        auth()->user()->id,
+        $author,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -60,7 +64,10 @@ class AuthorController extends Controller
   public function destroy(Author $author, AuthorService $service)
   {
     try {
-      $authors = $service->delete($author);
+      $authors = $service->delete(
+        auth()->user()->id,
+        $author
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

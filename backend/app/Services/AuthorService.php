@@ -18,6 +18,15 @@ class AuthorService
     return $author;
   }
 
+  private function _update(Author $author, array $data): Author
+  {
+    $author->name = $data['name'] ?? $author->name;
+    $author->birth_date = $data['birth_date'] ?? $author->birth_date;
+    $author->save();
+
+    return $author;
+  }
+
   public function fetchAll()
   {
     $authors = Author::all();
@@ -34,17 +43,20 @@ class AuthorService
     });
   }
 
-  public function update(Author $author, array $data): Author
+  public function update(int $userId, Author $author, array $data): Author
   {
-    $author->name = $data['name'] ?? $author->name;
-    $author->birth_date = $data['birth_date'] ?? $author->birth_date;
-    $author->save();
-
-    return $author;
+    return DB::transaction(function () use ($userId, $author, $data) {
+      $author = $this->_update($author, $data);
+      ActivityLog::updateAuthor($userId, $author->name);
+      return $author;
+    });
   }
 
-  public function delete(Author $author)
+  public function delete(int $userId, Author $author)
   {
-    $author->delete();
+    DB::transaction(function () use ($userId, $author) {
+      $author->delete();
+      ActivityLog::deleteAuthor($userId, $author->name);
+    });
   }
 }

@@ -18,16 +18,34 @@ class ActivityLog extends Model
 
   public static function createAuthor(int $userId, string $authorName)
   {
-    $user = User::find($userId);
-    if (!$user) {
-      throw new Exception('User not found');
-    }
+    $username = User::find($userId)->name;
 
-    $username = $user->name;
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 0,
       'message' => "$username added new author $authorName."
+    ]);
+  }
+
+  public static function updateAuthor(int $userId, string $authorName)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 1,
+      'message' => "$username updated new author $authorName."
+    ]);
+  }
+
+  public static function deleteAuthor(int $userId, string $authorName)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 2,
+      'message' => "$username deleted new author $authorName."
     ]);
   }
 }
