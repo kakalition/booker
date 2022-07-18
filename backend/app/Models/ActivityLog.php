@@ -48,4 +48,26 @@ class ActivityLog extends Model
       'message' => "$username deleted new author $authorName."
     ]);
   }
+
+  public static function checkIn(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 0,
+      'message' => "$username checked in $name."
+    ]);
+  }
+
+  public static function checkOut(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 1,
+      'message' => "$username checked out $name."
+    ]);
+  }
 }
