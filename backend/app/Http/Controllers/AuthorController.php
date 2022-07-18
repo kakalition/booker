@@ -8,7 +8,6 @@ use App\Models\Author;
 use App\Services\AuthorService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
