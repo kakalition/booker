@@ -16,11 +16,11 @@ class BorrowerResource extends JsonResource
   {
     return [
       'id' => $this->id,
-      'visitor' => $this->visitor()->first(),
+      'visitor' => $this->visitorName(),
       'book' => $this->book()->first(),
       'end_date' => $this->end_date,
-      'status' => $this->status,
-      'is_overdue' => null,
+      'status' => $this->status == 0 ? 'Borrowed' : 'Returned',
+      'is_overdue' => $this->isOverdue(),
     ];
   }
 }
