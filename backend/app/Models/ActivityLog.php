@@ -94,6 +94,22 @@ class ActivityLog extends Model
     self::baseDelete('genre', $userId, $name);
   }
 
+  public static function createVisitor(int $userId, string $name)
+  {
+    self::baseCreate('visitor', $userId, $name);
+  }
+
+  public static function updateVisitor(int $userId, string $name)
+  {
+    self::baseUpdate('visitor', $userId, $name);
+  }
+
+  public static function deleteVisitor(int $userId, string $name)
+  {
+    self::baseDelete('visitor', $userId, $name);
+  }
+
+
   public static function checkIn(int $userId, string $name)
   {
     $username = User::find($userId)->name;

@@ -26,7 +26,10 @@ class VisitorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $visitor = $service->store($validatedData);
+      $visitor = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -44,7 +47,11 @@ class VisitorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $visitor = $service->update($visitor, $validatedData);
+      $visitor = $service->update(
+        auth()->user()->id,
+        $visitor,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -55,7 +62,10 @@ class VisitorController extends Controller
   public function destroy(Visitor $visitor, VisitorService $service)
   {
     try {
-      $service->delete($visitor);
+      $service->delete(
+        auth()->user()->id,
+        $visitor
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
