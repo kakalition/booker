@@ -27,9 +27,13 @@ class AuthorService
     return $author;
   }
 
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $authors = Author::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $authors = Author::queryDb($query, $orderBy, $count);
 
     return $authors;
   }

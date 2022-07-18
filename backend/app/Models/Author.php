@@ -15,6 +15,15 @@ class Author extends Model
     'birth_date'
   ];
 
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Author::query()
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
+  }
+
   public function books(): HasMany
   {
     return $this->hasMany(Book::class, 'author_id');

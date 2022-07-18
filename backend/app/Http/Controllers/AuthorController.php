@@ -15,7 +15,11 @@ class AuthorController extends Controller
   public function index(Request $request, AuthorService $service)
   {
     try {
-      $authors = $service->fetchAll();
+      $authors = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
