@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowerController;
@@ -71,3 +72,5 @@ Route::apiResources([
   'publishers' => PublisherController::class,
   'shelves' => ShelfController::class,
 ]);
+
+Route::get('/activity-logs', [ActivityLogController::class, 'index']);
