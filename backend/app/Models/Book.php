@@ -34,4 +34,14 @@ class Book extends Model
   {
     return $this->belongsTo(Genre::class, 'genre_id');
   }
+
+  public function authorName()
+  {
+    return $this->author->first()->name;
+  }
+
+  public function publisherName()
+  {
+    return $this->publisher->first()->name;
+  }
 }

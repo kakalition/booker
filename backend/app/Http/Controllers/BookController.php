@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Services\BookService;
 use Exception;
@@ -18,7 +19,7 @@ class BookController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($books->toJson(), 200);
+    return response(BookResource::collection($books), 200);
   }
 
   public function store(StoreBookRequest $request, BookService $service)
