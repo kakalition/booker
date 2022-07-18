@@ -18,8 +18,9 @@ class VisitorResource extends JsonResource
       'id' => $this->id,
       'name' => $this->name,
       'birth_date' => $this->birth_date,
-      'gender' => $this->gender,
+      'gender' => $this->gender == 1 ? 'Male' : 'Female',
       'email' => $this->email,
+      'overdue_borrows' => $this->overdueBorrows(),
       'created_at' => $this->created_at,
     ];
   }

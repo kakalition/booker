@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
+use App\Http\Resources\VisitorResource;
 use App\Models\Visitor;
 use App\Services\VisitorService;
 use Exception;
@@ -18,7 +19,7 @@ class VisitorController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($visitors->toJson(), 200);
+    return response(VisitorResource::collection($visitors), 200);
   }
 
   public function store(StoreVisitorRequest $request, VisitorService $service)

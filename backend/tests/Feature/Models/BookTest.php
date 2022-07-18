@@ -154,10 +154,10 @@ test('when test, should test. (HTTP test)', function () {
     'visitor_id' => 1,
     'book_id' => $book->json(0)['id'],
     'total_borrowed' => 10,
-    'end_date' => Carbon::now()->addDays(3),
+    'end_date' => Carbon::now()->subDay(),
   ]);
-  $response->assertCreated();
+  $response->dump();
 
-  $response = getJson('/api/books');
+  $response = getJson('/api/visitors');
   $response->dump();
 });
