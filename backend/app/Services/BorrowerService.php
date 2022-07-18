@@ -17,6 +17,20 @@ class BorrowerService
     }
   }
 
+  private function incrementAvailableCopies(int $bookId, int $totalBorrowed)
+  {
+    $book = Book::find($bookId);
+    $book->increment('total_available_copies', $totalBorrowed);
+  }
+
+  private function decrementAvailableCopies(int $bookId, int $totalBorrowed)
+  {
+    $book = Book::find($bookId);
+    $this->checksTotalAvailableCopies($book, $totalBorrowed);
+    $book->decrement('total_available_copies', $totalBorrowed);
+  }
+
+
   public function fetchAll()
   {
     $borrowers = Borrower::all();
@@ -29,11 +43,9 @@ class BorrowerService
     return DB::transaction(function () use ($userId, $data) {
       $data['status'] = 0;
 
-      $book = Book::find($data['book_id']);
-      $this->checksTotalAvailableCopies($book, $data['total_borrowed']);
+      $this->decrementAvailableCopies($data['book_id'], $data['total_borrowed']);
 
       $borrower = Borrower::create($data);
-      $book->decrement('total_available_copies', $data['total_borrowed']);
 
       ActivityLog::createBorrower($userId, $borrower->visitor->name);
 
@@ -43,10 +55,17 @@ class BorrowerService
 
   public function update(Borrower $borrower, array $data)
   {
-    $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
-    $borrower->save();
+    return DB::transaction(function () use ($borrower, $data) {
+      $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
+      $borrower->status = $data['status'] ?? $borrower->status;
 
-    return $borrower;
+      if ($data['status'] == 1) {
+        $this->incrementAvailableCopies($borrower->book_id, $borrower->total_borrowed);
+      }
+
+      $borrower->save();
+      return $borrower;
+    });
   }
 
   public function delete(Borrower $borrower)

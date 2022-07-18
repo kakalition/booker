@@ -12,6 +12,7 @@ use Tests\Helpers\Book;
 use Tests\Helpers\Genre;
 
 use function Pest\Laravel\getJson;
+use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\seed;
 
@@ -114,15 +115,31 @@ test('when test, should test. (HTTP 201)', function () {
 
   $book = Book::get();
   $bookId = $book->json(0)['id'];
-  $re1 = getJson("/api/books/$bookId")->dump();
+
+  $afterBorrowed = $book->json(0)['total_available_copies'] - 10;
+  $afterReturned = $book->json(0)['total_available_copies'];
 
   $response = postJson('/api/borrowers', [
     'visitor_id' => 1,
     'book_id' => $book->json(0)['id'],
-    'total_borrowed' => 1,
+    'total_borrowed' => 10,
     'end_date' => Carbon::now()->addDays(3),
   ]);
   $response->assertCreated();
 
-  $re2 = getJson("/api/books/$bookId")->dump();
+  $responseTwo = getJson("/api/books/$bookId");
+  $responseTwo->dump();
+  $responseTwo->assertJson([
+    'total_available_copies' => $afterBorrowed
+  ]);
+
+  $id = $response->json('id');
+  $responseThree = patchJson("/api/borrowers/$id", ['status' => 1]);
+  $responseThree->assertOk();
+
+  $responseFour = getJson("/api/books/$bookId");
+  $responseFour->dump();
+  $responseFour->assertJson([
+    'total_available_copies' => $afterReturned
+  ]);
 });
