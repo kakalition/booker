@@ -1,40 +1,40 @@
+import PublisherAPI from '../../../API/PublisherAPI';
+import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
+import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
+import useManageEntityDialog from '../../../Components/ManageEntity/ManageEntityDialog';
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
-import useManageAuthorViewModel from './ManageAuthorViewModel';
-import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
-import ManageAuthorTable from './Parts/ManageAuthorTable';
-import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
-import AuthorAPI from '../../../API/AuthorAPI';
-import useManageEntityDialog from '../../../Components/ManageEntity/ManageEntityDialog';
-import ManageAuthorDialog from './Parts/ManageAuthorDialog';
+import useManageBookViewModel from './ManageBookViewModel';
+import ManageBookDialog from './Parts/ManageBookDialog';
+import ManageBookTable from './Parts/ManageBookTable';
 
-export default function ManageAuthorPage() {
-  const viewModel = useManageAuthorViewModel();
+export default function ManageBookPage() {
+  const viewModel = useManageBookViewModel();
 
   const { openCreateDialog, openEditDialog, ModalComponent } = useManageEntityDialog(
-    'Author',
-    new ManageAuthorDialog(),
+    'Book',
+    new ManageBookDialog(),
     viewModel.refetchData,
-    AuthorAPI.post,
-    AuthorAPI.edit,
+    PublisherAPI.post,
+    PublisherAPI.edit,
   );
 
-  const { openDeleteDialog, AlertDialogElement } = useManageEntityDeletion(
-    'Author',
-    (id: number) => AuthorAPI.destroy(id),
+  const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
+    'Publisher',
+    (id: number) => PublisherAPI.destroy(id),
     viewModel.refetchData,
   );
 
-  const headerTitle = 'Manage Author';
-  const headerBody = 'You can see available authors and create new author here.';
+  const headerTitle = 'Manage Book';
+  const headerBody = 'You can see available books and create new book here.';
 
   const tbodyElements = viewModel.curriedEntitiesElement.map(
     (element) => element(openEditDialog, openDeleteDialog),
   );
 
   return (
-    <BasePage path="manage-author">
+    <BasePage path="manage-publisher">
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
@@ -44,15 +44,15 @@ export default function ManageAuthorPage() {
           setSortBy={viewModel.setSortBy}
           setSortOrder={viewModel.setSortOrder}
         />
-        <ManageAuthorTable tbodyElements={tbodyElements} />
+        <ManageBookTable tbodyElements={tbodyElements} />
         <PaginationComponent
           pageElement={viewModel.pageElements}
           setPage={viewModel.setPage}
           setShowsPerPage={viewModel.setShowsPerPage}
         />
       </div>
-      {ModalComponent}
       <AlertDialogElement />
+      {ModalComponent}
     </BasePage>
   );
 }

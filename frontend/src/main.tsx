@@ -10,8 +10,11 @@ import LoginPage from './Features/Login/LoginPage';
 import DashboardPage from './Features/Dashboard/DashboardPage';
 import ManageAuthorPage from './Features/ManageEntity/Author/ManageAuthorPage';
 import ManagePublisherPage from './Features/ManageEntity/Publisher/ManagePublisherPage';
+import ManageBookPage from './Features/ManageEntity/Book/ManageBookPage';
 
 axios.defaults.baseURL = 'http://localhost:8000';
+
+// TODO: Finish up Manage Book Dialog
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -24,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/manage-author" element={<ManageAuthorPage />} />
           <Route path="/manage-publisher" element={<ManagePublisherPage />} />
+          <Route path="/manage-book" element={<ManageBookPage />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -25,7 +25,7 @@ export default function useManagePublisherViewModel(): ManageEntityViewModel {
   useEffect(() => { fetchPublishers(); }, []);
 
   const mapper = ManagePublisherMapper.curriedTableRow(dataHolder.startIndex);
-  const authorsElement = useMemo(
+  const publishersElement = useMemo(
     () => dataHolder.entityData.map(mapper),
     [dataHolder.entityData],
   );
@@ -44,10 +44,6 @@ export default function useManagePublisherViewModel(): ManageEntityViewModel {
     }
   };
 
-  const setSortOrder = (value: SortOrder) => {
-    dataHolder.setSortOrder(value);
-  };
-
   const pageElements = useMemo(() => {
     const intRange = range(1, dataHolder.totalPage);
     const element = intRange.map((value) => (
@@ -58,7 +54,7 @@ export default function useManagePublisherViewModel(): ManageEntityViewModel {
   }, [dataHolder.totalPage]);
 
   return {
-    curriedEntitiesElement: authorsElement,
+    curriedEntitiesElement: publishersElement,
     sortByElements,
     pageElements,
     refetchData: fetchPublishers,
@@ -66,6 +62,6 @@ export default function useManagePublisherViewModel(): ManageEntityViewModel {
     setPage: dataHolder.setPage,
     setShowsPerPage: dataHolder.setShowsPerPage,
     setSortBy,
-    setSortOrder,
+    setSortOrder: dataHolder.setSortOrder,
   };
 }
