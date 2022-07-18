@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
-use App\Services\Book\CreateBook;
-use App\Services\Book\UpdateBook;
 use App\Services\BookService;
 use Exception;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class BookController extends Controller
 {
@@ -30,7 +26,10 @@ class BookController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $books = $service->store($validatedData);
+      $books = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -48,7 +47,11 @@ class BookController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $books = $service->update($book, $validatedData);
+      $books = $service->update(
+        auth()->user()->id,
+        $book,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -59,7 +62,10 @@ class BookController extends Controller
   public function destroy(Book $book, BookService $service)
   {
     try {
-      $service->delete($book);
+      $service->delete(
+        auth()->user()->id,
+        $book
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

@@ -15,6 +15,7 @@ class Book extends Model
     'author_id',
     'publisher_id',
     'genre_id',
+    'total_available_copies',
     'total_copies_owned',
     'published_at'
   ];

@@ -16,36 +16,36 @@ class ActivityLog extends Model
     'message'
   ];
 
-  private static function baseCreate(string $entity, int $userId, string $authorName)
+  private static function baseCreate(string $entity, int $userId, string $authorName, string $messagePart = 'added new')
   {
     $username = User::find($userId)->name;
 
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 0,
-      'message' => "$username added new $entity: $authorName."
+      'message' => "$username $messagePart $entity: $authorName."
     ]);
   }
 
-  private static function baseUpdate(string $entity, int $userId, string $authorName)
+  private static function baseUpdate(string $entity, int $userId, string $authorName, string $messagePart = 'updated new')
   {
     $username = User::find($userId)->name;
 
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 1,
-      'message' => "$username updated new $entity: $authorName."
+      'message' => "$username $messagePart $entity: $authorName."
     ]);
   }
 
-  private static function baseDelete(string $entity, int $userId, string $authorName)
+  private static function baseDelete(string $entity, int $userId, string $authorName, string $messagePart = 'deleted')
   {
     $username = User::find($userId)->name;
 
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 2,
-      'message' => "$username deleted new $entity: $authorName."
+      'message' => "$username $messagePart $entity: $authorName."
     ]);
   }
 
@@ -109,6 +109,20 @@ class ActivityLog extends Model
     self::baseDelete('visitor', $userId, $name);
   }
 
+  public static function createBook(int $userId, string $title)
+  {
+    self::baseCreate('book', $userId, $title);
+  }
+
+  public static function updateBook(int $userId, string $title)
+  {
+    self::baseUpdate('book', $userId, $title);
+  }
+
+  public static function deleteBook(int $userId, string $title)
+  {
+    self::baseDelete('book', $userId, $title);
+  }
 
   public static function checkIn(int $userId, string $name)
   {
