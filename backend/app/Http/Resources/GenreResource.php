@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthorResource extends JsonResource
+class GenreResource extends JsonResource
 {
   /**
    * Transform the resource into an array.
@@ -17,10 +17,10 @@ class AuthorResource extends JsonResource
     return [
       'id' => $this->id,
       'name' => $this->name,
-      'birth_date' => $this->birth_date,
-      'total_title_owned' => null,
-      'total_copies_owned' => null,
-      'total_copies_borrowed' => null,
+      'total_author' => null,
+      'total_genre' => null,
+      'total_title' => null,
+      'total_copies' => null,
     ];
   }
 }
