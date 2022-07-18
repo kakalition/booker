@@ -42,6 +42,7 @@ Route::controller(BookController::class)
   ->group(function () {
     Route::get('/books', 'index');
     Route::post('/books', 'store');
+    Route::get('/books/{book}', 'show');
     Route::put('/books/{book}', 'update');
     Route::patch('/books/{book}', 'update');
     Route::delete('/books/{book}', 'destroy');

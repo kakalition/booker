@@ -17,11 +17,13 @@ class Borrower extends Model
     'status',
   ];
 
-  public function visitor() {
+  public function visitor()
+  {
     return $this->belongsTo(Visitor::class, 'visitor_id');
   }
 
-  public function book() {
+  public function book()
+  {
     return $this->belongsTo(Book::class, 'book_id');
   }
 }

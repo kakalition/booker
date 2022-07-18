@@ -39,7 +39,7 @@ class BookController extends Controller
 
   public function show(Book $book)
   {
-    //
+    return response($book, 200);
   }
 
   public function update(UpdateBookRequest $request, Book $book, BookService $service)

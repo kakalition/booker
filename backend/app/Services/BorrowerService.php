@@ -35,7 +35,7 @@ class BorrowerService
       $borrower = Borrower::create($data);
       $book->decrement('total_available_copies', $data['total_borrowed']);
 
-      ActivityLog::createBorrower($userId, $borrower->name);
+      ActivityLog::createBorrower($userId, $borrower->visitor->name);
 
       return $borrower;
     });

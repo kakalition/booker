@@ -40,7 +40,7 @@ class BorrowerController extends Controller
 
   public function show(Borrower $borrower)
   {
-    //
+    return response($borrower, 200);
   }
 
   public function update(UpdateBorrowerRequest $request, Borrower $borrower, BorrowerService $service)
