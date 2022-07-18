@@ -2,19 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\ActivityLog;
 use App\Models\Author;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AuthorService
 {
-  public function fetchAll() {
-    $authors = Author::all();
-
-    return $authors;
-  }
-
-  public function store(array $data): Author
+  private function _store(array $data): Author
   {
     $author = Author::create([
       'name' => $data['name'],
@@ -22,6 +16,22 @@ class AuthorService
     ]);
 
     return $author;
+  }
+
+  public function fetchAll()
+  {
+    $authors = Author::all();
+
+    return $authors;
+  }
+
+  public function store(int $userId, array $data): Author
+  {
+    return DB::transaction(function () use ($userId, $data) {
+      $author = $this->_store($data);
+      ActivityLog::createAuthor($userId, $author->name);
+      return $author;
+    });
   }
 
   public function update(Author $author, array $data): Author

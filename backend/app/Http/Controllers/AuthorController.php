@@ -14,7 +14,6 @@ class AuthorController extends Controller
 {
   public function index(Request $request, AuthorService $service)
   {
-    Log::info($request->fullUrl());
     try {
       $authors = $service->fetchAll();
     } catch (Exception $exception) {
@@ -29,7 +28,10 @@ class AuthorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $authors = $service->store($validatedData);
+      $authors = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
