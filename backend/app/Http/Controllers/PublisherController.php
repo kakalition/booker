@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePublisherRequest;
 use App\Http\Requests\UpdatePublisherRequest;
+use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
 use App\Services\PublisherService;
 use Exception;
@@ -23,7 +24,7 @@ class PublisherController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($publishers, 200);
+    return response(PublisherResource::collection($publishers), 200);
   }
 
   /**
