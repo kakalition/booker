@@ -37,7 +37,7 @@ class CheckInService
   {
     return DB::transaction(function () use ($userId, $data) {
       $checkIn = $this->_store($data);
-      ActivityLog::createAuthor($userId, $checkIn->name);
+      ActivityLog::checkIn($userId, $checkIn->name);
       return $checkIn;
     });
   }
@@ -46,7 +46,7 @@ class CheckInService
   {
     return DB::transaction(function () use ($userId, $checkIn, $data) {
       $checkIn = $this->_update($checkIn, $data);
-      ActivityLog::updateAuthor($userId, $checkIn->name);
+      ActivityLog::checkOut($userId, $checkIn->name);
       return $checkIn;
     });
   }
@@ -55,7 +55,7 @@ class CheckInService
   {
     DB::transaction(function () use ($userId, $checkIn) {
       $checkIn->delete();
-      ActivityLog::deleteAuthor($userId, $checkIn->name);
+      ActivityLog::deleteCheckIn($userId, $checkIn->name);
     });
   }
 }

@@ -37,7 +37,10 @@ class PublisherController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $publisher = $service->store($validatedData);
+      $publisher = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -68,7 +71,11 @@ class PublisherController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $publisher = $service->update($publisher, $validatedData);
+      $publisher = $service->update(
+        auth()->user()->id,
+        $publisher,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -85,7 +92,10 @@ class PublisherController extends Controller
   public function destroy(Publisher $publisher, PublisherService $service)
   {
     try {
-      $service->delete($publisher);
+      $service->delete(
+        auth()->user()->id,
+        $publisher
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

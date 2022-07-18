@@ -23,7 +23,7 @@ class ActivityLog extends Model
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 0,
-      'message' => "$username added new author $authorName."
+      'message' => "$username added new author: $authorName."
     ]);
   }
 
@@ -34,7 +34,7 @@ class ActivityLog extends Model
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 1,
-      'message' => "$username updated new author $authorName."
+      'message' => "$username updated new author: $authorName."
     ]);
   }
 
@@ -45,7 +45,7 @@ class ActivityLog extends Model
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 2,
-      'message' => "$username deleted new author $authorName."
+      'message' => "$username deleted new author: $authorName."
     ]);
   }
 
@@ -56,7 +56,7 @@ class ActivityLog extends Model
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 0,
-      'message' => "$username checked in $name."
+      'message' => "$username checked in: $name."
     ]);
   }
 
@@ -67,7 +67,51 @@ class ActivityLog extends Model
     ActivityLog::create([
       'user_id' => $userId,
       'code' => 1,
-      'message' => "$username checked out $name."
+      'message' => "$username checked out: $name."
+    ]);
+  }
+
+  public static function deleteCheckIn(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 2,
+      'message' => "$username delete check in data: $name."
+    ]);
+  }
+
+  public static function createPublisher(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 0,
+      'message' => "$username added publisher: $name."
+    ]);
+  }
+
+  public static function updatePublisher(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 1,
+      'message' => "$username updated publisher: $name."
+    ]);
+  }
+
+  public static function deletePublisher(int $userId, string $name)
+  {
+    $username = User::find($userId)->name;
+
+    ActivityLog::create([
+      'user_id' => $userId,
+      'code' => 2,
+      'message' => "$username deleted publisher: $name."
     ]);
   }
 }

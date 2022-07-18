@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\ActivityLog;
 use App\Models\Publisher;
+use Illuminate\Support\Facades\DB;
 
 class PublisherService
 {
@@ -13,23 +15,30 @@ class PublisherService
     return $publishers;
   }
 
-  public function store(array $data)
+  public function store(int $userId, array $data)
   {
-    $publisher = Publisher::create($data);
-
-    return $publisher;
+    return DB::transaction(function () use ($userId, $data) {
+      $publisher = Publisher::create($data);
+      ActivityLog::createPublisher($userId, $publisher->name);
+      return $publisher;
+    });
   }
 
-  public function update(Publisher $publisher, array $data)
+  public function update(int $userId, Publisher $publisher, array $data)
   {
-    $publisher->name = $data['name'] ?? $publisher->name;
-    $publisher->save();
-
-    return $publisher;
+    return DB::transaction(function () use ($userId, $publisher, $data) {
+      $publisher->name = $data['name'] ?? $publisher->name;
+      $publisher->save();
+      ActivityLog::updatePublisher($userId, $publisher->name);
+      return $publisher;
+    });
   }
 
-  public function delete(Publisher $publisher)
+  public function delete(int $userId, Publisher $publisher)
   {
-    $publisher->delete();
+    DB::transaction(function () use ($userId, $publisher) {
+      $publisher->delete();
+      ActivityLog::deletePublisher($userId, $publisher->name);
+    });
   }
 }
