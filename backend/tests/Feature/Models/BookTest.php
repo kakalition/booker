@@ -146,6 +146,7 @@ test('when successfully delete book , should returns no content. (HTTP 204)', fu
 
 test('when test, should test. (HTTP test)', function () {
   seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  seed(BookSeeder::class);
   Auth::login('admin@booker.com', '00000000');
 
   $book = Book::get();
@@ -157,7 +158,6 @@ test('when test, should test. (HTTP test)', function () {
   ]);
   $response->assertCreated();
 
-
-  $response = getJson('/api/authors');
+  $response = getJson('/api/books');
   $response->dump();
 });

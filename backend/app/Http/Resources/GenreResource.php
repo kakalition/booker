@@ -17,10 +17,11 @@ class GenreResource extends JsonResource
     return [
       'id' => $this->id,
       'name' => $this->name,
-      'total_author' => null,
-      'total_genre' => null,
-      'total_title' => null,
-      'total_copies' => null,
+      'total_author' => $this->totalAuthor(),
+      'total_publisher' => $this->totalPublisher(),
+      'total_title' => $this->totalTitle(),
+      'total_copies_available' => $this->totalCopiesAvailable(),
+      'total_copies_owned' => $this->totalCopiesOwned(),
     ];
   }
 }

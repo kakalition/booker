@@ -32,7 +32,7 @@ class Author extends Model
 
   public function totalCopiesBorrowed()
   {
-    $borrowers = Borrower::where('book_id', $this->id);
-    return $borrowers->sum('total_borrowed');
+    return Borrower::where('book_id', $this->id)
+      ->sum('total_borrowed');
   }
 }
