@@ -109,7 +109,7 @@ test('when successfully delete book , should returns no content. (HTTP 204)', fu
   $response->assertNoContent();
 }); */
 
-test('when test, should test. (HTTP 201)', function () {
+/* test('when test, should test. (HTTP 201)', function () {
   seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
   Auth::login('admin@booker.com', '00000000');
 
@@ -142,4 +142,22 @@ test('when test, should test. (HTTP 201)', function () {
   $responseFour->assertJson([
     'total_available_copies' => $afterReturned
   ]);
+}); */
+
+test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  Auth::login('admin@booker.com', '00000000');
+
+  $book = Book::get();
+  $response = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+  $response->assertCreated();
+
+
+  $response = getJson('/api/authors');
+  $response->dump();
 });

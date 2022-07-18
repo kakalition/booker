@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
+use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use App\Services\AuthorService;
 use Exception;
@@ -19,7 +20,7 @@ class AuthorController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($authors, 200);
+    return response(AuthorResource::collection($authors), 200);
   }
 
   public function store(StoreAuthorRequest $request, AuthorService $service)
