@@ -14,6 +14,8 @@ import ManageBookPage from './Features/ManageEntity/Book/ManageBookPage';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
+// TODO: Finish up Manage Book Dialog
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider>
