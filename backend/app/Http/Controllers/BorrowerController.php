@@ -27,7 +27,10 @@ class BorrowerController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $borrower = $service->store($validatedData);
+      $borrower = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

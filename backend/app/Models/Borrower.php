@@ -12,7 +12,9 @@ class Borrower extends Model
   protected $fillable = [
     'visitor_id',
     'book_id',
+    'total_borrowed',
     'end_date',
+    'status',
   ];
 
   public function visitor() {

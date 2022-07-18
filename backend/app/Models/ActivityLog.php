@@ -124,6 +124,21 @@ class ActivityLog extends Model
     self::baseDelete('book', $userId, $title);
   }
 
+  public static function createBorrower(int $userId, string $name)
+  {
+    self::baseCreate('borrower', $userId, $name, 'approved');
+  }
+
+  public static function updateBorrower(int $userId, string $name)
+  {
+    self::baseUpdate('borrower', $userId, $name);
+  }
+
+  public static function deleteBorrower(int $userId, string $name)
+  {
+    self::baseDelete('borrower', $userId, $name);
+  }
+
   public static function checkIn(int $userId, string $name)
   {
     $username = User::find($userId)->name;

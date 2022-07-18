@@ -29,6 +29,7 @@ class UpdateBookRequest extends FormRequest
       'author_id' => 'nullable|exists:authors,id',
       'publisher_id' => 'nullable|exists:publishers,id',
       'genre_id' => 'nullable|exists:genres,id',
+      'total_available_copies' => 'nullable|integer',
       'total_copies_owned' => 'nullable|integer',
       'published_at' => 'nullable|date',
     ];
