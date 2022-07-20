@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePublisherRequest;
 use App\Http\Requests\UpdatePublisherRequest;
+use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
 use App\Services\PublisherService;
 use Exception;
+use Illuminate\Http\Request;
 
 class PublisherController extends Controller
 {
@@ -15,15 +17,19 @@ class PublisherController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index(PublisherService $service)
+  public function index(Request $request, PublisherService $service)
   {
     try {
-      $publishers = $service->fetchAll();
+      $publishers = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
-    return response($publishers, 200);
+    return response(PublisherResource::collection($publishers), 200);
   }
 
   /**
@@ -37,7 +43,10 @@ class PublisherController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $publisher = $service->store($validatedData);
+      $publisher = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -68,7 +77,11 @@ class PublisherController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $publisher = $service->update($publisher, $validatedData);
+      $publisher = $service->update(
+        auth()->user()->id,
+        $publisher,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -85,7 +98,10 @@ class PublisherController extends Controller
   public function destroy(Publisher $publisher, PublisherService $service)
   {
     try {
-      $service->delete($publisher);
+      $service->delete(
+        auth()->user()->id,
+        $publisher
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

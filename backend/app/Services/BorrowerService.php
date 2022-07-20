@@ -2,32 +2,73 @@
 
 namespace App\Services;
 
+use App\Models\ActivityLog;
+use App\Models\Book;
 use App\Models\Borrower;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class BorrowerService
 {
-  public function fetchAll()
+  private function checksTotalAvailableCopies(Book $book, int $totalBorrowed)
   {
-    $borrowers = Borrower::all();
-
-    return $borrowers;
+    if ($totalBorrowed > $book->total_available_copies) {
+      throw new UnprocessableEntityHttpException('Total borrow exceeding available copies');
+    }
   }
 
-  public function store(array $data)
+  private function incrementAvailableCopies(int $bookId, int $totalBorrowed)
   {
-    $borrower = Borrower::create($data);
+    $book = Book::find($bookId);
+    $book->increment('total_available_copies', $totalBorrowed);
+  }
 
-    return $borrower;
+  private function decrementAvailableCopies(int $bookId, int $totalBorrowed)
+  {
+    $book = Book::find($bookId);
+    $this->checksTotalAvailableCopies($book, $totalBorrowed);
+    $book->decrement('total_available_copies', $totalBorrowed);
+  }
+
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
+  {
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $authors = Borrower::queryDb($query, $orderBy, $count);
+
+    return $authors;
+  }
+
+  public function store(int $userId, array $data)
+  {
+    return DB::transaction(function () use ($userId, $data) {
+      $data['status'] = 0;
+
+      $this->decrementAvailableCopies($data['book_id'], $data['total_borrowed']);
+
+      $borrower = Borrower::create($data);
+
+      ActivityLog::createBorrower($userId, $borrower->visitor->name);
+
+      return $borrower;
+    });
   }
 
   public function update(Borrower $borrower, array $data)
   {
-    $borrower->visitor_id = $data['visitor_id'] ?? $borrower->visitor_id;
-    $borrower->book_id = $data['book_id'] ?? $borrower->book_id;
-    $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
-    $borrower->save();
+    return DB::transaction(function () use ($borrower, $data) {
+      $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
+      $borrower->status = $data['status'] ?? $borrower->status;
 
-    return $borrower;
+      if ($data['status'] == 1) {
+        $this->incrementAvailableCopies($borrower->book_id, $borrower->total_borrowed);
+      }
+
+      $borrower->save();
+      return $borrower;
+    });
   }
 
   public function delete(Borrower $borrower)

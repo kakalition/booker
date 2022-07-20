@@ -18,13 +18,9 @@ class BookSeeder extends Seeder
   public function run()
   {
     Book::factory()
-      ->count(50)
-      ->for(Author::factory()->state([
-        'name' => 'Kaka'
-      ]))
-      ->for(Publisher::factory()->state([
-        'name' => 'Kaka Publishing'
-      ]))
+      ->count(4)
+      ->for(Author::factory())
+      ->for(Publisher::factory())
       ->for(Genre::factory())
       ->create();
   }

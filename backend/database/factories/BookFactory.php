@@ -19,6 +19,7 @@ class BookFactory extends Factory
     return [
       'title' => $this->faker->sentence(),
       'isbn' => $this->faker->uuid(),
+      'total_available_copies' => $this->faker->numberBetween(50, 200),
       'total_copies_owned' => $this->faker->numberBetween(50, 200),
       'published_at' => $this->faker->date()
     ];

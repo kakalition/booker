@@ -2,34 +2,52 @@
 
 namespace App\Services;
 
+use App\Models\ActivityLog;
 use App\Models\Genre;
+use Illuminate\Support\Facades\DB;
 
 class GenreService
 {
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $genres = Genre::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $genres = Genre::queryDb($query, $orderBy, $count);
 
     return $genres;
   }
 
-  public function store(array $data)
+  public function store(int $userId, array $data)
   {
-    $genre = Genre::create($data);
-
-    return $genre;
+    return DB::transaction(function () use ($userId, $data) {
+      $genre = Genre::create($data);
+      ActivityLog::createGenre($userId, $genre->name);
+      return $genre;
+    });
   }
 
-  public function update(Genre $genre, array $data)
+  public function update(int $userId, Genre $genre, array $data)
   {
-    $genre->name = $data['name'] ?? $genre->name;
-    $genre->save();
+    return DB::transaction(function () use ($userId, $genre, $data) {
+      $genre->name = $data['name'] ?? $genre->name;
+      $genre->save();
 
-    return $genre;
+      ActivityLog::updateGenre($userId, $genre->name);
+
+      return $genre;
+    });
   }
 
-  public function delete(Genre $genre)
+  public function delete(int $userId, Genre $genre)
   {
-    $genre->delete();
+    return DB::transaction(function () use ($userId, $genre) {
+      $genre->delete();
+
+      ActivityLog::deleteGenre($userId, $genre->name);
+
+      return $genre;
+    });
   }
 }

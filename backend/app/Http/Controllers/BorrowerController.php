@@ -8,13 +8,18 @@ use App\Http\Resources\BorrowerResource;
 use App\Models\Borrower;
 use App\Services\BorrowerService;
 use Exception;
+use Illuminate\Http\Request;
 
 class BorrowerController extends Controller
 {
-  public function index(BorrowerService $service)
+  public function index(Request $request, BorrowerService $service)
   {
     try {
-      $borrowers = $service->fetchAll();
+      $borrowers = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -27,7 +32,10 @@ class BorrowerController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $borrower = $service->store($validatedData);
+      $borrower = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -37,7 +45,7 @@ class BorrowerController extends Controller
 
   public function show(Borrower $borrower)
   {
-    //
+    return response($borrower, 200);
   }
 
   public function update(UpdateBorrowerRequest $request, Borrower $borrower, BorrowerService $service)

@@ -14,9 +14,8 @@ class UpdateBorrowerRequest extends FormRequest
   public function rules()
   {
     return [
-      'visitor_id' => 'nullable|exists:visitors,id',
-      'book_id' => 'nullable|exists:books,id',
       'end_date' => 'nullable|date',
+      'status' => 'nullable|integer'
     ];
   }
 }

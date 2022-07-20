@@ -4,24 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
+use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use App\Services\AuthorService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
   public function index(Request $request, AuthorService $service)
   {
-    Log::info($request->fullUrl());
     try {
-      $authors = $service->fetchAll();
+      $authors = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
-    return response($authors, 200);
+    return response(AuthorResource::collection($authors), 200);
   }
 
   public function store(StoreAuthorRequest $request, AuthorService $service)
@@ -29,7 +32,10 @@ class AuthorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $authors = $service->store($validatedData);
+      $authors = $service->store(
+        auth()->user()->id,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -47,7 +53,11 @@ class AuthorController extends Controller
     $validatedData = $request->validated();
 
     try {
-      $authors = $service->update($author, $validatedData);
+      $authors = $service->update(
+        auth()->user()->id,
+        $author,
+        $validatedData
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
@@ -58,7 +68,10 @@ class AuthorController extends Controller
   public function destroy(Author $author, AuthorService $service)
   {
     try {
-      $authors = $service->delete($author);
+      $authors = $service->delete(
+        auth()->user()->id,
+        $author
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

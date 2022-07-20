@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-use App\Http\Resources\BookResource;
-use App\Models\Book;
-use App\Services\BookService;
+use App\Http\Requests\StoreCheckInRequest;
+use App\Http\Requests\UpdateCheckInRequest;
+use App\Models\CheckIn;
+use App\Services\CheckInService;
 use Exception;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class CheckInController extends Controller
 {
-  public function index(Request $request, BookService $service)
+  public function index(Request $request, CheckInService $service)
   {
     try {
-      $books = $service->queryDb(
+      $authors = $service->queryDb(
         $request->query('query'),
         $request->query('orderBy'),
         $request->query('count'),
@@ -24,15 +23,15 @@ class BookController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response(BookResource::collection($books), 200);
+    return response($authors, 200);
   }
 
-  public function store(StoreBookRequest $request, BookService $service)
+  public function store(StoreCheckInRequest $request, CheckInService $service)
   {
     $validatedData = $request->validated();
 
     try {
-      $books = $service->store(
+      $authors = $service->store(
         auth()->user()->id,
         $validatedData
       );
@@ -40,37 +39,37 @@ class BookController extends Controller
       return response($exception->getMessage(), 500);
     }
 
-    return response($books->toJson(), 201);
+    return response($authors, 201);
   }
 
-  public function show(Book $book)
+  public function show(CheckIn $checkIn)
   {
-    return response($book, 200);
+    return response($checkIn, 200);
   }
 
-  public function update(UpdateBookRequest $request, Book $book, BookService $service)
+  public function update(UpdateCheckInRequest $request, CheckIn $checkIn, CheckInService $service)
   {
     $validatedData = $request->validated();
 
     try {
-      $books = $service->update(
+      $authors = $service->update(
         auth()->user()->id,
-        $book,
+        $checkIn,
         $validatedData
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
-    return response($books->toJson(), 200);
+    return response($authors, 200);
   }
 
-  public function destroy(Book $book, BookService $service)
+  public function destroy(CheckIn $checkIn, CheckInService $service)
   {
     try {
-      $service->delete(
+      $authors = $service->delete(
         auth()->user()->id,
-        $book
+        $checkIn
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);

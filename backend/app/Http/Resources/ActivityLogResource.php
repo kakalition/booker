@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BorrowerResource extends JsonResource
+class ActivityLogResource extends JsonResource
 {
   /**
    * Transform the resource into an array.
@@ -15,12 +15,13 @@ class BorrowerResource extends JsonResource
   public function toArray($request)
   {
     return [
-      'id' => $this->id,
-      'visitor' => $this->visitorName(),
-      'book' => $this->book()->first(),
-      'end_date' => $this->end_date,
-      'status' => $this->status == 0 ? 'Borrowed' : 'Returned',
-      'is_overdue' => $this->isOverdue(),
+      'name' => $this->name,
+      'code' => $this->code == 0
+        ? 'CREATE'
+        : ($this->code == 1
+          ? 'UPDATE'
+          : 'DELETE'),
+      'message' => $this->message
     ];
   }
 }

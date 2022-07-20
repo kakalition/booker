@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BorrowerResource extends JsonResource
+class VisitorResource extends JsonResource
 {
   /**
    * Transform the resource into an array.
@@ -16,11 +16,12 @@ class BorrowerResource extends JsonResource
   {
     return [
       'id' => $this->id,
-      'visitor' => $this->visitorName(),
-      'book' => $this->book()->first(),
-      'end_date' => $this->end_date,
-      'status' => $this->status == 0 ? 'Borrowed' : 'Returned',
-      'is_overdue' => $this->isOverdue(),
+      'name' => $this->name,
+      'birth_date' => $this->birth_date,
+      'gender' => $this->gender == 1 ? 'Male' : 'Female',
+      'email' => $this->email,
+      'overdue_borrows' => $this->overdueBorrows(),
+      'created_at' => $this->created_at,
     ];
   }
 }

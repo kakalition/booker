@@ -16,6 +16,7 @@ class StoreBorrowerRequest extends FormRequest
     return [
       'visitor_id' => 'required|exists:visitors,id',
       'book_id' => 'required|exists:books,id',
+      'total_borrowed' => 'required|integer',
       'end_date' => 'required|date',
     ];
   }

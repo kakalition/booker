@@ -13,16 +13,11 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('borrowers', function (Blueprint $table) {
+    Schema::create('check_ins', function (Blueprint $table) {
       $table->id();
       $table->foreignId('visitor_id')
         ->constrained('visitors')
         ->cascadeOnDelete();
-      $table->foreignId('book_id')
-        ->constrained('books')
-        ->cascadeOnDelete();
-      $table->integer('total_borrowed');
-      $table->timestamp('end_date');
       $table->boolean('status');
       $table->timestamps();
     });
@@ -35,6 +30,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('borrowers');
+    Schema::dropIfExists('check_ins');
   }
 };

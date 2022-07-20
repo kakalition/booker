@@ -1,18 +1,24 @@
 <?php
 
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Database\Seeders\BookSeeder;
 use Database\Seeders\GenreSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\VisitorSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\Auth;
 use Tests\Helpers\Book;
 use Tests\Helpers\Genre;
 
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\patchJson;
+use function Pest\Laravel\postJson;
 use function Pest\Laravel\seed;
 
 uses(RefreshDatabase::class);
 
-$bookOne = [
+/* $bookOne = [
   'title' => 'The Blossom',
   'isbn' => '978-3-16-148410-0',
   'total_copies_owned' => 20,
@@ -84,7 +90,7 @@ test('when successfully update book, should returns updated book data. (HTTP 200
   $response->assertJson(['title' => 'The Rain']);
 });
 
-test('when delete book with invalid ID, should returns error. (HTTP 404)', function() {
+test('when delete book with invalid ID, should returns error. (HTTP 404)', function () {
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
 
@@ -92,7 +98,7 @@ test('when delete book with invalid ID, should returns error. (HTTP 404)', funct
   $response->assertNotFound();
 });
 
-test('when successfully delete book , should returns no content. (HTTP 204)', function() use ($bookOne) {
+test('when successfully delete book , should returns no content. (HTTP 204)', function () use ($bookOne) {
   seed(UserSeeder::class);
   Auth::login('admin@booker.com', '00000000');
 
@@ -101,4 +107,93 @@ test('when successfully delete book , should returns no content. (HTTP 204)', fu
 
   $response = Book::delete($bookEntity->json('id'));
   $response->assertNoContent();
+}); */
+
+/* test('when test, should test. (HTTP 201)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  Auth::login('admin@booker.com', '00000000');
+
+  $book = Book::get();
+  $bookId = $book->json(0)['id'];
+
+  $afterBorrowed = $book->json(0)['total_available_copies'] - 10;
+  $afterReturned = $book->json(0)['total_available_copies'];
+
+  $response = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+  $response->assertCreated();
+
+  $responseTwo = getJson("/api/books/$bookId");
+  $responseTwo->dump();
+  $responseTwo->assertJson([
+    'total_available_copies' => $afterBorrowed
+  ]);
+
+  $id = $response->json('id');
+  $responseThree = patchJson("/api/borrowers/$id", ['status' => 1]);
+  $responseThree->assertOk();
+
+  $responseFour = getJson("/api/books/$bookId");
+  $responseFour->dump();
+  $responseFour->assertJson([
+    'total_available_copies' => $afterReturned
+  ]);
+}); */
+
+/* test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  seed(BookSeeder::class);
+  Auth::login('admin@booker.com', '00000000');
+
+  $book = Book::get();
+  $response = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->subDay(),
+  ]);
+  $response->dump();
+
+  $response = getJson('/api/visitors');
+  $response->dump();
+}); */
+
+/* test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  Auth::login('admin@booker.com', '00000000');
+
+  $book = Book::get();
+  $te = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+
+  $response = getJson('/api/borrowers?query=k');
+  $response->dump();
+});
+ */
+
+test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  Auth::login('admin@booker.com', '00000000');
+
+  postJson('/api/publishers', ['name' => 'Kaka']);
+  postJson('/api/publishers', ['name' => 'Te']);
+
+  $book = Book::get();
+  $te = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
+  ]);
+
+  $response = getJson('/api/activity-logs');
+  $response->dump();
 });

@@ -13,17 +13,13 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('borrowers', function (Blueprint $table) {
+    Schema::create('activity_logs', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('visitor_id')
-        ->constrained('visitors')
+      $table->foreignId('user_id')
+        ->constrained('users')
         ->cascadeOnDelete();
-      $table->foreignId('book_id')
-        ->constrained('books')
-        ->cascadeOnDelete();
-      $table->integer('total_borrowed');
-      $table->timestamp('end_date');
-      $table->boolean('status');
+      $table->integer('code');
+      $table->string('message');
       $table->timestamps();
     });
   }
@@ -35,6 +31,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('borrowers');
+    Schema::dropIfExists('activity_logs');
   }
 };

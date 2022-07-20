@@ -15,9 +15,19 @@ class Book extends Model
     'author_id',
     'publisher_id',
     'genre_id',
+    'total_available_copies',
     'total_copies_owned',
     'published_at'
   ];
+
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Book::query()
+      ->where('title', 'ILIKE', "$query%")
+      ->orderBy('title', $orderBy)
+      ->limit($count)
+      ->get();
+  }
 
   public function author()
   {
@@ -32,5 +42,15 @@ class Book extends Model
   public function genre()
   {
     return $this->belongsTo(Genre::class, 'genre_id');
+  }
+
+  public function authorName()
+  {
+    return $this->author->first()->name;
+  }
+
+  public function publisherName()
+  {
+    return $this->publisher->first()->name;
   }
 }

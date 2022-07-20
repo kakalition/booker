@@ -26,6 +26,7 @@ return new class extends Migration
       $table->foreignId('genre_id')
         ->constrained('genres')
         ->cascadeOnDelete();
+      $table->integer('total_available_copies');
       $table->integer('total_copies_owned');
       $table->timestamp('published_at');
       $table->timestamps();
