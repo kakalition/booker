@@ -25,6 +25,14 @@ class Publisher extends Model
     return $this->hasManyThrough(Borrower::class, Book::class);
   }
 
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Publisher::query()
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
+  }
 
   public function totalAuthor()
   {

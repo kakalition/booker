@@ -8,13 +8,18 @@ use App\Http\Resources\VisitorResource;
 use App\Models\Visitor;
 use App\Services\VisitorService;
 use Exception;
+use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
-  public function index(VisitorService $service)
+  public function index(Request $request, VisitorService $service)
   {
     try {
-      $visitors = $service->fetchAll();
+      $visitors = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

@@ -14,6 +14,16 @@ class Genre extends Model
     'name'
   ];
 
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Author::query()
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
+  }
+
+
   public function books(): HasMany
   {
     return $this->hasMany(Book::class, 'genre_id');

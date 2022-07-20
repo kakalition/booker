@@ -17,6 +17,15 @@ class Visitor extends Model
     'email',
   ];
 
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Visitor::query()
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
+  }
+
   public function borrowers()
   {
     return $this->hasMany(Borrower::class, 'visitor_id');

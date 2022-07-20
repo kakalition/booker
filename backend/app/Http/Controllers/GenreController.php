@@ -8,13 +8,18 @@ use App\Http\Resources\GenreResource;
 use App\Models\Genre;
 use App\Services\GenreService;
 use Exception;
+use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-  public function index(GenreService $service)
+  public function index(Request $request, GenreService $service)
   {
     try {
-      $genres = $service->fetchAll();
+      $genres = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

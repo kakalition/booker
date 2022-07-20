@@ -16,6 +16,19 @@ class ActivityLog extends Model
     'message'
   ];
 
+  public static function queryDb(string $name, ?int $code, int $count)
+  {
+    return ActivityLog::query()
+      ->join('users', 'activity_logs.user_id', 'users.id')
+      ->where('name', 'ILIKE', "$name%")
+      ->when($code, function ($query, $code) {
+        $query->where('code', $code);
+      })
+      ->latest('activity_logs.created_at')
+      ->limit($count)
+      ->get();
+  }
+
   private static function baseCreate(string $entity, int $userId, string $authorName, string $messagePart = 'added new')
   {
     $username = User::find($userId)->name;

@@ -26,11 +26,15 @@ class CheckInService
     return $checkIn;
   }
 
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $authors = CheckIn::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
 
-    return $authors;
+    $checkIn = CheckIn::queryDb($query, $orderBy, $count);
+
+    return $checkIn;
   }
 
   public function store(int $userId, array $data): CheckIn

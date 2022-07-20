@@ -8,13 +8,18 @@ use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Services\BookService;
 use Exception;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-  public function index(BookService $service)
+  public function index(Request $request, BookService $service)
   {
     try {
-      $books = $service->fetchAll();
+      $books = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

@@ -8,13 +8,18 @@ use App\Http\Resources\BorrowerResource;
 use App\Models\Borrower;
 use App\Services\BorrowerService;
 use Exception;
+use Illuminate\Http\Request;
 
 class BorrowerController extends Controller
 {
-  public function index(BorrowerService $service)
+  public function index(Request $request, BorrowerService $service)
   {
     try {
-      $borrowers = $service->fetchAll();
+      $borrowers = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

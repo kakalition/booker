@@ -30,12 +30,15 @@ class BorrowerService
     $book->decrement('total_available_copies', $totalBorrowed);
   }
 
-
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $borrowers = Borrower::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
 
-    return $borrowers;
+    $authors = Borrower::queryDb($query, $orderBy, $count);
+
+    return $authors;
   }
 
   public function store(int $userId, array $data)

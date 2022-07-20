@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class VisitorService
 {
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $visitors = Visitor::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $visitors = Visitor::queryDb($query, $orderBy, $count);
 
     return $visitors;
   }
+
 
   public function store(int $userId, array $data)
   {

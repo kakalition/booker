@@ -13,4 +13,14 @@ class CheckIn extends Model
     'visitor_id',
     'status'
   ];
+
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return CheckIn::query()
+      ->join('visitors', 'check_ins.visitor_id', 'visitors.id')
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
+  }
 }

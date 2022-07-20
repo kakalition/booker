@@ -162,25 +162,38 @@ test('when successfully delete book , should returns no content. (HTTP 204)', fu
   $response->dump();
 }); */
 
-test('when test, should test. (HTTP test)', function () {
-  seed(UserSeeder::class);
+/* test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
   Auth::login('admin@booker.com', '00000000');
 
-  postJson('/api/authors', [
-    'name' => 'Kaonel',
-    'birth_date' => Carbon::create(2001, 10, 3),
+  $book = Book::get();
+  $te = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
   ]);
 
-  postJson('/api/authors', [
-    'name' => 'Kakalition',
-    'birth_date' => Carbon::create(2001, 10, 3),
+  $response = getJson('/api/borrowers?query=k');
+  $response->dump();
+});
+ */
+
+test('when test, should test. (HTTP test)', function () {
+  seed([UserSeeder::class, BookSeeder::class, VisitorSeeder::class]);
+  Auth::login('admin@booker.com', '00000000');
+
+  postJson('/api/publishers', ['name' => 'Kaka']);
+  postJson('/api/publishers', ['name' => 'Te']);
+
+  $book = Book::get();
+  $te = postJson('/api/borrowers', [
+    'visitor_id' => 1,
+    'book_id' => $book->json(0)['id'],
+    'total_borrowed' => 10,
+    'end_date' => Carbon::now()->addDays(3),
   ]);
 
-  postJson('/api/authors', [
-    'name' => 'Vinlition',
-    'birth_date' => Carbon::create(2022, 3, 12),
-  ]);
-
-  $response = getJson('/api/authors?query=ka');
+  $response = getJson('/api/activity-logs');
   $response->dump();
 });

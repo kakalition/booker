@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class GenreService
 {
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $genres = Genre::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $genres = Genre::queryDb($query, $orderBy, $count);
 
     return $genres;
   }

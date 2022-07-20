@@ -20,6 +20,15 @@ class Book extends Model
     'published_at'
   ];
 
+  public static function queryDb(string $query, string $orderBy, int $count)
+  {
+    return Book::query()
+      ->where('title', 'ILIKE', "$query%")
+      ->orderBy('title', $orderBy)
+      ->limit($count)
+      ->get();
+  }
+
   public function author()
   {
     return $this->belongsTo(Author::class, 'author_id');

@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class PublisherService
 {
-  public function fetchAll()
+  public function queryDb(string $query, string $orderBy, int $count)
   {
-    $publishers = Publisher::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $publishers = Publisher::queryDb($query, $orderBy, $count);
 
     return $publishers;
   }

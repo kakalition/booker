@@ -8,6 +8,7 @@ use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
 use App\Services\PublisherService;
 use Exception;
+use Illuminate\Http\Request;
 
 class PublisherController extends Controller
 {
@@ -16,10 +17,14 @@ class PublisherController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index(PublisherService $service)
+  public function index(Request $request, PublisherService $service)
   {
     try {
-      $publishers = $service->fetchAll();
+      $publishers = $service->queryDb(
+        $request->query('query'),
+        $request->query('orderBy'),
+        $request->query('count'),
+      );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }

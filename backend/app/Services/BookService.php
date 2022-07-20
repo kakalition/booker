@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class BookService
 {
-  public function fetchAll()
+  public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
-    $books = Book::all();
+    $query = $query ?? '';
+    $orderBy = $orderBy ?? 'desc';
+    $count = $count ?? 10;
+
+    $books = Book::queryDb($query, $orderBy, $count);
 
     return $books;
   }
+
 
   public function store(int $userId, array $data)
   {
