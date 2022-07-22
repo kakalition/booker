@@ -26,6 +26,13 @@ class Visitor extends Model
       ->get();
   }
 
+  public static function data() {
+    return Visitor::query()
+      ->select('id', 'name')
+      ->orderBy('name')
+      ->get();
+  }
+
   public function borrowers()
   {
     return $this->hasMany(Borrower::class, 'visitor_id');

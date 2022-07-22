@@ -49,7 +49,7 @@ Route::controller(BookController::class)
   });
 
 Route::controller(VisitorController::class)
-  ->middleware(EnsureLoggedIn::class)
+  //->middleware(EnsureLoggedIn::class)
   ->group(function () {
     Route::get('/visitors', 'index');
     Route::post('/visitors', 'store');
@@ -59,10 +59,11 @@ Route::controller(VisitorController::class)
   });
 
 Route::controller(BorrowerController::class)
-  ->middleware(EnsureLoggedIn::class)
+  //->middleware(EnsureLoggedIn::class)
   ->group(function () {
     Route::get('/borrowers', 'index');
     Route::post('/borrowers', 'store');
+    Route::get('/borrowers/{borrower}', 'show');
     Route::put('/borrowers/{borrower}', 'update');
     Route::patch('/borrowers/{borrower}', 'update');
     Route::delete('/borrowers/{borrower}', 'destroy');
@@ -75,3 +76,5 @@ Route::apiResources([
 ]);
 
 Route::get('/activity-logs', [ActivityLogController::class, 'index']);
+
+Route::get('/manage-borrowers', [BorrowerController::class, 'manageBorrowers']);

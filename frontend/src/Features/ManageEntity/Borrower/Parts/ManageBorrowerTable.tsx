@@ -1,13 +1,28 @@
-import { Th, Tr } from '@chakra-ui/react';
-import React from 'react';
+import { Badge, Button, Td, Th, Tr } from '@chakra-ui/react';
+import React, { useMemo } from 'react';
 import BaseTableComponent from '../../../../Components/Table/BaseTableComponent';
 
 type Params = {
-  tbodyElements: React.ReactNode,
+  borrowersData: any[],
+  openEditDialog: (id: number) => void,
 };
 
 export default function ManageBorrowerTable(params: Params) {
-  const { tbodyElements } = params;
+  const { borrowersData, openEditDialog } = params;
+
+  const tbodyElements = useMemo(() => borrowersData?.map((element, index) => (
+    <Tr key={element.id}>
+      <Td>{index + 1}</Td>
+      <Td>{element.visitor}</Td>
+      <Td>{element.book}</Td>
+      <Td>{element.end_date}</Td>
+      <Td>{element.status === true ? <Badge colorScheme="green">Returned</Badge> : <Badge colorScheme="red">Borrowed</Badge>}</Td>
+      <Td>{element.is_overdue.toString()}</Td>
+      <Td>
+        <Button variant="outline" onClick={() => openEditDialog(element.id)}>Edit</Button>
+      </Td>
+    </Tr>
+  )), [borrowersData]);
 
   const theadElement = (
     <Tr>

@@ -29,6 +29,14 @@ class Book extends Model
       ->get();
   }
 
+  public static function data()
+  {
+    return Book::query()
+      ->select('id', 'title')
+      ->orderBy('title')
+      ->get();
+  }
+
   public function author()
   {
     return $this->belongsTo(Author::class, 'author_id');

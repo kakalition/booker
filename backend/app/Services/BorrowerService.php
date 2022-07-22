@@ -59,10 +59,11 @@ class BorrowerService
   public function update(Borrower $borrower, array $data)
   {
     return DB::transaction(function () use ($borrower, $data) {
-      $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
-      $borrower->status = $data['status'] ?? $borrower->status;
+      $borrower->update($data);
+/*       $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
+      $borrower->status = $data['status'] ?? $borrower->status; */
 
-      if ($data['status'] == 1) {
+      if ($data['status'] ?? 0 == 1) {
         $this->incrementAvailableCopies($borrower->book_id, $borrower->total_borrowed);
       }
 

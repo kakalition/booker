@@ -39,9 +39,14 @@ class Borrower extends Model
     return $this->belongsTo(Book::class, 'book_id');
   }
 
+  public function bookTitle()
+  {
+    return $this->book->title;
+  }
+
   public function visitorName()
   {
-    return $this->visitor->first()->name;
+    return $this->visitor->name;
   }
 
   public function isOverdue()
