@@ -16,14 +16,19 @@ class CheckInController extends Controller
     try {
       $authors = $service->queryDb(
         $request->query('query'),
-        $request->query('orderBy'),
-        $request->query('count'),
+        $request->query('date'),
+        $request->query('order-by'),
+        $request->query('order-direction'),
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
-    return response($authors, 200);
+    $data = [];
+    $data['data'] = $authors;
+    $data['available_order'] = ['name', 'checked_in_at', 'status'];
+
+    return response($data, 200);
   }
 
   public function store(StoreCheckInRequest $request, CheckInService $service)

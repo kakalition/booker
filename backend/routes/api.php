@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowerController;
+use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ShelfController;
@@ -73,6 +74,7 @@ Route::apiResources([
   'authors' => AuthorController::class,
   'publishers' => PublisherController::class,
   'shelves' => ShelfController::class,
+  'check-ins' => CheckInController::class,
 ]);
 
 Route::get('/activity-logs', [ActivityLogController::class, 'index']);

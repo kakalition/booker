@@ -11,7 +11,7 @@ class CheckIn extends Model
 
   protected $fillable = [
     'visitor_id',
-    'status'
+    'checked_out_at'
   ];
 
   public static function queryDb(string $query, string $orderBy, int $count)
@@ -22,5 +22,10 @@ class CheckIn extends Model
       ->orderBy('name', $orderBy)
       ->limit($count)
       ->get();
+  }
+
+  public function visitor()
+  {
+    return $this->belongsTo(Visitor::class, 'visitor_id');
   }
 }

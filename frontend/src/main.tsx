@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -12,6 +12,8 @@ import ManageAuthorPage from './Features/ManageEntity/Author/ManageAuthorPage';
 import ManagePublisherPage from './Features/ManageEntity/Publisher/ManagePublisherPage';
 import ManageBookPage from './Features/ManageEntity/Book/ManageBookPage';
 import ManageBorrowerPage from './Features/ManageEntity/Borrower/ManageBorrowerPage';
+import ManageCheckInTable from './Features/ManageEntity/CheckIn/Parts/ManageCheckInTable';
+import ManageCheckInPage from './Features/ManageEntity/CheckIn/ManageCheckInPage';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
@@ -30,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="/manage-publisher" element={<ManagePublisherPage />} />
           <Route path="/manage-book" element={<ManageBookPage />} />
           <Route path="/manage-borrower" element={<ManageBorrowerPage />} />
+          <Route path="/manage-check-in" element={<ManageCheckInPage />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

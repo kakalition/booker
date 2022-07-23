@@ -2,18 +2,18 @@ import { Button, Select } from '@chakra-ui/react';
 import React, { FormEvent } from 'react';
 import _ from 'lodash';
 import SearchbarComponent from '../Searchbar/SearchbarComponent';
-import SortOrder from '../../Types/SortOrder';
 import HtmlHelper from '../../Functions/Helpers/HtmlHelper';
 
 type Params = {
   sortByElement: any,
   onCreateClick: React.MouseEventHandler,
   fetchData: (params: any) => void,
+  elementsBuilder?: ((sendRequest: any) => React.ReactNode)[],
 };
 
 export default function ManageEntityActions(params: Params) {
   const {
-    sortByElement, onCreateClick, fetchData,
+    sortByElement, onCreateClick, fetchData, elementsBuilder,
   } = params;
 
   const formatSortBy = (item: string) => (
@@ -29,6 +29,8 @@ export default function ManageEntityActions(params: Params) {
     const formData = HtmlHelper.formDataToJson('enti');
     fetchData(formData);
   };
+
+  const builtElement = elementsBuilder?.map((element) => element(sendin));
 
   return (
     <form id="enti" className="my-8 flex w-full flex-row gap-4" onSubmit={sendin}>
@@ -54,6 +56,7 @@ export default function ManageEntityActions(params: Params) {
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </Select>
+      {builtElement}
       <Button colorScheme="blue" width="10%" onClick={onCreateClick}>
         Create
       </Button>

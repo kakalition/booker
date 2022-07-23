@@ -24,7 +24,7 @@ class UpdateCheckInRequest extends FormRequest
   public function rules()
   {
     return [
-      'status' => 'required|boolean'
+      'checked_out_at' => 'required|date'
     ];
   }
 }

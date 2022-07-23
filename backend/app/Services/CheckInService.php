@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ActivityLog;
 use App\Models\CheckIn;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CheckInService
@@ -26,15 +27,32 @@ class CheckInService
     return $checkIn;
   }
 
-  public function queryDb(?string $query, ?string $orderBy, ?int $count)
+  public function queryDb(?string $query, ?string $date, ?string $orderBy, ?string $orderDirection)
   {
     $query = $query ?? '';
-    $orderBy = $orderBy ?? 'desc';
-    $count = $count ?? 10;
 
-    $checkIn = CheckIn::queryDb($query, $orderBy, $count);
+    $orderBy = $orderBy ?? 'created_at';
+    if ($orderBy === 'checked_in_at') {
+      $orderBy = 'check_ins.created_at';
+    }
 
-    return $checkIn;
+    if ($orderBy === 'status') {
+      $orderBy = 'check_ins.checked_out_at';
+    }
+
+    $date = $date ?? Carbon::now();
+    $orderDirection = $orderDirection ?? 'desc';
+
+    return CheckIn::query()
+      ->join('visitors', 'check_ins.visitor_id', 'visitors.id')
+      ->where('visitors.name', 'ILIKE', "$query%")
+      ->whereDate('check_ins.created_at', $date)
+      ->orderBy($orderBy, $orderDirection)
+      ->select([
+        'check_ins.*',
+        'visitors.name as visitor'
+      ])
+      ->get();
   }
 
   public function store(int $userId, array $data): CheckIn

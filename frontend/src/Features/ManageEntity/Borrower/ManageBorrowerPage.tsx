@@ -8,7 +8,7 @@ import useManageBorrowerViewModel from './ManageBorrowerViewModel';
 import useManageBorrowerDialog from './Parts/ManageBorrowerDialog';
 import ManageBorrowerTable from './Parts/ManageBorrowerTable';
 
-export default function useManageBorrowerPage() {
+export default function ManageBorrowerPage() {
   const { borrowerData, fetchData } = useManageBorrowerViewModel();
 
   const {

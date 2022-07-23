@@ -11,12 +11,14 @@ class VisitorService
   public function queryDb(?string $query, ?string $orderBy, ?int $count)
   {
     $query = $query ?? '';
-    $orderBy = $orderBy ?? 'desc';
+    $orderBy = $orderBy ?? 'asc';
     $count = $count ?? 10;
 
-    $visitors = Visitor::queryDb($query, $orderBy, $count);
-
-    return $visitors;
+    return Visitor::query()
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
   }
 
 
