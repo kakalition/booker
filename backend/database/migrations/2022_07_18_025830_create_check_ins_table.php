@@ -18,7 +18,7 @@ return new class extends Migration
       $table->foreignId('visitor_id')
         ->constrained('visitors')
         ->cascadeOnDelete();
-      $table->boolean('status');
+      $table->timestamp('checked_out_at')->nullable();
       $table->timestamps();
     });
   }

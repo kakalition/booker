@@ -32,9 +32,12 @@ class CheckInService
     $orderBy = $orderBy ?? 'desc';
     $count = $count ?? 10;
 
-    $checkIn = CheckIn::queryDb($query, $orderBy, $count);
-
-    return $checkIn;
+    return CheckIn::query()
+      ->join('visitors', 'check_ins.visitor_id', 'visitors.id')
+      ->where('name', 'ILIKE', "$query%")
+      ->orderBy('name', $orderBy)
+      ->limit($count)
+      ->get();
   }
 
   public function store(int $userId, array $data): CheckIn

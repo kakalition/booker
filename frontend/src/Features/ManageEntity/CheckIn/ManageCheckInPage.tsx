@@ -4,19 +4,19 @@ import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEnti
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
-import useManageBorrowerViewModel from './ManageBorrowerViewModel';
-import useManageBorrowerDialog from './Parts/ManageBorrowerDialog';
-import ManageBorrowerTable from './Parts/ManageBorrowerTable';
+import useManageBorrowerDialog from '../Borrower/Parts/ManageBorrowerDialog';
+import useManageCheckInViewModel from './ManageCheckInViewModel';
+import ManageCheckInTable from './Parts/ManageCheckInTable';
 
-export default function ManageBorrowerPage() {
-  const { borrowerData, fetchData } = useManageBorrowerViewModel();
+export default function ManageCheckInPage() {
+  const { checkInData, fetchData } = useManageCheckInViewModel();
 
   const {
     modalElement, openEditDialog, openCreateDialog,
   } = useManageBorrowerDialog(
     fetchData,
-    borrowerData?.book_data,
-    borrowerData?.visitor_data,
+    [],
+    [],
   );
 
   const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
@@ -25,20 +25,20 @@ export default function ManageBorrowerPage() {
     fetchData,
   );
 
-  const headerTitle = 'Manage Borrower Data';
-  const headerBody = 'You can see who borrows books and create new borrower data here.';
+  const headerTitle = 'Manage Check In';
+  const headerBody = 'You can see who come and go in the library and manage its data here.';
 
   return (
     <BasePage path="manage-publisher">
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
-          sortByElement={borrowerData?.available_order}
+          sortByElement={checkInData?.available_order}
           onCreateClick={openCreateDialog}
           fetchData={fetchData}
         />
-        <ManageBorrowerTable
-          borrowersData={borrowerData?.data}
+        <ManageCheckInTable
+          borrowersData={checkInData?.data}
           openEditDialog={openEditDialog}
           openDeleteDialog={openDeleteDialog}
         />

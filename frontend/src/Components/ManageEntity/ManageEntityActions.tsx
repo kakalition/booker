@@ -2,7 +2,6 @@ import { Button, Select } from '@chakra-ui/react';
 import React, { FormEvent } from 'react';
 import _ from 'lodash';
 import SearchbarComponent from '../Searchbar/SearchbarComponent';
-import SortOrder from '../../Types/SortOrder';
 import HtmlHelper from '../../Functions/Helpers/HtmlHelper';
 
 type Params = {

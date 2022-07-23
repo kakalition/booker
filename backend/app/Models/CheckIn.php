@@ -11,7 +11,7 @@ class CheckIn extends Model
 
   protected $fillable = [
     'visitor_id',
-    'status'
+    'checked_out_at'
   ];
 
   public static function queryDb(string $query, string $orderBy, int $count)

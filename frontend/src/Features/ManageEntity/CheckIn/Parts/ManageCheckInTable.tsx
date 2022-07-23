@@ -10,7 +10,7 @@ type Params = {
   openDeleteDialog: (id: number) => void,
 };
 
-export default function ManageBorrowerTable(params: Params) {
+export default function ManageCheckInTable(params: Params) {
   const { borrowersData, openEditDialog, openDeleteDialog } = params;
 
   const tbodyElements = useMemo(() => borrowersData?.map((element, index) => (
@@ -32,10 +32,9 @@ export default function ManageBorrowerTable(params: Params) {
     <Tr>
       <Th w="5%">No</Th>
       <Th>Name</Th>
-      <Th>Book</Th>
-      <Th w="13%">End date</Th>
+      <Th>Checked In At</Th>
+      <Th>Checked Out At</Th>
       <Th w="13%">Status</Th>
-      <Th w="13%">Is overdue</Th>
     </Tr>
   );
 
