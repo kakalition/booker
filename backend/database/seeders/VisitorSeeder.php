@@ -16,11 +16,8 @@ class VisitorSeeder extends Seeder
    */
   public function run()
   {
-    Visitor::create([
-      'name' => 'Kaka',
-      'birth_date' => CarbonImmutable::create(2001, 10, 3),
-      'gender' => 1,
-      'email' => 'kaka@mail.com',
-    ]);
+    Visitor::factory()
+      ->count(10)
+      ->create();
   }
 }

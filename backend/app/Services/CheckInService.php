@@ -59,7 +59,7 @@ class CheckInService
   {
     return DB::transaction(function () use ($userId, $data) {
       $checkIn = $this->_store($data);
-      ActivityLog::checkIn($userId, $checkIn->name);
+      ActivityLog::checkIn($userId, $checkIn->visitor->name);
       return $checkIn;
     });
   }

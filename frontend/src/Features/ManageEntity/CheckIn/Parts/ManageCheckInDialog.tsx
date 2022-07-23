@@ -12,6 +12,7 @@ import {
   useEffect,
   useMemo, useState,
 } from 'react';
+import CheckInAPI from '../../../../API/CheckInAPI';
 import VisitorAPI from '../../../../API/VisitorAPI';
 import HtmlHelper from '../../../../Functions/Helpers/HtmlHelper';
 
@@ -36,7 +37,7 @@ export default function useManageCheckInDialog(fetchData: () => void) {
 
   const postCheckIn = () => {
     const formData = HtmlHelper.formDataToJson('check-in-form');
-    VisitorAPI.post(formData)
+    CheckInAPI.post(formData)
       .then((response) => {
         toast({ title: response.statusText, position: 'top', status: 'success' });
         fetchData();
