@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ActivityLog;
 use App\Models\CheckIn;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CheckInService
@@ -26,7 +27,7 @@ class CheckInService
     return $checkIn;
   }
 
-  public function queryDb(?string $query, ?string $orderBy, ?string $orderDirection)
+  public function queryDb(?string $query, ?string $date, ?string $orderBy, ?string $orderDirection)
   {
     $query = $query ?? '';
 
@@ -39,11 +40,13 @@ class CheckInService
       $orderBy = 'check_ins.checked_out_at';
     }
 
+    $date = $date ?? Carbon::now();
     $orderDirection = $orderDirection ?? 'desc';
 
     return CheckIn::query()
       ->join('visitors', 'check_ins.visitor_id', 'visitors.id')
       ->where('visitors.name', 'ILIKE', "$query%")
+      ->whereDate('check_ins.created_at', $date)
       ->orderBy($orderBy, $orderDirection)
       ->select([
         'check_ins.*',

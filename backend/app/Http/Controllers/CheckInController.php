@@ -16,6 +16,7 @@ class CheckInController extends Controller
     try {
       $authors = $service->queryDb(
         $request->query('query'),
+        $request->query('date'),
         $request->query('order-by'),
         $request->query('order-direction'),
       );
