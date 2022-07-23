@@ -23,4 +23,9 @@ class CheckIn extends Model
       ->limit($count)
       ->get();
   }
+
+  public function visitor()
+  {
+    return $this->belongsTo(Visitor::class, 'visitor_id');
+  }
 }
