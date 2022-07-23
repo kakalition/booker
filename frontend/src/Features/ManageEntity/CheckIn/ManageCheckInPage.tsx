@@ -38,7 +38,7 @@ export default function ManageCheckInPage() {
           fetchData={fetchData}
         />
         <ManageCheckInTable
-          borrowersData={checkInData?.data}
+          checkInData={checkInData?.data}
           openEditDialog={openEditDialog}
           openDeleteDialog={openDeleteDialog}
         />

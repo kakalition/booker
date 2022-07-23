@@ -26,17 +26,29 @@ class CheckInService
     return $checkIn;
   }
 
-  public function queryDb(?string $query, ?string $orderBy, ?int $count)
+  public function queryDb(?string $query, ?string $orderBy, ?string $orderDirection)
   {
     $query = $query ?? '';
-    $orderBy = $orderBy ?? 'desc';
-    $count = $count ?? 10;
+
+    $orderBy = $orderBy ?? 'created_at';
+    if ($orderBy === 'checked_in_at') {
+      $orderBy = 'check_ins.created_at';
+    }
+
+    if ($orderBy === 'status') {
+      $orderBy = 'check_ins.checked_out_at';
+    }
+
+    $orderDirection = $orderDirection ?? 'desc';
 
     return CheckIn::query()
       ->join('visitors', 'check_ins.visitor_id', 'visitors.id')
-      ->where('name', 'ILIKE', "$query%")
-      ->orderBy('name', $orderBy)
-      ->limit($count)
+      ->where('visitors.name', 'ILIKE', "$query%")
+      ->orderBy($orderBy, $orderDirection)
+      ->select([
+        'check_ins.*',
+        'visitors.name as visitor'
+      ])
       ->get();
   }
 

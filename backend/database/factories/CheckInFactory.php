@@ -17,7 +17,7 @@ class CheckInFactory extends Factory
   public function definition()
   {
     return [
-      'checked_out_at' => $this->faker->dateTimeBetween('-3 days')
+      'checked_out_at' => null 
     ];
   }
 }
