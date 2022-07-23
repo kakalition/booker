@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Borrower;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -30,15 +31,30 @@ class BorrowerService
     $book->decrement('total_available_copies', $totalBorrowed);
   }
 
-  public function queryDb(?string $query, ?string $orderBy, ?int $count)
+  public function queryDb(?string $query, ?string $orderBy, ?string $orderDirection)
   {
     $query = $query ?? '';
-    $orderBy = $orderBy ?? 'desc';
-    $count = $count ?? 10;
+    $orderBy = $orderBy ?? 'name';
+    $orderDirection = $orderDirection ?? 'desc';
 
-    $authors = Borrower::queryDb($query, $orderBy, $count);
+    $borrowers = Borrower::query()
+      ->join('visitors', 'borrowers.visitor_id', 'visitors.id')
+      ->join('books', 'borrowers.book_id', 'books.id')
+      ->where('visitors.name', 'ILIKE', "$query%")
+      ->orderBy($orderBy, $orderDirection)
+      ->select([
+        'borrowers.*',
+        'books.id as book_id', 'visitors.id as visitor_id',
+        'books.title as book', 'visitors.name as visitor'
+      ])
+      ->get();
 
-    return $authors;
+    $te = $borrowers->map(function ($item, $key) {
+      $item['is_overdue'] = $item['end_date'] < Carbon::now();
+      return $item;
+    });
+
+    return $te;
   }
 
   public function store(int $userId, array $data)
@@ -59,10 +75,11 @@ class BorrowerService
   public function update(Borrower $borrower, array $data)
   {
     return DB::transaction(function () use ($borrower, $data) {
-      $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
-      $borrower->status = $data['status'] ?? $borrower->status;
+      $borrower->update($data);
+      /*       $borrower->end_date = $data['end_date'] ?? $borrower->end_date;
+      $borrower->status = $data['status'] ?? $borrower->status; */
 
-      if ($data['status'] == 1) {
+      if ($data['status'] ?? 0 == 1) {
         $this->incrementAvailableCopies($borrower->book_id, $borrower->total_borrowed);
       }
 

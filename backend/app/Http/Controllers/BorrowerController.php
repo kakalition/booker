@@ -5,31 +5,44 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBorrowerRequest;
 use App\Http\Requests\UpdateBorrowerRequest;
 use App\Http\Resources\BorrowerResource;
+use App\Models\Book;
 use App\Models\Borrower;
+use App\Models\Visitor;
 use App\Services\BorrowerService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BorrowerController extends Controller
 {
   public function index(Request $request, BorrowerService $service)
   {
+    Log::info($request->query());
     try {
       $borrowers = $service->queryDb(
         $request->query('query'),
-        $request->query('orderBy'),
-        $request->query('count'),
+        $request->query('order-by'),
+        $request->query('order-direction'),
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
-    return response(BorrowerResource::collection($borrowers), 200);
+    Log::info($borrowers);
+
+    $data = [];
+    $data['available_order'] = ['name', 'status', 'end_date'];
+    $data['data'] = $borrowers;
+    $data['book_data'] = Book::data();
+    $data['visitor_data'] = Visitor::data();
+
+    return response($data, 200);
   }
 
   public function store(StoreBorrowerRequest $request, BorrowerService $service)
   {
     $validatedData = $request->validated();
+    Log::info($validatedData);
 
     try {
       $borrower = $service->store(
@@ -45,7 +58,7 @@ class BorrowerController extends Controller
 
   public function show(Borrower $borrower)
   {
-    return response($borrower, 200);
+    return response(new BorrowerResource($borrower), 200);
   }
 
   public function update(UpdateBorrowerRequest $request, Borrower $borrower, BorrowerService $service)
