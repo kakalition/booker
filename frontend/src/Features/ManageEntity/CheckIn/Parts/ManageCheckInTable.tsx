@@ -1,16 +1,28 @@
 import {
   Badge, Button, Td, Th, Tr,
+  useToast,
 } from '@chakra-ui/react';
 import moment from 'moment';
 import { useMemo } from 'react';
 import BaseTableComponent from '../../../../Components/Table/BaseTableComponent';
+import CheckInAPI from '../../../../API/CheckInAPI';
 
 type Params = {
   checkInData: any[],
+  fetchData: () => void,
 };
 
 export default function ManageCheckInTable(params: Params) {
-  const { checkInData } = params;
+  const { checkInData, fetchData } = params;
+  const toast = useToast();
+
+  const markCheckedOut = (id: number) => {
+    CheckInAPI.edit(id, { checked_out_at: moment() })
+      .then((response) => {
+        toast({ title: response.statusText, position: 'top', status: 'success' });
+        fetchData();
+      });
+  };
 
   const tbodyElements = useMemo(() => checkInData?.map((element, index) => (
     <Tr key={element.id}>
@@ -21,7 +33,7 @@ export default function ManageCheckInTable(params: Params) {
       <Td>
         {
         element.checked_out_at === null
-          ? <Button colorScheme="green" variant="outline" mr="1rem" onClick={() => null}>Mark Checked Out</Button>
+          ? <Button colorScheme="green" variant="outline" mr="1rem" onClick={() => markCheckedOut(element.id)}>Mark Checked Out</Button>
           : <p>{`Checked out at: ${moment(element.created_at).fromNow()}`}</p>
         }
       </Td>
