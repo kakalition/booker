@@ -15,6 +15,7 @@ import ManageBorrowerPage from './Features/ManageEntity/Borrower/ManageBorrowerP
 import ManageCheckInTable from './Features/ManageEntity/CheckIn/Parts/ManageCheckInTable';
 import ManageCheckInPage from './Features/ManageEntity/CheckIn/ManageCheckInPage';
 
+axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
 
 // TODO: Finish up Manage Book Dialog
