@@ -1,22 +1,15 @@
-import axios from 'axios';
-import {
-  useEffect, useState,
-} from 'react';
 import BorrowerAPI from '../../../API/BorrowerAPI';
 import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
 import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
+import useManageBorrowerViewModel from './ManageBorrowerViewModel';
 import useManageBorrowerDialog from './Parts/ManageBorrowerDialog';
 import ManageBorrowerTable from './Parts/ManageBorrowerTable';
 
 export default function useManageBorrowerPage() {
-  const [borrowerData, setBorrowerData] = useState<any>();
-
-  const fetchData = () => axios
-    .get('/api/borrowers')
-    .then((response) => setBorrowerData(response.data));
+  const { borrowerData, fetchData } = useManageBorrowerViewModel();
 
   const {
     modalElement, openEditDialog, openCreateDialog,
@@ -31,8 +24,6 @@ export default function useManageBorrowerPage() {
     BorrowerAPI.destroy,
     fetchData,
   );
-
-  useEffect(() => { fetchData(); }, []);
 
   const headerTitle = 'Manage Borrower Data';
   const headerBody = 'You can see who borrows books and create new borrower data here.';
