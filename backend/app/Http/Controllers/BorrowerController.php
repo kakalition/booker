@@ -17,18 +17,21 @@ class BorrowerController extends Controller
 {
   public function index(Request $request, BorrowerService $service)
   {
+    Log::info($request->query());
     try {
       $borrowers = $service->queryDb(
         $request->query('query'),
-        $request->query('orderBy'),
-        $request->query('count'),
+        $request->query('order-by'),
+        $request->query('order-direction'),
       );
     } catch (Exception $exception) {
       return response($exception->getMessage(), 500);
     }
 
+    Log::info($borrowers);
+
     $data = [];
-    $data['data'] = BorrowerResource::collection($borrowers);
+    $data['data'] = $borrowers;
     $data['book_data'] = Book::data();
     $data['visitor_data'] = Visitor::data();
 

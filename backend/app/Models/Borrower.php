@@ -19,16 +19,6 @@ class Borrower extends Model
     'status',
   ];
 
-  public static function queryDb(string $query, string $orderBy, int $count)
-  {
-    return Borrower::query()
-      ->join('visitors', 'borrowers.visitor_id', 'visitors.id')
-      ->where('name', 'ILIKE', "$query%")
-      ->orderBy('name', $orderBy)
-      ->limit($count)
-      ->get();
-  }
-
   public function visitor(): BelongsTo
   {
     return $this->belongsTo(Visitor::class, 'visitor_id');
