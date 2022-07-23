@@ -9,18 +9,13 @@ import HtmlHelper from '../../../Functions/Helpers/HtmlHelper';
 import BasePage from '../../Components/BasePage';
 import useManageBorrowerDialog from '../Borrower/Parts/ManageBorrowerDialog';
 import useManageCheckInViewModel from './ManageCheckInViewModel';
+import useManageCheckInDialog from './Parts/ManageCheckInDialog';
 import ManageCheckInTable from './Parts/ManageCheckInTable';
 
 export default function ManageCheckInPage() {
   const { checkInData, fetchData } = useManageCheckInViewModel();
 
-  const {
-    modalElement, openEditDialog, openCreateDialog,
-  } = useManageBorrowerDialog(
-    fetchData,
-    [],
-    [],
-  );
+  const { ModalElement, openModal } = useManageCheckInDialog(fetchData);
 
   const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
     'borrower',
@@ -48,14 +43,12 @@ export default function ManageCheckInPage() {
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
           sortByElement={checkInData?.available_order}
-          onCreateClick={openCreateDialog}
+          onCreateClick={openModal}
           fetchData={fetchData}
           elementsBuilder={[dateElement]}
         />
         <ManageCheckInTable
           checkInData={checkInData?.data}
-          openEditDialog={openEditDialog}
-          openDeleteDialog={openDeleteDialog}
         />
         <PaginationComponent
           pageElement={null}
@@ -63,7 +56,7 @@ export default function ManageCheckInPage() {
           setShowsPerPage={() => null}
         />
       </div>
-      {modalElement}
+      <ModalElement />
       <AlertDialogElement />
     </BasePage>
   );

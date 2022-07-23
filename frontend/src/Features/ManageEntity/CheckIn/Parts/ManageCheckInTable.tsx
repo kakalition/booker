@@ -7,12 +7,10 @@ import BaseTableComponent from '../../../../Components/Table/BaseTableComponent'
 
 type Params = {
   checkInData: any[],
-  openEditDialog: (id: number) => void,
-  openDeleteDialog: (id: number) => void,
 };
 
 export default function ManageCheckInTable(params: Params) {
-  const { checkInData, openEditDialog, openDeleteDialog } = params;
+  const { checkInData } = params;
 
   const tbodyElements = useMemo(() => checkInData?.map((element, index) => (
     <Tr key={element.id}>
