@@ -13,7 +13,7 @@ import {
 } from 'react';
 import HtmlHelper from '../../../../Functions/Helpers/HtmlHelper';
 
-export default function HManageBorrowerDialog(
+export default function useManageBorrowerDialog(
   fetchData: () => void,
   bookData: any,
   visitorData: any,

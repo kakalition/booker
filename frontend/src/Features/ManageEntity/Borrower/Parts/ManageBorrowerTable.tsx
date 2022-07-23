@@ -1,14 +1,17 @@
-import { Badge, Button, Td, Th, Tr } from '@chakra-ui/react';
+import {
+  Badge, Button, Td, Th, Tr,
+} from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import BaseTableComponent from '../../../../Components/Table/BaseTableComponent';
 
 type Params = {
   borrowersData: any[],
   openEditDialog: (id: number) => void,
+  openDeleteDialog: (id: number) => void,
 };
 
 export default function ManageBorrowerTable(params: Params) {
-  const { borrowersData, openEditDialog } = params;
+  const { borrowersData, openEditDialog, openDeleteDialog } = params;
 
   const tbodyElements = useMemo(() => borrowersData?.map((element, index) => (
     <Tr key={element.id}>
@@ -19,7 +22,8 @@ export default function ManageBorrowerTable(params: Params) {
       <Td>{element.status === true ? <Badge colorScheme="green">Returned</Badge> : <Badge colorScheme="red">Borrowed</Badge>}</Td>
       <Td>{element.is_overdue.toString()}</Td>
       <Td>
-        <Button variant="outline" onClick={() => openEditDialog(element.id)}>Edit</Button>
+        <Button colorScheme="green" variant="outline" mr="1rem" onClick={() => openEditDialog(element.id)}>Edit</Button>
+        <Button colorScheme="red" variant="outline" onClick={() => openDeleteDialog(element.id)}>Delete</Button>
       </Td>
     </Tr>
   )), [borrowersData]);

@@ -1,23 +1,17 @@
-import {
-  Button, FormControl, FormLabel, Input,
-  Modal, ModalBody, ModalCloseButton,
-  ModalContent, ModalFooter, ModalHeader, ModalOverlay,
-  Select,
-  Td, Tr, useDisclosure,
-} from '@chakra-ui/react';
 import axios from 'axios';
 import {
-  useEffect, useMemo, useRef, useState,
+  useEffect, useState,
 } from 'react';
+import BorrowerAPI from '../../../API/BorrowerAPI';
 import ManageEntityActions from '../../../Components/ManageEntity/ManageEntityActions';
+import useManageEntityDeletion from '../../../Components/ManageEntity/ManageEntityDeletion';
 import ManageEntityHeader from '../../../Components/ManageEntity/ManageEntityHeader';
 import PaginationComponent from '../../../Components/Pagination/PaginationComponent';
 import BasePage from '../../Components/BasePage';
-import HManageBorrowerDialog from './Parts/HManageBorrowerDialog';
+import useManageBorrowerDialog from './Parts/ManageBorrowerDialog';
 import ManageBorrowerTable from './Parts/ManageBorrowerTable';
 
-// Abstract this away
-export default function ManageBorrowerPage() {
+export default function useManageBorrowerPage() {
   const [borrowerData, setBorrowerData] = useState<any>();
 
   const fetchData = () => axios
@@ -26,10 +20,16 @@ export default function ManageBorrowerPage() {
 
   const {
     modalElement, openEditDialog, openCreateDialog,
-  } = HManageBorrowerDialog(
+  } = useManageBorrowerDialog(
     fetchData,
     borrowerData?.book_data,
     borrowerData?.visitor_data,
+  );
+
+  const { AlertDialogElement, openDeleteDialog } = useManageEntityDeletion(
+    'borrower',
+    BorrowerAPI.destroy,
+    fetchData,
   );
 
   useEffect(() => { fetchData(); }, []);
@@ -51,6 +51,7 @@ export default function ManageBorrowerPage() {
         <ManageBorrowerTable
           borrowersData={borrowerData?.data}
           openEditDialog={openEditDialog}
+          openDeleteDialog={openDeleteDialog}
         />
         <PaginationComponent
           pageElement={null}
@@ -59,6 +60,7 @@ export default function ManageBorrowerPage() {
         />
       </div>
       {modalElement}
+      <AlertDialogElement />
     </BasePage>
   );
 }
