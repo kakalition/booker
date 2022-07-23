@@ -12,7 +12,6 @@ import ManageAuthorPage from './Features/ManageEntity/Author/ManageAuthorPage';
 import ManagePublisherPage from './Features/ManageEntity/Publisher/ManagePublisherPage';
 import ManageBookPage from './Features/ManageEntity/Book/ManageBookPage';
 import ManageBorrowerPage from './Features/ManageEntity/Borrower/ManageBorrowerPage';
-import ManageCheckInTable from './Features/ManageEntity/CheckIn/Parts/ManageCheckInTable';
 import ManageCheckInPage from './Features/ManageEntity/CheckIn/ManageCheckInPage';
 
 axios.defaults.withCredentials = true;

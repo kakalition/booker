@@ -1,36 +1,35 @@
 import {
   Button, FormControl, FormLabel, Input,
 } from '@chakra-ui/react';
-import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
+import AuthAPI from '../../API/AuthAPI';
+import HtmlHelper from '../../Functions/Helpers/HtmlHelper';
 
-export default function RegisterFormComponent(props: any) {
-  const { onSubmitForm } = props;
+export default function RegisterFormComponent() {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = HtmlHelper.formDataToJson('register-form');
+    formData.password_confirmation = formData.password;
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-    onSubmit: onSubmitForm,
-  });
+    AuthAPI.register(formData)
+      .then((response) => console.log(response));
+  };
 
   return (
     <div className="flex w-[40%] flex-col items-start justify-center">
       <h1 className="font-inter mb-12 text-4xl font-medium text-black">Create New Account</h1>
-      <form className="mb-8 w-full" onSubmit={formik.handleSubmit}>
+      <form id="register-form" className="mb-8 w-full" onSubmit={onSubmit}>
         <FormControl mb="1rem">
           <FormLabel htmlFor="name">Name</FormLabel>
-          <Input id="name" type="text" value={formik.values.name} onChange={formik.handleChange} />
+          <Input id="name" name="name" type="text" />
         </FormControl>
         <FormControl mb="1rem">
           <FormLabel htmlFor="email">Email address</FormLabel>
-          <Input id="email" type="email" value={formik.values.email} onChange={formik.handleChange} />
+          <Input id="email" name="email" type="email" />
         </FormControl>
         <FormControl mb="2rem">
           <FormLabel htmlFor="password">Password</FormLabel>
-          <Input id="password" type="password" value={formik.values.password} onChange={formik.handleChange} />
+          <Input id="password" name="password" type="password" />
         </FormControl>
         <Button
           type="submit"

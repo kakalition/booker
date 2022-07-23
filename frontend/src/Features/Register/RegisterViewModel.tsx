@@ -2,9 +2,6 @@ import AuthAPI from '../../API/AuthAPI';
 import RegisterPayload from '../../API/Types/RegisterPayload';
 
 export default function useRegisterViewModel() {
-  const onSubmitSuccess = () => console.log('success');
-  const onSubmitFailed = () => console.log('failed');
-
   const onSubmitForm = (value: any) => AuthAPI.register(
     onSubmitSuccess,
     onSubmitFailed,
