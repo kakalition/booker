@@ -1,44 +1,55 @@
 import { Button, Select } from '@chakra-ui/react';
-import React from 'react';
+import React, { FormEvent } from 'react';
+import _ from 'lodash';
 import SearchbarComponent from '../Searchbar/SearchbarComponent';
 import SortOrder from '../../Types/SortOrder';
+import HtmlHelper from '../../Functions/Helpers/HtmlHelper';
 
 type Params = {
-  sortByElement: React.ReactNode
+  sortByElement: any,
   onCreateClick: React.MouseEventHandler,
-  setQuery: (value: string) => void,
-  setSortBy: (value: string) => void,
-  setSortOrder: (value: SortOrder) => void,
+  fetchData: (params: any) => void,
 };
 
 export default function ManageEntityActions(params: Params) {
   const {
-    sortByElement, onCreateClick,
-    setSortBy, setSortOrder, setQuery,
+    sortByElement, onCreateClick, fetchData,
   } = params;
 
+  const formatSortBy = (item: string) => (
+    _.capitalize(item.replaceAll('_', ' '))
+  );
+
+  const mappedSortBy = sortByElement?.map((element: string) => (
+    <option value={element}>{formatSortBy(element)}</option>
+  ));
+
+  const sendin = (e: FormEvent) => {
+    e.preventDefault();
+    const formData = HtmlHelper.formDataToJson('enti');
+    fetchData(formData);
+  };
+
   return (
-    <div className="my-8 flex w-full flex-row gap-4">
-      <SearchbarComponent
-        onChange={setQuery}
-      />
+    <form id="enti" className="my-8 flex w-full flex-row gap-4" onSubmit={sendin}>
+      <SearchbarComponent />
       <Select
-        id="sort-by"
-        name="sort-by"
+        id="order-by"
+        name="order-by"
         placeholder="Sort By"
         defaultValue="name"
-        onChange={(event) => setSortBy(event.target.value)}
         w="20%"
+        onChange={sendin}
       >
-        {sortByElement}
+        {mappedSortBy}
       </Select>
       <Select
-        id="sort-order"
-        name="sort-order"
+        id="order-direction"
+        name="order-direction"
         placeholder="Sort Order"
         defaultValue="asc"
-        onChange={(event) => setSortOrder(event.target.value as SortOrder)}
         w="20%"
+        onChange={sendin}
       >
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
@@ -46,6 +57,6 @@ export default function ManageEntityActions(params: Params) {
       <Button colorScheme="blue" width="10%" onClick={onCreateClick}>
         Create
       </Button>
-    </div>
+    </form>
   );
 }

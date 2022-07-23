@@ -33,11 +33,9 @@ export default function useManageBorrowerPage() {
       <div className="w-full p-12">
         <ManageEntityHeader title={headerTitle} body={headerBody} />
         <ManageEntityActions
-          sortByElement={null}
+          sortByElement={borrowerData?.available_order}
           onCreateClick={openCreateDialog}
-          setQuery={() => null}
-          setSortBy={() => null}
-          setSortOrder={() => null}
+          fetchData={fetchData}
         />
         <ManageBorrowerTable
           borrowersData={borrowerData?.data}

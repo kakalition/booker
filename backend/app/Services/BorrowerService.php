@@ -45,7 +45,7 @@ class BorrowerService
       ->select([
         'borrowers.*',
         'books.id as book_id', 'visitors.id as visitor_id',
-        'books.title as books', 'visitors.name as visitor'
+        'books.title as book', 'visitors.name as visitor'
       ])
       ->get();
 

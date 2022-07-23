@@ -31,6 +31,7 @@ class BorrowerController extends Controller
     Log::info($borrowers);
 
     $data = [];
+    $data['available_order'] = ['name', 'status', 'end_date'];
     $data['data'] = $borrowers;
     $data['book_data'] = Book::data();
     $data['visitor_data'] = Visitor::data();
